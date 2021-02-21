@@ -1,16 +1,20 @@
 import * as React from 'react';
-import { Route } from 'react-router';
+import { Route, Switch } from 'react-router';
 import Layout from './components/Layout';
 import Home from './components/Home';
-import Counter from './components/Counter';
-import FetchData from './components/FetchData';
+import LearningReact from './components/learningReact';
+import NavMenu from './components/NavMenu';
 
-import './custom.css'
+import './styles/learningReact.css'
 
 export default () => (
     <Layout>
+        <Switch>
         <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data/:startDateIndex?' component={FetchData} />
+        <div>
+            <NavMenu/>
+            <Route path='/learning-react' component={LearningReact} />
+        </div>
+        </Switch>
     </Layout>
 );
