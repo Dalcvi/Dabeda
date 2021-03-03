@@ -1,5 +1,6 @@
 ﻿using Strength.DB;
 using System;
+using System.Linq;
 
 namespace Users.Core
 {
@@ -11,11 +12,15 @@ namespace Users.Core
             _context = context;
         }
 
-        public User CreateUser(User user)
+        public void CreateUser(User user)
         {
             _context.Add(user);
             _context.SaveChanges();
-            return user;
+        }
+
+        public bool Login(string email)
+        {
+            return _context.Users.FirstOrDefault(n => n.Email == email) != null;
         }
     }
 }

@@ -25,7 +25,14 @@ namespace WebAppGP.Controllers
         [HttpPost]
         public IActionResult CreateUser(User user)
         {
-            return Ok(_userServices.CreateUser(user));
+            _userServices.CreateUser(user);
+            return Ok();
+        }
+
+        [HttpGet("{email}")]
+        public IActionResult Login(string email)
+        {
+            return Ok(_userServices.Login(email));
         }
     }
 }

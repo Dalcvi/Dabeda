@@ -7,6 +7,7 @@ namespace Users.Core
 {
     public interface IUserServices
     {
-        User CreateUser(User user);
+        void CreateUser(User user);
+        bool Login(string email);
     }
 }
