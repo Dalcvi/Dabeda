@@ -1,11 +1,8 @@
 import * as React from "react";
 import { Form, Button } from "react-bootstrap";
-import { useForm } from "react-hook-form";
 import { Register } from "../services/user";
 
 export const RegisterBox = (props: any) => {
-  const { register, handleSubmit } = useForm<FormData>();
-
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -16,6 +13,7 @@ export const RegisterBox = (props: any) => {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     }
+    console.log(username + " kisasi " + email);
   };
 
   return (

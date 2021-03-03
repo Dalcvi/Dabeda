@@ -60,7 +60,7 @@ const ProgramModal = ({
   return (
     <>
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header translate closeButton>
+        <Modal.Header closeButton>
           <Modal.Title>Small Modal</Modal.Title>
         </Modal.Header>
         <Form
