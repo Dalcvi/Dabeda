@@ -1,0 +1,51 @@
+@font-face {
+  font-family: "runescape";
+  src: url("https://res.cloudinary.com/drsrpeh2f/raw/upload/v1613873804/runescape_gzbxm2.woff2")
+      format("woff2"),
+    url("https://res.cloudinary.com/drsrpeh2f/raw/upload/v1613873804/runescape_gfcftn.woff")
+      format("woff"),
+    url("https://res.cloudinary.com/drsrpeh2f/raw/upload/v1613873804/runescape_ler4fz.ttf")
+      format("ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+#programList {
+  margin: 0px 0px 50px 0px;
+  padding: 25px;
+  max-height: 600px;
+  background: linear-gradient(#414770, #414770, #5b85aa);
+  // box-shadow: 0px 25px 42px 6px rgba(0, 0, 0, 0.7);
+}
+
+#programListTable {
+  max-height: 130px;
+  overflow-y: auto;
+}
+
+#workout {
+  min-height: 100vh;
+}
+
+body {
+  background: #5b85aa;
+}
+
+.logoText {
+  font-family: "runescape", "Roboto";
+  letter-spacing: 5px;
+}
+
+.listItem:hover {
+  background: black;
+  color: white;
+}
+
+#workoutPlate {
+  margin: 20px;
+  height: 1000px;
+  min-height: 98%;
+  background: white;
+  border-radius: 12px;
+  border: 2px solid #02182b;
+}

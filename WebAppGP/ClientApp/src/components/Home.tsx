@@ -1,23 +1,61 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import * as RB from "react-bootstrap";
+import { LoginBox } from "./LoginBox";
+import { RegisterBox } from "./RegisterBox";
 
-const Home = () => (
-  <div>
-    <h1>Hello, world!</h1>
-    <p>Welcome to your new single-page application, built with:</p>
-    <ul>
-      <li><a href='https://get.asp.net/'>ASP.NET Hello</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
-      <li><a href='https://facebook.github.io/react/'>React</a> and <a href='https://redux.js.org/'>Redux</a> for client-side code</li>
-      <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
-    </ul>
-    <p>To help you get started, we've also set up:</p>
-    <ul>
-      <li><strong>Client-side navigation</strong>. For example, click <em>Counter</em> then <em>Back</em> to return here.</li>
-      <li><strong>Development server integration</strong>. In development mode, the development server from <code>create-react-app</code> runs in the background automatically, so your client-side resources are dynamically built on demand and the page refreshes when you modify any file.</li>
-      <li><strong>Efficient production builds</strong>. In production mode, development-time features are disabled, and your <code>dotnet publish</code> configuration produces minified, efficiently bundled JavaScript files.</li>
-    </ul>
-    <p>The <code>ClientApp</code> subdirectory is a standard React application based on the <code>create-react-app</code> template. If you open a command prompt in that directory, you can run <code>npm</code> commands such as <code>npm test</code> or <code>npm install</code>.</p>
-  </div>
-);
+import "../custom.css";
 
-export default connect()(Home);
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+}
+
+const Home = () => {
+  const [registerForm, setRegisterForm] = React.useState(false);
+
+  return (
+    <RB.Container fluid>
+      <RB.Row id="loginRow" className="d-flex align-items-center">
+        <RB.Col lg={7} className="d-flex flex-column align-items-center">
+          <img
+            className="responsive"
+            src="https://res.cloudinary.com/drsrpeh2f/image/upload/v1613872332/logo_s1xvmm.png"
+            alt="Logo"
+          />
+          <h1
+            className="logoText"
+            style={{
+              fontSize: "7rem",
+              color: "#F46036",
+              textShadow: "-3px 3px 0px #873A24",
+            }}
+          >
+            99STRENGTH
+          </h1>
+          <p
+            style={{ fontSize: "2.5rem", color: "#262940" }}
+            className="d-none d-md-inline"
+          >
+            For more than achieving
+          </p>
+        </RB.Col>
+        <RB.Col
+          lg={5}
+          className="d-flex justify-content-lg-start justify-content-center
+"
+        >
+          {!registerForm ? (
+            // THIS IS RENDERED AS DEFAULT OR WHEN COMING BACK FROM REGISTER FORM
+            <LoginBox setRegisterForm={setRegisterForm} />
+          ) : (
+            // IF REGISTER BUTTON PRESSED, REGISTER SCREEN WILL BE RENDERED INSTEAD
+            <RegisterBox setRegisterForm={setRegisterForm} />
+          )}
+        </RB.Col>
+      </RB.Row>
+    </RB.Container>
+  );
+};
+
+export default Home;
