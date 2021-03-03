@@ -12,10 +12,20 @@ namespace Users.Core
             _context = context;
         }
 
-        public void CreateUser(User user)
+        public string CreateUser(User user)
         {
-            _context.Add(user);
-            _context.SaveChanges();
+            string usernameTaken = "";
+            string emailTaken = "";
+            if (_context.Users.FirstOrDefault(n => n.Email == user.Email) != null)
+                emailTaken = "E";
+            if (_context.Users.FirstOrDefault(n => n.Username == user.Username) != null)
+                usernameTaken = "U";
+            if (usernameTaken.Length == 0 && emailTaken.Length == 0)
+            {
+                _context.Add(user);
+                _context.SaveChanges();
+            }
+                return emailTaken + usernameTaken;
         }
 
         public User Login(string email, string password)
