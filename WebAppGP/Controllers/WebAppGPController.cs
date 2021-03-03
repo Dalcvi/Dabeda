@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Users.Core;
 using Strength.DB;
+using System.Text.Json;
 
 namespace WebAppGP.Controllers
 {
@@ -29,10 +30,15 @@ namespace WebAppGP.Controllers
             return Ok();
         }
 
-        [HttpGet("{email}")]
-        public IActionResult Login(string email)
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] JsonElement data)
         {
-            return Ok(_userServices.Login(email));
+            string email = data.GetProperty("Email").GetString();
+            string password = data.GetProperty("Password").GetString();
+            User user = _userServices.Login(email, password);
+            if (user != null)
+                return Ok(user.Username);
+            return BadRequest("Username or password is incorrect.");
         }
     }
 }
