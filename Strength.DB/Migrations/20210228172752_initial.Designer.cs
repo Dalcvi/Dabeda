@@ -9,7 +9,7 @@ using Strength.DB;
 namespace Strength.DB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210227153842_initial")]
+    [Migration("20210228172752_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
