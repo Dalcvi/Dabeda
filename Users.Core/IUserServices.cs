@@ -8,6 +8,6 @@ namespace Users.Core
     public interface IUserServices
     {
         void CreateUser(User user);
-        bool Login(string email);
+        User Login(string email, string password);
     }
 }

@@ -18,9 +18,9 @@ namespace Users.Core
             _context.SaveChanges();
         }
 
-        public bool Login(string email)
+        public User Login(string email, string password)
         {
-            return _context.Users.FirstOrDefault(n => n.Email == email) != null;
+            return _context.Users.Where(n => n.Email == email && n.Password == password).FirstOrDefault();
         }
     }
 }
