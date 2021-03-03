@@ -1,36 +1,60 @@
-﻿import React, {useEffect} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import * as RB from 'react-bootstrap';
-import '../styles/learningReact.css';
+﻿import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import toArray from "lodash/toArray";
+import { useTypedSelector } from "../store/index";
+import { GetPrograms } from "../services/user";
+import { NewProgramModal } from "./ProgramModal";
+import * as RB from "react-bootstrap";
+import "../styles/learningReact.css";
 
 export const LearningReact = () => {
+  return (
+    <RB.Container fluid style={{ padding: "0px" }}>
+      <div id="programList">
+        <div
+          style={{ width: "100%", marginTop: "1rem" }}
+          className="d-flex justify-content-end"
+        >
+          <NewProgramModal program={{ programName: "" }} />
+        </div>
+        <ProgramListTable />
+      </div>
+      <div id="workoutPlate"></div>
+    </RB.Container>
+  );
+};
 
-    return (
-        <RB.Container fluid>
-            <RB.Row>
-                <RB.Col lg={4} xl={3} id="programList">
-                    <div style={{margin: "10px"}}>
-                        <div style={{width: "100%", marginTop: '1rem'}} className="d-flex justify-content-end">
-                            <RB.Button variant="success">Add program</RB.Button>
-                        </div>
-                        <RB.ListGroup className="my-2">
-                            <RB.ListGroup.Item action variant="light" className="listItem">This ListGroup</RB.ListGroup.Item>
-                            <RB.ListGroup.Item action variant="light" className="listItem">renders vertically</RB.ListGroup.Item>
-                            <RB.ListGroup.Item action variant="light" className="listItem">on</RB.ListGroup.Item>
-                            <RB.ListGroup.Item action variant="light" className="listItem">and above!</RB.ListGroup.Item>
-                        </RB.ListGroup>
-                    </div>
-                </RB.Col>
-                <RB.Col lg={8} xl={9} id="workout">
-                    <div id="workoutPlate">
+const ProgramListTable = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    GetPrograms(dispatch);
+  }, [dispatch]);
 
-                    </div>
-                </RB.Col>
-            </RB.Row>
-        </RB.Container>
-    )
-}
+  const allPrograms = useTypedSelector((state) => state.user.programs);
+  const programs = toArray(allPrograms);
+  interface Program {
+    id: number;
+    programName: string;
+    days: [];
+  }
+  window.addEventListener("resize", function () {
+    return window.innerWidth;
+  });
 
+  programs.map((program) => console.log(program));
 
-export default (LearningReact);
+  return (
+    <RB.ListGroup id="programListTable">
+      {programs.map((program) => (
+        <RB.ListGroup.Item key={(program as Program).id} action>
+          {(program as Program).programName}
+          <RB.Button className="btn btn-success" style={{ float: "right" }}>
+            EDIT
+          </RB.Button>
+        </RB.ListGroup.Item>
+      ))}
+    </RB.ListGroup>
+  );
+};
 
+export default LearningReact;

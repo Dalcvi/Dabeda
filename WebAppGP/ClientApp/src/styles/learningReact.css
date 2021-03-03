@@ -5,12 +5,25 @@
   font-style: normal;
 }
 
-body {
-  background: #5b85aa;
+#programList {
+  margin: 0px 0px 50px 0px;
+  padding: 25px;
+  max-height: 600px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#414770), color-stop(#414770), to(#5b85aa));
+  background: linear-gradient(#414770, #414770, #5b85aa);
+}
+
+#programListTable {
+  max-height: 130px;
+  overflow-y: auto;
 }
 
 #workout {
-  min-height: calc(100vh - 57px);
+  min-height: 100vh;
+}
+
+body {
+  background: #5b85aa;
 }
 
 .logoText {
@@ -24,25 +37,11 @@ body {
 }
 
 #workoutPlate {
-  margin: 10px;
-  height: 3000px;
+  margin: 20px;
+  height: 1000px;
   min-height: 98%;
   background: white;
   border-radius: 12px;
   border: 2px solid #02182b;
-}
-
-@media (min-width: 992px) {
-  #workout {
-    overflow-y: scroll;
-    height: calc(100vh - 57px);
-    border-left: 1px solid #000;
-    border-top: 1px solid #000;
-  }
-  #programList {
-    height: calc(100vh - 57px);
-    min-height: 600px;
-    background-color: #414770;
-  }
 }
 /*# sourceMappingURL=learningReact.css.map */
