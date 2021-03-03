@@ -13,6 +13,8 @@ export const RegisterBox = (props: any) => {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     }
+    Register(email, password, username);
+
     console.log(username + " kisasi " + email);
   };
 
