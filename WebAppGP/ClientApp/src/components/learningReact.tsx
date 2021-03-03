@@ -11,13 +11,15 @@ export const LearningReact = () => {
   return (
     <RB.Container fluid style={{ padding: "0px" }}>
       <div id="programList">
-        <div
-          style={{ width: "100%", marginTop: "1rem" }}
-          className="d-flex justify-content-end"
-        >
-          <NewProgramModal program={{ programName: "" }} />
-        </div>
-        <ProgramListTable />
+        <RB.Container>
+          <div
+            style={{ width: "100%", marginTop: "1rem" }}
+            className="d-flex justify-content-end"
+          >
+            <NewProgramModal program={{ programName: "" }} />
+          </div>
+          <ProgramListTable />
+        </RB.Container>
       </div>
       <div id="workoutPlate"></div>
     </RB.Container>

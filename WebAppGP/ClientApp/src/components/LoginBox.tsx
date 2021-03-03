@@ -1,4 +1,5 @@
 import { Form, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { Redirect } from "react-router";
 import { Login } from "../services/user";
 import * as React from "react";
@@ -8,14 +9,20 @@ export const LoginBox = (props: any) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  const dispatch = useDispatch();
+
   const handleLoginSubmit = (event: any) => {
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
     }
-
-    console.log(email + password);
+    Login(dispatch, email, password).then((broMoment) => {
+      console.log(broMoment);
+      if (broMoment) {
+        setValidated(true);
+      }
+    });
   };
 
   if (validated) {

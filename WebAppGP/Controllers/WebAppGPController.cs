@@ -23,11 +23,29 @@ namespace WebAppGP.Controllers
             _userServices = userServices;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public IActionResult CreateUser(User user)
         {
-            _userServices.CreateUser(user);
-            return Ok();
+            bool usernameTaken = false;
+            bool emailTaken = false;
+            string answer = _userServices.CreateUser(user);
+            for(int i =0; i < answer.Length; i++)
+            {
+                switch(answer[i])
+                {
+                    case 'E':
+                        emailTaken = true;
+                        break;
+                    case 'U':
+                        usernameTaken = true;
+                        break;
+                }
+            }
+            return Ok(new
+            {
+                EmailTaken = emailTaken,
+                UsernameTaken = usernameTaken
+            });
         }
 
         [HttpPost("login")]
@@ -37,7 +55,10 @@ namespace WebAppGP.Controllers
             string password = data.GetProperty("Password").GetString();
             User user = _userServices.Login(email, password);
             if (user != null)
-                return Ok(user.Username);
+                return Ok(new
+                {
+                    user.Username
+                });
             return BadRequest("Username or password is incorrect.");
         }
     }

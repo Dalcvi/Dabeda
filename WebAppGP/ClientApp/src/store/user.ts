@@ -60,6 +60,7 @@ export const userReducer: Reducer<UserState> = (state: UserState = {
   const action = incomingAction as KnownAction;
   switch (action.type) {
     case 'SET_STATE': {
+      console.log("Okay");
       const newPrograms = mapKeys(action.payload.programs, "id");
       const newDays = mapKeys(action.payload.days, "id");
       const newExercises = mapKeys(action.payload.exercises, "id");
