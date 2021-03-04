@@ -5,28 +5,29 @@ import { Login } from "../services/user";
 import * as React from "react";
 
 export const LoginBox = (props: any) => {
-  const [validated, setValidated] = React.useState(false);
+  const [loggedIn, setloggedIn] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const dispatch = useDispatch();
 
+  // If login is successful, sets validated to true and redirects to users page
+  // P.S. this has to change later
   const handleLoginSubmit = (event: any) => {
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
     }
-    Login(dispatch, email, password).then((broMoment) => {
-      console.log(broMoment);
-      if (broMoment) {
-        setValidated(true);
+    Login(dispatch, email, password).then((isLoggedIn) => {
+      if (isLoggedIn) {
+        setloggedIn(true);
       }
     });
   };
 
-  if (validated) {
-    return <Redirect to="/learning-react" />;
+  if (loggedIn) {
+    return <Redirect to="/user" />;
   }
 
   return (

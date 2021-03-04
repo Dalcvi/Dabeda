@@ -27,11 +27,6 @@ export const LearningReact = () => {
 };
 
 const ProgramListTable = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    GetPrograms(dispatch);
-  }, [dispatch]);
-
   const allPrograms = useTypedSelector((state) => state.user.programs);
   const programs = toArray(allPrograms);
   interface Program {
