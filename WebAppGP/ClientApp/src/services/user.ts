@@ -1,7 +1,10 @@
 import { ActionCreators } from '../store/user';
 
+// URL to backend
 const baseURL = `https://localhost:44356/WebAppGP`;
 
+
+// Used to get Exercise programs from backend database
 export const GetPrograms = async (dispatch: any) => {
     try {
         const response = {
@@ -26,6 +29,10 @@ export const GetPrograms = async (dispatch: any) => {
     }
 }
 
+
+// Sends Email and password to backend and if the answer is 200, we know we logged in.
+// If answer is 400, we know the login was unsuccessful
+// CHANGE THIS LATER
 export const Login = async (dispatch: any, email: string, password: string) => {
     try {
         const requestOptions = {
@@ -49,6 +56,8 @@ export const Login = async (dispatch: any, email: string, password: string) => {
                 // Successful response, parse the JSON and return the data
                 return response.json();
             });
+
+        // Used to artificially have exercise programs filled in
         const upgradedResponse = {
             username: response.username,
 
@@ -66,7 +75,7 @@ export const Login = async (dispatch: any, email: string, password: string) => {
         }
 
         dispatch(ActionCreators.setState(upgradedResponse));
-        return true;
+        return response.username;
     }
     catch {
         console.log("ERROR");
@@ -74,6 +83,7 @@ export const Login = async (dispatch: any, email: string, password: string) => {
     }
 }
 
+// Registers an account if Username or Email isn't being used already
 export const Register = async (email: string, password: string, username: string) => {
     try {
         const requestOptions = {
@@ -81,7 +91,6 @@ export const Register = async (email: string, password: string, username: string
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username: username, email: email, password: password })
         };
-
         const response = await fetch(baseURL + "/register", requestOptions).then(response => {
             if (!response.ok) {
                 return response.json()
@@ -107,6 +116,7 @@ export const Register = async (email: string, password: string, username: string
     }
 }
 
+// Creates a new program
 export const AddProgram = async (dispatch: any, name: string) => {
     try {
         const tempArray = [] as [];

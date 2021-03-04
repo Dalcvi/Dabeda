@@ -15,10 +15,12 @@ export const RegisterBox = (props: any) => {
     }
     Register(email, password, username);
 
-    console.log(username + " kisasi " + email);
+    console.log(username + " " + email);
   };
 
   return (
+    //If button is pressed, this component is not rendered, but LoginBox is
+    // rendered instead
     <div id="registerBox">
       <Button onClick={() => props.setRegisterForm(false)}>
         We going back boys
@@ -29,54 +31,44 @@ export const RegisterBox = (props: any) => {
         className="text-center"
         onSubmit={handleRegisterSubmit}
       >
-        <Form.Group
-          style={{ margin: "1rem 0 0 0" }}
-          className="text-left"
-          controlId="username"
-        >
-          Username
+        <Form.Group controlId="username" className="text-left">
+          <Form.Label style={{ margin: "1rem 0 0 0" }}>Username</Form.Label>
+          <Form.Control
+            type="text"
+            name="username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            placeholder="Username"
+            required
+          />
         </Form.Group>
-        <Form.Control
-          type="text"
-          name="username"
-          id="username"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-          placeholder="Username"
-          required
-        />
-        <Form.Group
-          style={{ margin: "1rem 0 0 0" }}
-          className="text-left"
-          controlId="email"
-        >
-          Email
+
+        <Form.Group controlId="email" className="text-left">
+          <Form.Label style={{ margin: "1rem 0 0 0" }}>
+            Email address
+          </Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="Email"
+            required
+          />
         </Form.Group>
-        <Form.Control
-          type="email"
-          name="email"
-          id="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          placeholder="Email"
-          required
-        />
-        <Form.Group
-          style={{ margin: "1rem 0 0 0" }}
-          className="text-left"
-          controlId="password"
-        >
-          Password
+
+        <Form.Group controlId="password" className="text-left">
+          <Form.Label style={{ margin: "1rem 0 0 0" }}>Password</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            placeholder="Password"
+            required
+          />
         </Form.Group>
-        <Form.Control
-          type="password"
-          name="password"
-          id="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          placeholder="Password"
-          required
-        />
+
         <Button style={{ marginTop: "1rem" }} type="submit">
           Register
         </Button>

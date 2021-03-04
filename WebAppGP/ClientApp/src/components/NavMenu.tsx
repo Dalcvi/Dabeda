@@ -14,7 +14,7 @@ export default class NavMenu extends React.PureComponent<{}> {
           style={{ background: "#414770" }}
         >
           <Container>
-            <Link to="/learning-react">
+            <Link to="/user">
               <img
                 style={{ marginRight: "10px" }}
                 className="responsive"
@@ -26,7 +26,7 @@ export default class NavMenu extends React.PureComponent<{}> {
             <Navbar.Brand
               className="logoText"
               as={Link}
-              to="/learning-react"
+              to="/user"
               style={{
                 fontSize: "1.5rem",
                 color: "#F46036",
@@ -42,16 +42,12 @@ export default class NavMenu extends React.PureComponent<{}> {
             >
               <Nav>
                 <Nav.Item>
-                  <Nav.Link className="text-light" as={Link} to="/">
+                  <Nav.Link className="text-light" as={Link} to="/user">
                     Home
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link
-                    className="text-light"
-                    as={Link}
-                    to="/learning-react"
-                  >
+                  <Nav.Link className="text-light" as={Link} to="/user">
                     Learning React
                   </Nav.Link>
                 </Nav.Item>

@@ -11,7 +11,7 @@ interface FormData {
   password: string;
 }
 
-const Home = () => {
+const LoggedOff = () => {
   const [registerForm, setRegisterForm] = React.useState(false);
 
   return (
@@ -19,7 +19,7 @@ const Home = () => {
       <RB.Row id="loginRow" className="d-flex align-items-center">
         <RB.Col lg={7} className="d-flex flex-column align-items-center">
           <img
-            className="responsive"
+            className="img-fluid"
             src="https://res.cloudinary.com/drsrpeh2f/image/upload/v1613872332/logo_s1xvmm.png"
             alt="Logo"
           />
@@ -58,4 +58,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default LoggedOff;
