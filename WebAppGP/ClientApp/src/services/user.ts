@@ -1,3 +1,4 @@
+import { actionCreators } from '../store/learningReact';
 import { ActionCreators } from '../store/user';
 
 // URL to backend
@@ -10,17 +11,17 @@ export const GetPrograms = async (dispatch: any) => {
         const response = {
             username: "FakeUser",
 
-            programs: [{ id: 1, programName: "Epic program", days: [1, 2] },
-            { id: 2, programName: "Epic program222", days: [3] },
-            { id: 3, programName: "Haha wroom", days: [] }],
+            programs: [{ id: 1, programName: "Epic program", userId: 5 },
+            { id: 2, programName: "Epic program222", userId: 5 },
+            { id: 3, programName: "Haha wroom", userId: 5 }],
 
-            days: [{ id: 1, dayName: "Chest", exercises: [1] },
-            { id: 2, dayName: "Legs", exercises: [2] },
-            { id: 3, dayName: "Back", exercises: [3] }],
+            days: [{ id: 1, dayName: "Chest", programId: 1 },
+            { id: 2, dayName: "Legs", programId: 1 },
+            { id: 3, dayName: "Back", programId: 1 }],
 
-            exercises: [{ id: 1, exerciseName: "Bench", sets: 4 },
-            { id: 2, exerciseName: "Squats", sets: 4 },
-            { id: 3, exerciseName: "Deadlifts", sets: 4 }]
+            exercises: [{ id: 1, exerciseName: "Bench", dayId: 1 },
+            { id: 2, exerciseName: "Squats", dayId: 2 },
+            { id: 3, exerciseName: "Deadlifts", dayId: 3 }]
         }
         dispatch(ActionCreators.setState(response));
     }
@@ -61,17 +62,17 @@ export const Login = async (dispatch: any, email: string, password: string) => {
         const upgradedResponse = {
             username: response.username,
 
-            programs: [{ id: 1, programName: "Epic program", days: [1, 2] },
-            { id: 2, programName: "Epic program222", days: [3] },
-            { id: 3, programName: "Haha wroom", days: [] }],
+            programs: [{ id: 1, programName: "Epic program", userId: 5 },
+            { id: 2, programName: "Epic program222", userId: 5 },
+            { id: 3, programName: "Haha wroom", userId: 5 }],
 
-            days: [{ id: 1, dayName: "Chest", exercises: [1] },
-            { id: 2, dayName: "Legs", exercises: [2] },
-            { id: 3, dayName: "Back", exercises: [3] }],
+            days: [{ id: 1, dayName: "Chest", programId: 1 },
+            { id: 2, dayName: "Legs", programId: 1 },
+            { id: 3, dayName: "Back", programId: 1 }],
 
-            exercises: [{ id: 1, exerciseName: "Bench", sets: 4 },
-            { id: 2, exerciseName: "Squats", sets: 4 },
-            { id: 3, exerciseName: "Deadlifts", sets: 4 }]
+            exercises: [{ id: 1, exerciseName: "Bench", dayId: 1 },
+            { id: 2, exerciseName: "Squats", dayId: 2 },
+            { id: 3, exerciseName: "Deadlifts", dayId: 3 }]
         }
 
         dispatch(ActionCreators.setState(upgradedResponse));
@@ -117,17 +118,67 @@ export const Register = async (email: string, password: string, username: string
 }
 
 // Creates a new program
-export const AddProgram = async (dispatch: any, name: string) => {
+export const AddProgram = async (dispatch: any, fakeId: number, name: string, fakeDays: []) => {
     try {
-        const tempArray = [] as [];
         const program = {
-            id: Math.floor(Math.random() * 22),
+            id: Math.floor(Math.floor(Math.random() * 22) * Math.random() * 1000),
             programName: name,
-            days: tempArray
+            days: fakeDays
         }
         dispatch(ActionCreators.addProgram(program));
     }
     catch {
-        console.log("Error!");
+        console.log("Couldn't add program!");
     }
 }
+
+export const EditProgram = async (dispatch: any, realId: number, name: string, realDays: []) => {
+    try {
+        const program = {
+            id: realId,
+            programName: name,
+            days: realDays
+        }
+        dispatch(ActionCreators.editProgram(program));
+    }
+    catch {
+        console.log("Couldn't edit program!");
+    }
+}
+
+export const DeleteProgram = async (dispatch: any, deleteId: number) => {
+    try {
+        dispatch(ActionCreators.deleteProgram({ id: deleteId }));
+    }
+    catch {
+        console.log("Couldn't delete!");
+    }
+}
+
+// export const AddDay = async (dispatch: any, fakeId: number, name: string, userId: number) => {
+//     try {
+//         const program = {
+//             id: Math.floor(Math.floor(Math.random() * 22) * Math.random() * 1000),
+//             programName: name,
+//             userId: userId
+//         }
+//         dispatch(ActionCreators.addProgram(program));
+//     }
+//     catch {
+//         console.log("Couldn't add program!");
+//     }
+// }
+
+// export const EditDay = async (dispatch: any, dayId: number, name: string, programId: number) => {
+//     try {
+//         const program = {
+//             dayId: dayId,
+//             programName: name,
+//             programId: programId
+//         }
+//         dispatch(ActionCreators.editProgram(program));
+//     }
+//     catch {
+//         console.log("Couldn't edit program!");
+//     }
+// }

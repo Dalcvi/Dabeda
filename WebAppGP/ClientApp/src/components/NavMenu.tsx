@@ -16,11 +16,10 @@ export default class NavMenu extends React.PureComponent<{}> {
           <Container>
             <Link to="/user">
               <img
-                style={{ marginRight: "10px" }}
-                className="responsive"
+                className="img-fluid"
                 src="https://res.cloudinary.com/drsrpeh2f/image/upload/v1613872332/logo_s1xvmm.png"
-                width="1rem"
                 alt="Logo"
+                width="90em"
               />
             </Link>
             <Navbar.Brand

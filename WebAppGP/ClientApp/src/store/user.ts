@@ -1,18 +1,20 @@
 import mapKeys from "lodash/mapKeys";
+import { omit } from "lodash"
+import _ from 'lodash';
 import { Action, Reducer } from 'redux';
 
 export interface UserState {
   username: string,
-  programs: {}, // EXAMPLE: id: {id: number, programName: string, days: []}
-  days: {}, // EXAMPLE: id: {id: number, dayName: string, exercises: []}
-  exercises: {}, // EXAMPLE: id: {id: number, exercise: string, sets: number}
+  programs: {}, // EXAMPLE: id: {id: number, programName: string, userId: int}
+  days: {}, // EXAMPLE: id: {id: number, dayName: string, programId: int}
+  exercises: {}, // EXAMPLE: id: {id: number, exercise: string, dayId: int}
 }
 
 const initialState = {
   username: "",
-  programs: {}, // EXAMPLE: id: {id: number, programName: string, days: []}
-  days: {}, // EXAMPLE: id: {id: number, dayName: string, exercises: []}
-  exercises: {}, // EXAMPLE: id: {id: number, exercise: string, sets: number}
+  programs: {}, // EXAMPLE: id: {id: number, programName: string, userId: int}
+  days: {}, // EXAMPLE: id: {id: number, dayName: string, programId: int}
+  exercises: {}, // EXAMPLE: id: {id: number, exercise: string, dayId: int}
 }
 
 interface SetStateAction {
@@ -35,16 +37,22 @@ interface AddProgramAction {
 interface EditProgramAction {
   type: 'EDIT_PROGRAM',
   payload: {
-    program: { id: number, programName: string, days: [] }
+    id: number, programName: string, days: []
   }
 }
 
-type KnownAction = SetStateAction | AddProgramAction | EditProgramAction;
+interface DeleteProgramAction {
+  type: 'DELETE_PROGRAM',
+  payload: { id: number }
+}
+
+type KnownAction = SetStateAction | AddProgramAction | EditProgramAction | DeleteProgramAction;
 
 export const ActionCreators = {
   setState: (payload: UserState) => ({ type: 'SET_STATE', payload }) as SetStateAction,
   addProgram: (payload: { id: number, programName: string, days: [] }) => ({ type: 'ADD_PROGRAM', payload }) as AddProgramAction,
-  editProgram: (payload: { program: {} }) => ({ type: 'EDIT_PROGRAM', payload }) as EditProgramAction
+  editProgram: (payload: { id: number, programName: string, days: [] }) => ({ type: 'EDIT_PROGRAM', payload }) as EditProgramAction,
+  deleteProgram: (payload: { id: number }) => ({ type: 'DELETE_PROGRAM', payload }) as DeleteProgramAction
 };
 
 export const userReducer: Reducer<UserState> = (state: UserState = {
@@ -73,18 +81,22 @@ export const userReducer: Reducer<UserState> = (state: UserState = {
     };
     case 'ADD_PROGRAM': {
       return {
+        ...state,
+        programs: { ...state.programs, [action.payload.id]: action.payload },
+      };
+    };
+    case 'EDIT_PROGRAM': {
+      return {
         username: state.username,
         programs: { ...state.programs, [action.payload.id]: action.payload },
         days: state.days,
         exercises: state.exercises
-      }
-    }
-    case 'EDIT_PROGRAM': {
+      };
+    };
+    case 'DELETE_PROGRAM': {
       return {
-        username: state.username,
-        programs: { ...state.programs, [action.payload.program.id]: action.payload.program },
-        days: state.days,
-        exercises: state.exercises
+        ...state,
+        programs: _.omit(state.programs, action.payload.id)
       }
     }
     default:

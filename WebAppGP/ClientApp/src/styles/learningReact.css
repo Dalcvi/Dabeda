@@ -13,6 +13,11 @@
   background: linear-gradient(#414770, #414770, #5b85aa);
 }
 
+#programListBox {
+  padding: 10px;
+  border-radius: 5px;
+}
+
 #programListTable {
   max-height: 130px;
   overflow-y: auto;
