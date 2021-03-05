@@ -9,5 +9,8 @@ namespace Users.Core
     {
         string CreateUser(User user);
         User Login(string email, string password);
+        void CreateProgram(int UserId, string ProgrName);
+        void CreateDay(int ProgramId, string DayName);
+        void CreateExercise(int DayId, string ExcName, int setsNumber);
     }
 }

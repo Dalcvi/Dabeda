@@ -10,7 +10,7 @@ namespace Strength.DB.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public int SetsNumer { get; set; }
+        public int SetsAmount { get; set; }
         public Day Day { get; set; }
         public ICollection<ExCompletion> Completions { get; set; }
     }

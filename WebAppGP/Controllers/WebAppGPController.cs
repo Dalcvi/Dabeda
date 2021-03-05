@@ -61,5 +61,52 @@ namespace WebAppGP.Controllers
                 });
             return BadRequest("Username or password is incorrect.");
         }
+
+        [HttpPost("addProgram")]
+        public IActionResult AddProgram([FromBody] JsonElement data)
+        {
+            try
+            {
+                int userId = data.GetProperty("UserId").GetInt32();
+                string progrName = data.GetProperty("ProgramName").GetString();
+                _userServices.CreateProgram(userId, progrName);
+                return Ok();
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPost("addDay")]
+        public IActionResult AddDay([FromBody] JsonElement data)
+        {
+            try
+            {
+                int progrId = data.GetProperty("ProgramId").GetInt32();
+                string dayName = data.GetProperty("DayName").GetString();
+                _userServices.CreateDay(progrId, dayName);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPost("addExercise")]
+        public IActionResult AddExercise([FromBody] JsonElement data)
+        {
+            try
+            {
+                int dayId = data.GetProperty("DayId").GetInt32();
+                string exerName = data.GetProperty("ExerciseName").GetString();
+                int setsNumber = data.GetProperty("SetsAmount").GetInt32();
+                _userServices.CreateExercise(dayId, exerName, setsNumber);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }
