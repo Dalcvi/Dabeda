@@ -1,28 +1,28 @@
-import * as LearningReact from './learningReact';
-import * as User from './user';
-import { TypedUseSelectorHook, useSelector } from 'react-redux'
+import { userReducer, UserState } from "./User";
+import { programsReducer, ProgramsState } from "./ProgramsReducer";
+import { daysReducer, DaysState } from "./DaysReducer";
+import { exercisesReducer, ExercisesState } from "./ExercisesReducer";
 
 // The top-level state object
 export interface ApplicationState {
-    learner: LearningReact.LearningState;
-    user: User.UserState;
+    user: UserState;
+    programs: ProgramsState;
+    days: DaysState;
+    exercises: ExercisesState;
 }
 
 // Whenever an action is dispatched, Redux will update each top-level application state property using
 // the reducer with the matching name. It's important that the names match exactly, and that the reducer
 // acts on the corresponding ApplicationState property type.
 export const reducers = {
-    learner: LearningReact.reducer,
-    user: User.userReducer
+    user: userReducer,
+    programs: programsReducer,
+    days: daysReducer,
+    exercises: exercisesReducer
 };
-
-export const useTypedSelector: TypedUseSelectorHook<ApplicationState> = useSelector
-
 
 // This type can be used as a hint on action creators so that its 'dispatch' and 'getState' params are
 // correctly typed to match your store.
 export interface AppThunkAction<TAction> {
     (dispatch: (action: TAction) => void, getState: () => ApplicationState): void;
 }
-
-export default useTypedSelector;

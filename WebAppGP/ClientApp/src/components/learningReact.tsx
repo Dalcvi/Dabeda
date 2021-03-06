@@ -1,10 +1,12 @@
 ﻿import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import toArray from "lodash/toArray";
 import filter from "lodash/filter";
-import { useTypedSelector } from "../store/index";
+import { ApplicationState } from "../store/Index";
 import { GetPrograms, DeleteProgram } from "../services/user";
 import { NewProgramModal, EditProgramModal } from "./ProgramModal";
+import { ProgramsState } from "../store/ProgramsReducer";
+import { DaysState } from "../store/DaysReducer";
 import * as RB from "react-bootstrap";
 import "../styles/learningReact.css";
 
@@ -43,7 +45,10 @@ export const LearningReact = () => {
 };
 
 const ProgramListTable = (props: any) => {
-  const allPrograms = useTypedSelector((state) => state.user.programs);
+  const allPrograms = useSelector<ApplicationState, ProgramsState["programs"]>(
+    (state) => state.programs.programs
+  );
+  console.log(allPrograms);
   const programs = toArray(allPrograms);
   interface Program {
     id: number;
@@ -98,11 +103,14 @@ const Days = (props: any) => {
     dayName: string;
     programId: number;
   }
-  if (props.programId == -1) return <div>Nothing to see here</div>;
-  else {
+  if (props.programId == -1) {
+    return <div>Nothing to see here</div>;
+  } else {
     const [selectedDay, setSelectedDay] = useState({} as Day);
 
-    const allDays = useTypedSelector((state) => state.user.days);
+    const allDays = useSelector<ApplicationState, DaysState["days"]>(
+      (state) => state.days.days
+    );
     const programDays = toArray(
       filter(allDays, (day) => (day as Day).programId === props.programId)
     );

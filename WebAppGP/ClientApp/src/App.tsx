@@ -3,14 +3,11 @@ import { Route, Switch } from "react-router";
 import Layout from "./components/Layout";
 import LoggedOff from "./components/LoggedOff";
 import LearningReact from "./components/learningReact";
-import { useTypedSelector } from "./store/index";
 import NavMenu from "./components/NavMenu";
 
 import "./styles/learningReact.css";
 
 export const App = () => {
-  const username = useTypedSelector((state) => state.user.username);
-
   return (
     <Layout>
       <Switch>
