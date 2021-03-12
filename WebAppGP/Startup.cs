@@ -1,13 +1,16 @@
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Strength.DB;
+using System;
 using Users.Core;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Http;
 
 namespace WebAppGP
 {
@@ -26,6 +29,31 @@ namespace WebAppGP
             services.AddControllersWithViews();
             services.AddDbContext<AppDbContext>();
             services.AddTransient<IUserServices, UserServices>();
+
+            services.AddTransient<IUserPrograms, UserPrograms>();
+
+            services.AddTransient<IPasswordHasher, PasswordHasher>();
+
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+
+            var secret = Environment.GetEnvironmentVariable("JWT_SECRET");
+            var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER");
+
+            services.AddAuthentication(opts =>
+            {
+                opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(opts =>
+                {
+                    opts.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = issuer,
+                        ValidateAudience = false,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret))
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +78,8 @@ namespace WebAppGP
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
