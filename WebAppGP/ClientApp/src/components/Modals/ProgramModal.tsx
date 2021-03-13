@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Modal, Button, InputGroup, FormControl } from "react-bootstrap";
-import { AddProgram, EditProgram } from "../services/user";
+import { AddProgram, EditProgram } from "../../services/user";
 
 export const NewProgramModal = (props: any) => {
   const [show, setShow] = useState(false);
