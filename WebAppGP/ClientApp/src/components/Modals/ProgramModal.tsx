@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Modal, Button, InputGroup, FormControl } from "react-bootstrap";
-import { AddProgram } from "../services/user";
+import { AddProgram, EditProgram } from "../../services/user";
 
 export const NewProgramModal = (props: any) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   return (
     <div>
       <Button onClick={handleShow} className="btn btn-warning">
         Add
       </Button>
       <ProgramModal
-        program={props.program}
+        modalName="Create a new program"
+        id={-1}
+        program={props.program.programName}
+        days={[] as []}
         handleFormSubmit={AddProgram}
         show={show}
         handleClose={handleClose}
@@ -23,52 +27,61 @@ export const NewProgramModal = (props: any) => {
   );
 };
 
-// export const EditProgramModal = (program: {}) => {
-//   const [show, setShow] = useState(false);
+export const EditProgramModal = (props: any) => {
+  const [show, setShow] = useState(false);
 
-//   const handleClose = () => setShow(false);
-//   const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-//   return (
-//     <div>
-//       <Button onClick={handleShow} className="btn btn-success">
-//         Edit
-//       </Button>
-//       <ProgramModal
-//         program={program}
-//         handleFormSubmit={}
-//         show={show}
-//         handleClose={handleClose}
-//       />
-//     </div>
-//   );
-// };
+  return (
+    <div style={{ float: "right" }}>
+      <Button onClick={handleShow} className="btn btn-success">
+        Edit
+      </Button>
+      <ProgramModal
+        modalName="Edit a program"
+        id={props.program.id}
+        program={props.program.programName}
+        days={props.program.days}
+        handleFormSubmit={EditProgram}
+        show={show}
+        handleClose={handleClose}
+      />
+    </div>
+  );
+};
 
 const ProgramModal = ({
+  modalName,
+  id,
   program,
+  days,
   handleFormSubmit,
   show,
   handleClose,
 }: any) => {
-  const [modalProgram, setModalProgram] = useState(program.programName);
+  const [modalProgram, setModalProgram] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setModalProgram(program.programName);
-  }, [program.programName]);
+    setModalProgram(program);
+  }, []);
 
   return (
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Small Modal</Modal.Title>
+          <Modal.Title>{modalName}</Modal.Title>
         </Modal.Header>
         <Form
           onSubmit={(event) => {
             event.preventDefault();
-            handleFormSubmit(dispatch, modalProgram).then(() =>
-              setModalProgram("")
-            );
+            if (modalProgram != "") {
+              handleClose();
+              handleFormSubmit(dispatch, id, modalProgram, days).then(() => {
+                if (program === "") setModalProgram("");
+              });
+            }
           }}
         >
           <Modal.Body>
@@ -83,7 +96,7 @@ const ProgramModal = ({
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button type="submit" variant="primary" onClick={handleClose}>
+            <Button type="submit" variant="primary">
               Save Changes
             </Button>
           </Modal.Footer>

@@ -13,6 +13,11 @@
   background: linear-gradient(#414770, #414770, #5b85aa);
 }
 
+#programListBox {
+  padding: 10px;
+  border-radius: 5px;
+}
+
 #programListTable {
   max-height: 130px;
   overflow-y: auto;
@@ -34,14 +39,5 @@ body {
 .listItem:hover {
   background: black;
   color: white;
-}
-
-#workoutPlate {
-  margin: 20px;
-  height: 1000px;
-  min-height: 98%;
-  background: white;
-  border-radius: 12px;
-  border: 2px solid #02182b;
 }
 /*# sourceMappingURL=learningReact.css.map */

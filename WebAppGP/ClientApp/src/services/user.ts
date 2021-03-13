@@ -1,4 +1,8 @@
-import { ActionCreators } from '../store/user';
+import { UserActionCreators } from "../store/actions/UserActions";
+import { ProgramsActionCreators } from "../store/actions/ProgramsActions";
+import { DaysActionCreators } from "../store/actions/DaysActions";
+import { ExercisesActionCreators } from "../store/actions/ExercisesActions";
+
 
 // URL to backend
 const baseURL = `https://localhost:44356/WebAppGP`;
@@ -10,19 +14,37 @@ export const GetPrograms = async (dispatch: any) => {
         const response = {
             username: "FakeUser",
 
-            programs: [{ id: 1, programName: "Epic program", days: [1, 2] },
-            { id: 2, programName: "Epic program222", days: [3] },
-            { id: 3, programName: "Haha wroom", days: [] }],
+            programs: [{ id: 1, programName: "Epic program", userId: 5 },
+            { id: 2, programName: "Epic program222", userId: 5 },
+            { id: 3, programName: "Haha wroom", userId: 5 }],
 
-            days: [{ id: 1, dayName: "Chest", exercises: [1] },
-            { id: 2, dayName: "Legs", exercises: [2] },
-            { id: 3, dayName: "Back", exercises: [3] }],
+            days: [{ id: 1, dayName: "Chest", programId: 1 },
+            { id: 2, dayName: "Legs", programId: 1 },
+            { id: 3, dayName: "Back", programId: 1 }],
 
-            exercises: [{ id: 1, exerciseName: "Bench", sets: 4 },
-            { id: 2, exerciseName: "Squats", sets: 4 },
-            { id: 3, exerciseName: "Deadlifts", sets: 4 }]
+            exercises: [{ id: 1, exerciseName: "Bench", dayId: 1 },
+            { id: 2, exerciseName: "Squats", dayId: 2 },
+            { id: 3, exerciseName: "Deadlifts", dayId: 3 }]
         }
-        dispatch(ActionCreators.setState(response));
+        const programs = {
+            programs: [{ id: 1, programName: "Epic program", userId: 5 },
+            { id: 2, programName: "Epic program222", userId: 5 },
+            { id: 3, programName: "Haha wroom", userId: 5 }]
+        }
+        const days = {
+            days: [{ id: 1, dayName: "Chest", programId: 1 },
+            { id: 2, dayName: "Legs", programId: 1 },
+            { id: 3, dayName: "Back", programId: 1 }]
+        }
+        const exercises = {
+            exercises: [{ id: 1, exerciseName: "Bench", setsAmount: 4, dayId: 1, programId: 1 },
+            { id: 2, exerciseName: "Squats", setsAmount: 4, dayId: 1, programId: 1 },
+            { id: 3, exerciseName: "Deadlifts", setsAmount: 4, dayId: 1, programId: 1 }]
+        }
+        dispatch(UserActionCreators.setUsername(response.username));
+        dispatch(ProgramsActionCreators.setPrograms(programs));
+        dispatch(DaysActionCreators.setDays(days));
+        dispatch(ExercisesActionCreators.setExercises(exercises));
     }
     catch {
         console.log("Error!");
@@ -58,23 +80,36 @@ export const Login = async (dispatch: any, email: string, password: string) => {
             });
 
         // Used to artificially have exercise programs filled in
-        const upgradedResponse = {
-            username: response.username,
+        const username = {
+            username: response.username
+            // days: [{ id: 1, dayName: "Chest", programId: 1 },
+            // { id: 2, dayName: "Legs", programId: 1 },
+            // { id: 3, dayName: "Back", programId: 1 }],
 
-            programs: [{ id: 1, programName: "Epic program", days: [1, 2] },
-            { id: 2, programName: "Epic program222", days: [3] },
-            { id: 3, programName: "Haha wroom", days: [] }],
-
-            days: [{ id: 1, dayName: "Chest", exercises: [1] },
-            { id: 2, dayName: "Legs", exercises: [2] },
-            { id: 3, dayName: "Back", exercises: [3] }],
-
-            exercises: [{ id: 1, exerciseName: "Bench", sets: 4 },
-            { id: 2, exerciseName: "Squats", sets: 4 },
-            { id: 3, exerciseName: "Deadlifts", sets: 4 }]
+            // exercises: [{ id: 1, exerciseName: "Bench", dayId: 1 },
+            // { id: 2, exerciseName: "Squats", dayId: 2 },
+            // { id: 3, exerciseName: "Deadlifts", dayId: 3 }]
+        };
+        const programs = {
+            programs: [{ id: 1, programName: "Epic program", userId: 5 },
+            { id: 2, programName: "Epic program222", userId: 5 },
+            { id: 3, programName: "Haha wroom", userId: 5 }]
+        };
+        const days = {
+            days: [{ id: 1, dayName: "Chest", programId: 1 },
+            { id: 2, dayName: "Legs", programId: 1 },
+            { id: 3, dayName: "Back", programId: 1 }]
+        }
+        const exercises = {
+            exercises: [{ id: 1, exerciseName: "Bench", dayId: 1 },
+            { id: 2, exerciseName: "Squats", dayId: 2 },
+            { id: 3, exerciseName: "Deadlifts", dayId: 3 }]
         }
 
-        dispatch(ActionCreators.setState(upgradedResponse));
+        dispatch(UserActionCreators.setUsername(response.username));
+        dispatch(ProgramsActionCreators.setPrograms(programs));
+        dispatch(DaysActionCreators.setDays(days));
+        dispatch(ExercisesActionCreators.setExercises(exercises));
         return response.username;
     }
     catch {
@@ -117,17 +152,142 @@ export const Register = async (email: string, password: string, username: string
 }
 
 // Creates a new program
-export const AddProgram = async (dispatch: any, name: string) => {
+export const AddProgram = async (dispatch: any, fakeId: number, name: string, userId: number) => {
     try {
-        const tempArray = [] as [];
         const program = {
-            id: Math.floor(Math.random() * 22),
+            id: Math.floor(Math.floor(Math.random() * 22) * Math.random() * 1000),
             programName: name,
-            days: tempArray
+            userId: userId
         }
-        dispatch(ActionCreators.addProgram(program));
+        dispatch(ProgramsActionCreators.addProgram(program));
     }
     catch {
-        console.log("Error!");
+        console.log("Couldn't add program!");
+    }
+}
+
+export const EditProgram = async (dispatch: any, realId: number, name: string, userId: number) => {
+    try {
+        const program = {
+            id: realId,
+            programName: name,
+            userId: userId
+        }
+        dispatch(ProgramsActionCreators.editProgram(program));
+    }
+    catch {
+        console.log("Couldn't edit program!");
+    }
+}
+
+export const DeleteProgram = async (dispatch: any, deleteId: number) => {
+    try {
+        dispatch(ProgramsActionCreators.deleteProgram({ id: deleteId }));
+    }
+    catch {
+        console.log("Couldn't delete program!");
+    }
+}
+
+export const AddDay = async (dispatch: any, fakeId: number, name: string, programId: number) => {
+    try {
+        const day = {
+            id: Math.floor(Math.floor(Math.random() * 22) * Math.random() * 1000),
+            dayName: name,
+            programId: programId
+        }
+        dispatch(DaysActionCreators.addDay(day));
+    }
+    catch {
+        console.log("Couldn't add day!");
+    }
+}
+
+export const EditDay = async (dispatch: any, dayId: number, name: string, programId: number) => {
+    try {
+        const day = {
+            id: dayId,
+            dayName: name,
+            programId: programId
+        }
+        dispatch(DaysActionCreators.editDay(day));
+    }
+    catch {
+        console.log("Couldn't edit day!");
+    }
+}
+
+export const DeleteDay = async (dispatch: any, deleteId: number) => {
+    try {
+        dispatch(DaysActionCreators.deleteDay({ id: deleteId }));
+    }
+    catch {
+        console.log("Couldn't delete day!");
+    }
+}
+
+export const DeleteDayByProgram = async (dispatch: any, deleteProgramId: number) => {
+    try {
+        dispatch(DaysActionCreators.deleteByProgram({ programId: deleteProgramId }));
+    }
+    catch {
+        console.log("Couldn't delete exercises by day!")
+    }
+}
+
+export const AddExercise = async (dispatch: any, fakeId: number, name: string, amount: number, programId: number) => {
+    try {
+        const exercise = {
+            id: Math.floor(Math.floor(Math.random() * 22) * Math.random() * 1000),
+            exerciseName: name,
+            setsAmount: amount,
+            dayId: programId
+        }
+        dispatch(ExercisesActionCreators.addExercise(exercise));
+    }
+    catch {
+        console.log("Couldn't add exercise!");
+    }
+}
+
+export const EditExercise = async (dispatch: any, exerciseId: number, name: string, amount: number, programId: number) => {
+    try {
+        const exercise = {
+            id: exerciseId,
+            exerciseName: name,
+            setsAmount: amount,
+            dayId: programId
+        }
+        dispatch(ExercisesActionCreators.editExercise(exercise));
+    }
+    catch {
+        console.log("Couldn't edit exercise!");
+    }
+}
+
+export const DeleteExercise = async (dispatch: any, deleteId: number) => {
+    try {
+        dispatch(ExercisesActionCreators.deleteExercise({ id: deleteId }));
+    }
+    catch {
+        console.log("Couldn't delete exercise!");
+    }
+}
+
+export const DeleteExerciseByDay = async (dispatch: any, deleteDayId: number) => {
+    try {
+        dispatch(ExercisesActionCreators.deleteByDay({ dayId: deleteDayId }));
+    }
+    catch {
+        console.log("Couldn't delete exercises by day!")
+    }
+}
+
+export const DeleteExerciseByProgram = async (dispatch: any, deleteProgramId: number) => {
+    try {
+        dispatch(ExercisesActionCreators.deleteByProgram({ programId: deleteProgramId }));
+    }
+    catch {
+        console.log("Couldn't delete exercises by day!")
     }
 }

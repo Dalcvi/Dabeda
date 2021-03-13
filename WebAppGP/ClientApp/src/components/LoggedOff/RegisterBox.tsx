@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Form, Button } from "react-bootstrap";
-import { Register } from "../services/user";
+import { Register } from "../../services/user";
 
 export const RegisterBox = (props: any) => {
   const [username, setUsername] = React.useState("");
@@ -14,15 +14,13 @@ export const RegisterBox = (props: any) => {
       event.stopPropagation();
     }
     Register(email, password, username);
-
-    console.log(username + " " + email);
   };
 
   return (
-    //If button is pressed, this component is not rendered, but LoginBox is
+    // If button is pressed, this component is not rendered, but LoginBox is
     // rendered instead
     <div id="registerBox">
-      <Button onClick={() => props.setRegisterForm(false)}>
+      <Button onClick={() => props.setIsRegistering(false)}>
         We going back boys
       </Button>
 

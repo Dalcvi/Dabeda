@@ -1,7 +1,7 @@
 import { Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Redirect } from "react-router";
-import { Login } from "../services/user";
+import { Login } from "../../services/user";
 import * as React from "react";
 
 export const LoginBox = (props: any) => {
@@ -19,15 +19,16 @@ export const LoginBox = (props: any) => {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     }
-    Login(dispatch, email, password).then((isLoggedIn) => {
-      if (isLoggedIn) {
-        setloggedIn(true);
-      }
-    });
+    setloggedIn(true);
+    // Login(dispatch, email, password).then((isLoggedIn) => {
+    //   if (isLoggedIn) {
+    //     setloggedIn(true);
+    //   }
+    // });
   };
 
   if (loggedIn) {
-    return <Redirect to="/user" />;
+    return <Redirect to="/user/fakeuser" />;
   }
 
   return (
@@ -79,7 +80,7 @@ export const LoginBox = (props: any) => {
         <Button
           variant="secondary"
           style={{ width: "6rem" }}
-          onClick={() => props.setRegisterForm(true)}
+          onClick={() => props.setIsRegistering(true)}
         >
           Register
         </Button>
