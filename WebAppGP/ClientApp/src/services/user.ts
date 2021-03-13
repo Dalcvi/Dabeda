@@ -5,7 +5,7 @@ import { ExercisesActionCreators } from "../store/actions/ExercisesActions";
 
 
 // URL to backend
-const baseURL = `https://localhost:44356/WebAppGP`;
+const baseURL = `${process.env.BASE_URL}/WebAppGP`;
 
 
 // Used to get Exercise programs from backend database

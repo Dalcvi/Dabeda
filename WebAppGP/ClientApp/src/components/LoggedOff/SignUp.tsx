@@ -1,19 +1,19 @@
 import * as React from "react";
 import { Form, Button } from "react-bootstrap";
-import { Register } from "../../services/user";
+import { SignUp } from "../../services/authentication";
+import { useDispatch } from "react-redux";
 
 export const RegisterBox = (props: any) => {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  const dispatch = useDispatch();
+
   const handleRegisterSubmit = (event: any) => {
     event.preventDefault();
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
-    }
-    Register(email, password, username);
+    event.stopPropagation();
+    SignUp(dispatch, { email, password, username });
   };
 
   return (

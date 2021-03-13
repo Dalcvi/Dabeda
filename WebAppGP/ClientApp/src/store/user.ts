@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Action, Reducer } from 'redux';
+import { Action } from 'redux';
 import { UserActionTypes } from "./types/UserTypes";
 import { KnownAction } from "./actions/UserActions";
 

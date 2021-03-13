@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as RB from "react-bootstrap";
-import { LoginBox } from "./LoginBox";
-import { RegisterBox } from "./RegisterBox";
+import { LoginBox } from "./SignIn";
+import { RegisterBox } from "./SignUp";
 
 import "../../custom.css";
 
