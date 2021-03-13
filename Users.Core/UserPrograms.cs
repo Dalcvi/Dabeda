@@ -14,8 +14,7 @@ namespace Users.Core
         public UserPrograms(AppDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
-            _user = _context.Users
-                .First(u => u.Username == httpContextAccessor.HttpContext.User.Identity.Name);
+            _user = _context.Users.First(u => u.Username == httpContextAccessor.HttpContext.User.Identity.Name);
         }
 
         

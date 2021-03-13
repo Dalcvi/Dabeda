@@ -36,7 +36,7 @@ namespace Users.Core
             return new AuthenticatedUser
             {
                 Username = dbUser.Username,
-                Token = JwtGenerator.GenerateUserToken(user.Email),
+                Token = JwtGenerator.GenerateUserToken(dbUser.Username),
                 Id = dbUser.Id
             };
         }
@@ -73,7 +73,7 @@ namespace Users.Core
             return new AuthenticatedUser
             {
                 Username = user.Username,
-                Token = JwtGenerator.GenerateUserToken(user.Email),
+                Token = JwtGenerator.GenerateUserToken(user.Username),
                 Id = user.Id
             };
         }

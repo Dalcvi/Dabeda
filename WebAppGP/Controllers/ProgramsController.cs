@@ -9,7 +9,7 @@ namespace WebAppGP.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ProgramsController : ControllerBase
     {
         private readonly IUserPrograms _userPrograms;

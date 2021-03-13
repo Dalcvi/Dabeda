@@ -9,12 +9,12 @@ namespace WebAppGP.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WebAppGPController : ControllerBase
+    public class AuthorizationController : ControllerBase
     {
-        private readonly ILogger<WebAppGPController> _logger;
+        private readonly ILogger<AuthorizationController> _logger;
         private IUserServices _userServices;
 
-        public WebAppGPController(ILogger<WebAppGPController> logger, IUserServices userServices)
+        public AuthorizationController(ILogger<AuthorizationController> logger, IUserServices userServices)
         {
             _logger = logger;
             _userServices = userServices;
