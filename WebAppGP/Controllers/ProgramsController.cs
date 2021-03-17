@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using DTO = Users.Core.DTO;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
+using DTO = Users.Core.DTO;
+using Strength.DB.Models;
 using Users.Core;
 
 namespace WebAppGP.Controllers
@@ -19,42 +20,46 @@ namespace WebAppGP.Controllers
             _userPrograms = userPrograms;
         }
 
-        //add-------------------
-        [HttpPost("addProgram")]
-        public IActionResult AddProgram([FromBody] JsonElement data)
+        [HttpGet("getUserInfo")]
+        public IActionResult GetUserInfo()
         {
             try
             {
-                string username = data.GetProperty("Username").GetString();
-                string progrName = data.GetProperty("ProgramName").GetString();
-                string id = data.GetProperty("Id").GetString();
-                DTO.ExProgram program = _userPrograms.CreateProgram(id, username, progrName);
+                return Ok(_userPrograms.GetUserInformation());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
-                return Ok(new 
-                { 
-                    program.Id,
-                    program.Name,
-                    UserId = program.User.Id
+        //add-------------------
+        [HttpPost("addProgram")]
+        public IActionResult AddProgram([FromBody] DTO.ExProgram dataProgram)
+        {
+            try
+            {
+                ExProgram program = _userPrograms.CreateProgram(dataProgram.Name);
+                return Ok(new
+                {
+                    program.Id
                 });
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
 
         [HttpPost("addDay")]
-        public IActionResult AddDay([FromBody] JsonElement data)
+        public IActionResult AddDay([FromBody] DTO.Day dataDay)
         {
             try
             {
-                int progrId = data.GetProperty("ProgramId").GetInt32();
-                string dayName = data.GetProperty("DayName").GetString();
-                string id = data.GetProperty("Id").GetString();
-                DTO.Day day = _userPrograms.CreateDay(id, progrId, dayName);
+                Day day = _userPrograms.CreateDay(dataDay.Program, dataDay.Name);
 
-                return Ok(new 
-                { 
+                return Ok(new
+                {
                     day.Id,
                     day.Name,
                     ProgramId = day.Program.Id
@@ -67,18 +72,14 @@ namespace WebAppGP.Controllers
         }
 
         [HttpPost("addExercise")]
-        public IActionResult AddExercise([FromBody] JsonElement data)
+        public IActionResult AddExercise([FromBody] DTO.Exercise dataExercise)
         {
             try
             {
-                int dayId = data.GetProperty("DayId").GetInt32();
-                string exerName = data.GetProperty("ExerciseName").GetString();
-                int setsNumber = data.GetProperty("SetsAmount").GetInt32();
-                string id = data.GetProperty("Id").GetString();
-                DTO.Exercise exer = _userPrograms.CreateExercise(id, dayId, exerName, setsNumber);
+                Exercise exer = _userPrograms.CreateExercise(dataExercise.Day, dataExercise.Name, dataExercise.SetsAmount);
 
-                return Ok(new 
-                { 
+                return Ok(new
+                {
                     exer.Id,
                     exer.Name,
                     exer.SetsAmount,
@@ -90,17 +91,14 @@ namespace WebAppGP.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
+
         //edit-------------------
         [HttpPost("editProgram")]
-        public IActionResult EditProgram([FromBody] JsonElement data)
+        public IActionResult EditProgram([FromBody] DTO.ExProgram dataProgram)
         {
             try
             {
-                int programId = data.GetProperty("ProgramId").GetInt32();
-                string programName = data.GetProperty("ProgramName").GetString();
-                string id = data.GetProperty("Id").GetString();
-                _userPrograms.EditProgram(id, programId, programName);
+                _userPrograms.EditProgram(dataProgram.Id, dataProgram.Name);
                 return Ok();
             }
             catch (Exception e)
@@ -110,14 +108,11 @@ namespace WebAppGP.Controllers
         }
 
         [HttpPost("editDay")]
-        public IActionResult EditDay([FromBody] JsonElement data)
+        public IActionResult EditDay([FromBody] DTO.Day day)
         {
             try
             {
-                int dayId = data.GetProperty("DayId").GetInt32();
-                string dayName = data.GetProperty("DayName").GetString();
-                string id = data.GetProperty("Id").GetString();
-                _userPrograms.EditDay(id, dayId, dayName);
+                _userPrograms.EditDay(day.Id, day.Name);
                 return Ok();
             }
             catch (Exception e)
@@ -127,15 +122,11 @@ namespace WebAppGP.Controllers
         }
 
         [HttpPost("editExercise")]
-        public IActionResult EditExercise([FromBody] JsonElement data)
+        public IActionResult EditExercise([FromBody] DTO.Exercise dataExercise)
         {
             try
             {
-                int exerciseId = data.GetProperty("ExerciseId").GetInt32();
-                string exerciseName = data.GetProperty("ExerciseName").GetString();
-                int setsAmount = data.GetProperty("SetsAmount").GetInt32();
-                string id = data.GetProperty("Id").GetString();
-                _userPrograms.EditExercise(id, exerciseId, exerciseName, setsAmount);
+                _userPrograms.EditExercise(dataExercise.Id, dataExercise.Name, dataExercise.SetsAmount);
                 return Ok();
             }
             catch (Exception e)
@@ -146,13 +137,11 @@ namespace WebAppGP.Controllers
 
         //delete-------------------
         [HttpPost("deleteProgram")]
-        public IActionResult DeleteProgram([FromBody] JsonElement data)
+        public IActionResult DeleteProgram([FromBody] DTO.ExProgram dataExProgram)
         {
             try
             {
-                int programId = data.GetProperty("ProgramId").GetInt32();
-                string id = data.GetProperty("Id").GetString();
-                _userPrograms.DeleteProgram(id, programId);
+                _userPrograms.DeleteProgram(dataExProgram.Id);
                 return Ok();
             }
             catch (Exception e)
@@ -161,13 +150,11 @@ namespace WebAppGP.Controllers
             }
         }
         [HttpPost("deleteDay")]
-        public IActionResult DeleteDay([FromBody] JsonElement data)
+        public IActionResult DeleteDay([FromBody] DTO.Day dataDay)
         {
             try
             {
-                int dayId = data.GetProperty("DayId").GetInt32();
-                string id = data.GetProperty("Id").GetString();
-                _userPrograms.DeleteDay(id, dayId);
+                _userPrograms.DeleteDay(dataDay.Id);
                 return Ok();
             }
             catch (Exception e)
@@ -175,14 +162,12 @@ namespace WebAppGP.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpPost("deleteExercise")]
-        public IActionResult DeleteExercise([FromBody] JsonElement data)
+        [HttpDelete("deleteExercise")]
+        public IActionResult DeleteExercise([FromBody] DTO.Exercise dataExercise)
         {
             try
             {
-                int exerciseId = data.GetProperty("ExerciseId").GetInt32();
-                string id = data.GetProperty("Id").GetString();
-                _userPrograms.DeleteExercise(id, exerciseId);
+                _userPrograms.DeleteExercise(dataExercise.Id);
                 return Ok();
             }
             catch (Exception e)
