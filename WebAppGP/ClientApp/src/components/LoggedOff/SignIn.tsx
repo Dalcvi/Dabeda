@@ -1,11 +1,9 @@
 import { Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { Redirect } from "react-router";
-import { Login } from "../../services/user";
+import { SignIn } from "../../services/authentication";
 import * as React from "react";
 
 export const LoginBox = (props: any) => {
-  const [loggedIn, setloggedIn] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -18,18 +16,10 @@ export const LoginBox = (props: any) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
+    } else {
+      SignIn(dispatch, { email, password });
     }
-    setloggedIn(true);
-    // Login(dispatch, email, password).then((isLoggedIn) => {
-    //   if (isLoggedIn) {
-    //     setloggedIn(true);
-    //   }
-    // });
   };
-
-  if (loggedIn) {
-    return <Redirect to="/user/fakeuser" />;
-  }
 
   return (
     <div id="loginBox">

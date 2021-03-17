@@ -2,9 +2,11 @@ import { userReducer, UserState } from "./User";
 import { programsReducer, ProgramsState } from "./ProgramsReducer";
 import { daysReducer, DaysState } from "./DaysReducer";
 import { exercisesReducer, ExercisesState } from "./ExercisesReducer";
+import { authReducer, AuthState } from "./Authentication";
 
 // The top-level state object
 export interface ApplicationState {
+    auth: AuthState;
     user: UserState;
     programs: ProgramsState;
     days: DaysState;
@@ -15,6 +17,7 @@ export interface ApplicationState {
 // the reducer with the matching name. It's important that the names match exactly, and that the reducer
 // acts on the corresponding ApplicationState property type.
 export const reducers = {
+    auth: authReducer,
     user: userReducer,
     programs: programsReducer,
     days: daysReducer,

@@ -36,6 +36,17 @@ namespace WebAppGP
 
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("ProgramsPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins("*")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                    });
+            });
+
             var secret = Environment.GetEnvironmentVariable("JWT_SECRET");
             var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER");
 
@@ -74,10 +85,7 @@ namespace WebAppGP
             
             app.UseRouting();
 
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            app.UseCors("ProgramsPolicy");
 
             app.UseAuthentication();
 
