@@ -18,10 +18,27 @@ export const App = () => {
 
   const dispatch = useDispatch();
 
+  function parseJwt(token: string) {
+    var base64Url = token.split(".")[1];
+    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    var jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map(function (c) {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
+
+    return JSON.parse(jsonPayload);
+  }
+
   useEffect(() => {
     const token = sessionStorage.getItem("token");
-    if (token !== undefined && token !== null)
+    if (token !== undefined && token !== null) {
       dispatch(AuthAction.authenticate({ token: token }));
+      console.log(parseJwt(token).unique_name);
+    }
   });
 
   return (
