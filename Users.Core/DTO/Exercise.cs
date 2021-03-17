@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Users.Core.DTO
 {
@@ -7,16 +8,26 @@ namespace Users.Core.DTO
         public int Id { get; set; }
         public string Name { get; set; }
         public int SetsAmount { get; set; }
-        public Day Day { get; set; }
-        public ICollection<ExCompletion> Completions { get; set; }
+        public int Day { get; set; }
+        public int Program { get; set; }
 
-        public static explicit operator Exercise(Strength.DB.Models.Exercise e) => new Exercise
+        public Exercise(Strength.DB.Models.Exercise e)
         {
-            Id = e.Id,
-            Name = e.Name,
-            SetsAmount = e.SetsAmount,
-            Day = (Day)e.Day,
-            Completions = (ICollection<ExCompletion>)e.Completions
-        };
+            Id = e.Id;
+            Name = e.Name;
+            SetsAmount = e.SetsAmount;
+            Day = e.Day.Id;
+            Program = e.Program.Id;
+        }
+
+        [JsonConstructor]
+        public Exercise(int id = 0, string name = null, int setsAmount = 0, int day = 0, int program = 0)
+        {
+            Id = id;
+            Name = name;
+            SetsAmount = setsAmount;
+            Day = day;
+            Program = program;
+        }
     }
 }
