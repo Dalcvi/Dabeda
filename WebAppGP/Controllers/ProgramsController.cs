@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using DTO = Users.Core.DTO;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Users.Core;
+using Strength.DB.Models;
 
 namespace WebAppGP.Controllers
 {
@@ -19,28 +19,37 @@ namespace WebAppGP.Controllers
             _userPrograms = userPrograms;
         }
 
-        //add-------------------
-        [HttpPost("addProgram")]
-        public IActionResult AddProgram([FromBody] JsonElement data)
+        [HttpGet("getUserInfo")]
+        public IActionResult GetUserInfo()
         {
             try
             {
-                string username = data.GetProperty("Username").GetString();
-                string progrName = data.GetProperty("ProgramName").GetString();
-                string id = data.GetProperty("Id").GetString();
-                DTO.ExProgram program = _userPrograms.CreateProgram(id, username, progrName);
-
-                return Ok(new 
-                { 
-                    program.Id,
-                    program.Name,
-                    UserId = program.User.Id
-                });
+                return Ok(_userPrograms.GetUserInformation());
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
+        }
+
+        //add-------------------
+        [HttpPost("addProgram")]
+        public IActionResult AddProgram(string programName)
+        {
+            //try
+            //{
+            //string progrName = data.GetProperty("ProgramName").GetString();        
+            ExProgram program = _userPrograms.CreateProgram(programName);
+
+            return Ok(new
+            {
+                program.Id
+            });
+            //}
+            //catch(Exception e)
+            //{
+            //    return BadRequest(e.Message);
+            //}
         }
 
         [HttpPost("addDay")]
@@ -50,8 +59,8 @@ namespace WebAppGP.Controllers
             {
                 int progrId = data.GetProperty("ProgramId").GetInt32();
                 string dayName = data.GetProperty("DayName").GetString();
-                string id = data.GetProperty("Id").GetString();
-                DTO.Day day = _userPrograms.CreateDay(id, progrId, dayName);
+                
+                Day day = _userPrograms.CreateDay(progrId, dayName);
 
                 return Ok(new 
                 { 
@@ -74,8 +83,7 @@ namespace WebAppGP.Controllers
                 int dayId = data.GetProperty("DayId").GetInt32();
                 string exerName = data.GetProperty("ExerciseName").GetString();
                 int setsNumber = data.GetProperty("SetsAmount").GetInt32();
-                string id = data.GetProperty("Id").GetString();
-                DTO.Exercise exer = _userPrograms.CreateExercise(id, dayId, exerName, setsNumber);
+                Exercise exer = _userPrograms.CreateExercise(dayId, exerName, setsNumber);
 
                 return Ok(new 
                 { 
@@ -99,8 +107,7 @@ namespace WebAppGP.Controllers
             {
                 int programId = data.GetProperty("ProgramId").GetInt32();
                 string programName = data.GetProperty("ProgramName").GetString();
-                string id = data.GetProperty("Id").GetString();
-                _userPrograms.EditProgram(id, programId, programName);
+                _userPrograms.EditProgram(programId, programName);
                 return Ok();
             }
             catch (Exception e)
@@ -116,8 +123,7 @@ namespace WebAppGP.Controllers
             {
                 int dayId = data.GetProperty("DayId").GetInt32();
                 string dayName = data.GetProperty("DayName").GetString();
-                string id = data.GetProperty("Id").GetString();
-                _userPrograms.EditDay(id, dayId, dayName);
+                _userPrograms.EditDay(dayId, dayName);
                 return Ok();
             }
             catch (Exception e)
@@ -134,8 +140,7 @@ namespace WebAppGP.Controllers
                 int exerciseId = data.GetProperty("ExerciseId").GetInt32();
                 string exerciseName = data.GetProperty("ExerciseName").GetString();
                 int setsAmount = data.GetProperty("SetsAmount").GetInt32();
-                string id = data.GetProperty("Id").GetString();
-                _userPrograms.EditExercise(id, exerciseId, exerciseName, setsAmount);
+                _userPrograms.EditExercise(exerciseId, exerciseName, setsAmount);
                 return Ok();
             }
             catch (Exception e)
@@ -151,8 +156,7 @@ namespace WebAppGP.Controllers
             try
             {
                 int programId = data.GetProperty("ProgramId").GetInt32();
-                string id = data.GetProperty("Id").GetString();
-                _userPrograms.DeleteProgram(id, programId);
+                _userPrograms.DeleteProgram(programId);
                 return Ok();
             }
             catch (Exception e)
@@ -166,8 +170,7 @@ namespace WebAppGP.Controllers
             try
             {
                 int dayId = data.GetProperty("DayId").GetInt32();
-                string id = data.GetProperty("Id").GetString();
-                _userPrograms.DeleteDay(id, dayId);
+                _userPrograms.DeleteDay(dayId);
                 return Ok();
             }
             catch (Exception e)
@@ -175,14 +178,13 @@ namespace WebAppGP.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpPost("deleteExercise")]
+        [HttpDelete("deleteExercise")]
         public IActionResult DeleteExercise([FromBody] JsonElement data)
         {
             try
             {
-                int exerciseId = data.GetProperty("ExerciseId").GetInt32();
-                string id = data.GetProperty("Id").GetString();
-                _userPrograms.DeleteExercise(id, exerciseId);
+                int exerciseId = Convert.ToInt32(data.GetProperty("ExerciseId").ToString());
+                _userPrograms.DeleteExercise(exerciseId);
                 return Ok();
             }
             catch (Exception e)

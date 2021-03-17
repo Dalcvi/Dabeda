@@ -6,15 +6,11 @@ namespace Users.Core.DTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public User User { get; set; }
-        public ICollection<Day> Days { get; set; }
 
-        public static explicit operator ExProgram(Strength.DB.Models.ExProgram e) => new ExProgram
+        public ExProgram(Strength.DB.Models.ExProgram e)
         {
-            Id = e.Id,
-            Name = e.Name,
-            User = (User)e.User,
-            Days = (ICollection<Day>)e.Days
-        };
+            Id = e.Id;
+            Name = e.Name;
+        }
     }
 }
