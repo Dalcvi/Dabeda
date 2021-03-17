@@ -1,22 +1,23 @@
-﻿using Users.Core.DTO;
+﻿using Strength.DB.Models;
 
 namespace Users.Core
 {
     public interface IUserPrograms
     {
+        DTO.UserInformation GetUserInformation();
         //create
-        ExProgram CreateProgram(string id, string username, string progrName);
-        Day CreateDay(string id, int programId, string dayName);
-        Exercise CreateExercise(string id, int dayId, string excName, int setsNumber);
+        ExProgram CreateProgram(string progrName);
+        Day CreateDay(int programId, string dayName);
+        Exercise CreateExercise(int dayId, string excName, int setsNumber);
 
         //edit
-        void EditProgram(string id, int programId, string programName);
-        void EditDay(string id, int dayId, string dayName);
-        void EditExercise(string id, int exerciseId, string exerciseName, int setsAmount);
+        void EditProgram(int programId, string programName);
+        void EditDay(int dayId, string dayName);
+        void EditExercise(int exerciseId, string exerciseName, int setsAmount);
 
         //delete
-        void DeleteProgram(string id, int programId);
-        void DeleteDay(string id, int dayId);
-        void DeleteExercise(string id, int exerciseId);
+        void DeleteProgram(int programId);
+        void DeleteDay(int dayId);
+        void DeleteExercise(int exerciseId);
     }
 }
