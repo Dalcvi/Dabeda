@@ -11,8 +11,8 @@ import { Exercises } from "./Exercises";
 
 interface Day {
   id: number;
-  dayName: string;
-  programId: number;
+  name: string;
+  program: number;
 }
 
 export const Days = (props: any) => {
@@ -21,27 +21,23 @@ export const Days = (props: any) => {
   } else {
     const [selectedDayId, setSelectedDayId] = useState(-1);
     const [selectedDayObject, setSelectedDayObject] = useState({} as Day);
-    const [dropdownText, setDropdownText] = useState("No days");
 
     const allDays = useSelector<ApplicationState, DaysState["days"]>(
       (state) => state.days.days
     );
-    const daysArray = filter(
-      allDays,
-      (day) => (day as Day).programId === props.programId
-    );
+    const daysArray = filter(allDays, (day) => {
+      return (day as Day).program === props.programId;
+    });
 
     const hasDays = daysArray.length > 0;
     if (selectedDayId == -1 && hasDays) {
       setSelectedDayId((daysArray[0] as Day).id);
       setSelectedDayObject(daysArray[0] as Day);
-      setDropdownText((daysArray[0] as Day).dayName);
     }
 
     if (selectedDayId != -1 && daysArray.length == 0) {
       setSelectedDayId(-1);
       setSelectedDayObject({} as Day);
-      setDropdownText("No days");
     }
 
     if (
@@ -50,9 +46,7 @@ export const Days = (props: any) => {
     ) {
       setSelectedDayId(-1);
       setSelectedDayObject({} as Day);
-      setDropdownText("No days");
     }
-    console.log("Got rendered AGAIN!");
     return (
       <>
         <div
@@ -63,7 +57,7 @@ export const Days = (props: any) => {
           }}
         >
           <h2>Select:</h2>
-          <NewDayModal day={{ dayName: "", programId: props.programId }} />
+          <NewDayModal day={{ name: "", program: props.programId }} />
           <div className="d-flex justify-content-between">
             <Dropdown>
               <Dropdown.Toggle
@@ -72,22 +66,30 @@ export const Days = (props: any) => {
                 variant="light"
                 id="dropdown-basic"
               >
-                <span>{dropdownText}</span>
+                <span>
+                  {hasDays ? (selectedDayObject as Day).name : "No days"}
+                </span>
               </Dropdown.Toggle>
               {hasDays ? (
                 <Dropdown.Menu>
                   {daysArray.map((day) => {
+                    if (
+                      (day as Day).id === (selectedDayObject as Day).id &&
+                      (day as Day).name !== (selectedDayObject as Day).name
+                    ) {
+                      (selectedDayObject as Day).name = (day as Day).name;
+                    }
+
                     return (
                       <Dropdown.Item
                         key={(day as Day).id}
                         onClick={() => {
                           setSelectedDayId((day as Day).id);
                           setSelectedDayObject(day as Day);
-                          setDropdownText((day as Day).dayName);
                         }}
                       >
                         <span style={{ fontSize: "1.4em" }}>
-                          {(day as Day).dayName}
+                          {(day as Day).name}
                         </span>
                       </Dropdown.Item>
                     );
@@ -109,8 +111,10 @@ export const Days = (props: any) => {
             </div>
           </div>
         </div>
-        <h1 className="text-center">Selected day: {dropdownText}</h1>
-        <Exercises dayId={selectedDayId} />
+        <h1 className="text-center">
+          Selected day: {(selectedDayObject as Day).name}
+        </h1>
+        <Exercises dayId={selectedDayId} programId={props.programId} />
       </>
     );
   }

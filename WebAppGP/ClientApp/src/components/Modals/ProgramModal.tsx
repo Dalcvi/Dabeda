@@ -17,7 +17,7 @@ export const NewProgramModal = (props: any) => {
       <ProgramModal
         modalName="Create a new program"
         id={-1}
-        program={props.program.programName}
+        program={props.program.name}
         days={[] as []}
         handleFormSubmit={AddProgram}
         show={show}
@@ -41,7 +41,7 @@ export const EditProgramModal = (props: any) => {
       <ProgramModal
         modalName="Edit a program"
         id={props.program.id}
-        program={props.program.programName}
+        program={props.program.name}
         days={props.program.days}
         handleFormSubmit={EditProgram}
         show={show}
@@ -78,7 +78,7 @@ const ProgramModal = ({
             event.preventDefault();
             if (modalProgram != "") {
               handleClose();
-              handleFormSubmit(dispatch, id, modalProgram, days).then(() => {
+              handleFormSubmit(dispatch, id, modalProgram).then(() => {
                 if (program === "") setModalProgram("");
               });
             }

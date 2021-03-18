@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { Route, Switch, Redirect } from "react-router";
+import { Route, Switch } from "react-router";
+import { Redirect, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { ApplicationState } from "./store/Index";
 import { AuthState } from "./store/Authentication";
@@ -8,6 +9,7 @@ import Layout from "./components/Layout/Layout";
 import LoggedOff from "./components/LoggedOff/LoggedOff";
 import MainPage from "./components/MainPage";
 import NavMenu from "./components/Nav/NavMenu";
+import { GetInfo } from "./services/user";
 
 import "./styles/learningReact.css";
 
@@ -15,31 +17,17 @@ export const App = () => {
   const isLoggedIn = useSelector<ApplicationState, AuthState["isLoggedIn"]>(
     (state) => state.auth.isLoggedIn
   );
-
   const dispatch = useDispatch();
-
-  function parseJwt(token: string) {
-    var base64Url = token.split(".")[1];
-    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    var jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map(function (c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join("")
-    );
-
-    return JSON.parse(jsonPayload);
-  }
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     if (token !== undefined && token !== null) {
       dispatch(AuthAction.authenticate({ token: token }));
-      console.log(parseJwt(token).unique_name);
+      GetInfo(dispatch).then((name) => {
+        console.log(token);
+      });
     }
-  });
+  }, []);
 
   return (
     <Layout>
@@ -47,7 +35,9 @@ export const App = () => {
         <Route
           exact
           path="/"
-          render={() => (isLoggedIn ? <Redirect to="/user/" /> : <LoggedOff />)}
+          render={() =>
+            isLoggedIn ? <Redirect to="/user/:id" /> : <LoggedOff />
+          }
         />
         <>
           <NavMenu />

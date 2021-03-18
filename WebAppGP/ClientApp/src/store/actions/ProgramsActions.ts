@@ -2,22 +2,20 @@ import { ProgramsActionTypes } from "../types/ProgramsTypes";
 
 interface SetProgramsAction {
   type: ProgramsActionTypes.SET_PROGRAMS,
-  payload: {
-    programs: {}
-  }
+  payload: []
 }
 
 interface AddProgramAction {
   type: ProgramsActionTypes.ADD_PROGRAM,
   payload: {
-    id: number, programName: string, userId: number
+    id: number, name: string
   }
 }
 
 interface EditProgramAction {
   type: ProgramsActionTypes.EDIT_PROGRAM,
   payload: {
-    id: number, programName: string, userId: number
+    id: number, name: string
   }
 }
 

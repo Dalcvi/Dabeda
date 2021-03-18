@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ApplicationState } from "../store/Index";
 import toArray from "lodash/toArray";
-import { EditProgramModal } from "./Modals/ProgramModal";
+import { EditProgramModal, NewProgramModal } from "./Modals/ProgramModal";
 import { ProgramsState } from "../store/ProgramsReducer";
 import { Table, Container } from "react-bootstrap";
 import { DeleteProgramButton } from "./DeleteProgramButton";
@@ -10,8 +10,7 @@ import { Days } from "./Days";
 
 interface Program {
   id: number;
-  programName: string;
-  userId: number;
+  name: string;
 }
 
 export const Programs = (props: any) => {
@@ -41,6 +40,7 @@ export const Programs = (props: any) => {
       <h1 className="text-center">{showProgramId}</h1>
       <div id="programList">
         <Container>
+          <NewProgramModal program={{ name: "" }} />
           <Table variant="dark" responsive hover bordered id="programListTable">
             <tbody>
               {arrayUserPrograms.map((program) => (
@@ -50,7 +50,7 @@ export const Programs = (props: any) => {
                     onClick={() => setShowProgramId((program as Program).id)}
                   >
                     <span style={{ fontSize: "1.4em" }}>
-                      {(program as Program).programName}
+                      {(program as Program).name}
                     </span>
                     <div className="d-flex">
                       <EditProgramModal program={program} />
