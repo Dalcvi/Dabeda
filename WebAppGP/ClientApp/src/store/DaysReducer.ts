@@ -16,14 +16,14 @@ const initialState: DaysState = {
 interface Day {
     id: number;
     dayName: string;
-    programId: number;
+    program: number;
 }
 
 export const daysReducer = (state: DaysState = initialState, incomingAction: Action) => {
     const action = incomingAction as KnownAction;
     switch (action.type) {
         case DaysActionTypes.SET_DAYS: {
-            const newDays = mapKeys(action.payload.days, "id");
+            const newDays = mapKeys(action.payload, "id");
             return {
                 ...state,
                 days: { ...newDays }
@@ -50,7 +50,7 @@ export const daysReducer = (state: DaysState = initialState, incomingAction: Act
             const exercisesArray = toArray(state.days);
             const newArray = [];
             for (let i = 0; i < exercisesArray.length; i++) {
-                if ((exercisesArray[i] as Day).programId != action.payload.programId)
+                if ((exercisesArray[i] as Day).program != action.payload.program)
                     newArray.push(exercisesArray[i]);
             }
             return {

@@ -1,7 +1,6 @@
 ﻿import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ApplicationState } from "../store/Index";
-import { GetPrograms } from "../services/user";
 import { NewProgramModal } from "./Modals/ProgramModal";
 import { Days } from "./Days";
 import "../styles/learningReact.css";
@@ -14,15 +13,7 @@ export const MainPage = () => {
   interface user {
     id: string;
   }
-
-  const useris = useParams();
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    GetPrograms(dispatch);
-  }, [(useris as user).id]);
-
+  const useris = { id: "haha" };
   return (
     <Container fluid style={{ padding: "0px" }}>
       <Programs username={(useris as user).id} />

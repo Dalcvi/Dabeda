@@ -2,22 +2,20 @@ import { ExercisesActionTypes } from "../types/ExercisesTypes";
 
 interface SetExercisesAction {
     type: ExercisesActionTypes.SET_EXERCISES,
-    payload: {
-        exercises: {}
-    }
+    payload: []
 }
 
 interface AddExerciseAction {
     type: ExercisesActionTypes.ADD_EXERCISE,
     payload: {
-        id: number, exerciseName: string, setsAmount: number, dayId: number
+        id: number, name: string, setsAmount: number, day: number, program: number
     }
 }
 
 interface EditExerciseAction {
     type: ExercisesActionTypes.EDIT_EXERCISE,
     payload: {
-        id: number, exerciseName: string, setsAmount: number, dayId: number
+        id: number, name: string, setsAmount: number, day: number, program: number
     }
 }
 
@@ -28,11 +26,11 @@ interface DeleteExerciseAction {
 
 interface DeleteByDayAction {
     type: ExercisesActionTypes.DELETE_BY_DAY,
-    payload: { dayId: number }
+    payload: { day: number }
 }
 interface DeleteByProgramAction {
     type: ExercisesActionTypes.DELETE_BY_PROGRAM,
-    payload: { programId: number }
+    payload: { program: number }
 }
 
 export const ExercisesActionCreators = {

@@ -2,22 +2,20 @@ import { DaysActionTypes } from "../types/DaysTypes";
 
 interface SetDaysAction {
     type: DaysActionTypes.SET_DAYS,
-    payload: {
-        days: {}
-    }
+    payload: []
 }
 
 interface AddDayAction {
     type: DaysActionTypes.ADD_DAY,
     payload: {
-        id: number, dayName: string, programId: number
+        id: number, name: string, program: number
     }
 }
 
 interface EditDayAction {
     type: DaysActionTypes.EDIT_DAY,
     payload: {
-        id: number, dayName: string, programId: number
+        id: number, name: string, program: number
     }
 }
 
@@ -28,7 +26,7 @@ interface DeleteDayAction {
 
 interface DeleteByProgramAction {
     type: DaysActionTypes.DELETE_BY_PROGRAM,
-    payload: { programId: number }
+    payload: { program: number }
 }
 
 export const DaysActionCreators = {

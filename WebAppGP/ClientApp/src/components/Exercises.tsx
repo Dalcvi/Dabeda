@@ -10,9 +10,10 @@ import { NewExerciseModal, EditExerciseModal } from "./Modals/ExerciseModal";
 export const Exercises = (props: any) => {
   interface Exercise {
     id: number;
-    exerciseName: string;
+    name: string;
     setsAmount: number;
-    dayId: number;
+    day: number;
+    program: number;
   }
 
   const { register, handleSubmit } = useForm();
@@ -25,7 +26,7 @@ export const Exercises = (props: any) => {
 
   const exercises = filter(
     allExercises,
-    (exercise) => (exercise as Exercise).dayId === props.dayId
+    (exercise) => (exercise as Exercise).day === props.dayId
   );
 
   const showExercises = [] as any;
@@ -48,7 +49,7 @@ export const Exercises = (props: any) => {
             style={{ minWidth: "20px", width: "80px", marginRight: "10px" }}
             defaultValue={0}
             type="number"
-            name={i + "#" + (exercise as Exercise).exerciseName}
+            name={i + "#" + (exercise as Exercise).name}
             ref={register}
           />
         </div>
@@ -58,7 +59,7 @@ export const Exercises = (props: any) => {
       <>
         <Form.Group key={(exercise as Exercise).id}>
           <div className="d-flex justify-content-between">
-            <Form.Label>{(exercise as Exercise).exerciseName}</Form.Label>
+            <Form.Label>{(exercise as Exercise).name}</Form.Label>
             <div className="d-flex">
               <EditExerciseModal exercise={exercise as Exercise} />
               <DeleteExerciseButton id={(exercise as Exercise).id} />
@@ -67,7 +68,7 @@ export const Exercises = (props: any) => {
           <Form.Label>Weight:</Form.Label>
           <Form.Control
             ref={register}
-            name={"Weight#" + (exercise as Exercise).exerciseName}
+            name={"Weight#" + (exercise as Exercise).name}
             type="number"
           />
           <Form.Label>Sets:</Form.Label>
@@ -80,7 +81,9 @@ export const Exercises = (props: any) => {
 
   return (
     <>
-      <NewExerciseModal exercise={{ exerciseName: "", dayId: props.dayId }} />
+      <NewExerciseModal
+        exercise={{ name: "", day: props.dayId, program: props.programId }}
+      />
       <div style={{ background: "rgba(255,255,255,0.4)", padding: "10px" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {showExercises}

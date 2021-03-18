@@ -17,8 +17,8 @@ export const NewDayModal = (props: any) => {
       <DayModal
         modalName="Create a new day"
         id={-1}
-        day={props.day.dayName}
-        programId={props.day.programId}
+        day={props.day.name}
+        program={props.day.program}
         handleFormSubmit={AddDay}
         show={show}
         handleClose={handleClose}
@@ -41,8 +41,8 @@ export const EditDayModal = (props: any) => {
       <DayModal
         modalName="Edit a day"
         id={props.day.id}
-        day={props.day.dayName}
-        programId={props.day.programId}
+        day={props.day.name}
+        program={props.day.program}
         handleFormSubmit={EditDay}
         show={show}
         handleClose={handleClose}
@@ -55,7 +55,7 @@ const DayModal = ({
   modalName,
   id,
   day,
-  programId,
+  program,
   handleFormSubmit,
   show,
   handleClose,
@@ -78,7 +78,7 @@ const DayModal = ({
             event.preventDefault();
             if (modalDay != "") {
               handleClose();
-              handleFormSubmit(dispatch, id, modalDay, programId).then(() => {
+              handleFormSubmit(dispatch, id, modalDay, program).then(() => {
                 if (day === "") setModalDay("");
               });
             }

@@ -5,7 +5,7 @@ import { ProgramsActionTypes } from "./types/ProgramsTypes";
 import { KnownAction } from "./actions/ProgramsActions";
 
 export interface ProgramsState {
-    programs: {} // id: number, programName: string, userId: number
+    programs: {} // id: number, programName: strin
 }
 
 const initialState: ProgramsState = {
@@ -16,7 +16,10 @@ export const programsReducer = (state: ProgramsState = initialState, incomingAct
     const action = incomingAction as KnownAction;
     switch (action.type) {
         case ProgramsActionTypes.SET_PROGRAMS: {
-            const newPrograms = mapKeys(action.payload.programs, "id");
+            console.log(action.payload);
+            const newPrograms = mapKeys(action.payload, "id");
+            console.log("LETS GO");
+            console.log(newPrograms);
             return {
                 ...state,
                 programs: { ...newPrograms }

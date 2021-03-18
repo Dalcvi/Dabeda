@@ -8,7 +8,6 @@ export const NewExerciseModal = (props: any) => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   return (
     <div>
       <Button onClick={handleShow} className="btn btn-warning">
@@ -17,9 +16,10 @@ export const NewExerciseModal = (props: any) => {
       <ExerciseModal
         modalName="Create a new exercise"
         id={-1}
-        exercise={props.exercise.exerciseName}
+        exercise={props.exercise.name}
         setsAmount={0}
-        dayId={props.exercise.dayId}
+        day={props.exercise.day}
+        program={props.exercise.program}
         handleFormSubmit={AddExercise}
         show={show}
         handleClose={handleClose}
@@ -43,9 +43,10 @@ export const EditExerciseModal = (props: any) => {
       <ExerciseModal
         modalName="Edit a exercise"
         id={props.exercise.id}
-        exercise={props.exercise.exerciseName}
+        exercise={props.exercise.name}
         setsAmount={props.exercise.setsAmount}
-        dayId={props.exercise.dayId}
+        day={props.exercise.day}
+        program={props.exercise.program}
         handleFormSubmit={EditExercise}
         show={show}
         handleClose={handleClose}
@@ -59,7 +60,8 @@ const ExerciseModal = ({
   id,
   exercise,
   setsAmount,
-  dayId,
+  day,
+  program,
   handleFormSubmit,
   show,
   handleClose,
@@ -89,7 +91,8 @@ const ExerciseModal = ({
                 id,
                 modalExercise,
                 amountOfSets,
-                dayId
+                day,
+                program
               ).then(() => {
                 if (exercise === "") setModalExercise("");
               });
