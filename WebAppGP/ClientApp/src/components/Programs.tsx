@@ -37,9 +37,9 @@ export const Programs = (props: any) => {
 
   return (
     <>
-      <h1 className="text-center">{showProgramId}</h1>
       <div id="programList">
         <Container>
+          <h1 className="text-center">Hello {props.username}</h1>
           <NewProgramModal program={{ name: "" }} />
           <Table variant="dark" responsive hover bordered id="programListTable">
             <tbody>

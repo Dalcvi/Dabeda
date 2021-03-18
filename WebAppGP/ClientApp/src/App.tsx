@@ -18,14 +18,13 @@ export const App = () => {
     (state) => state.auth.isLoggedIn
   );
   const dispatch = useDispatch();
+  let username = "";
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     if (token !== undefined && token !== null) {
       dispatch(AuthAction.authenticate({ token: token }));
-      GetInfo(dispatch).then((name) => {
-        console.log(token);
-      });
+      GetInfo(dispatch);
     }
   }, []);
 
@@ -35,14 +34,12 @@ export const App = () => {
         <Route
           exact
           path="/"
-          render={() =>
-            isLoggedIn ? <Redirect to="/user/:id" /> : <LoggedOff />
-          }
+          render={() => (isLoggedIn ? <Redirect to="/main" /> : <LoggedOff />)}
         />
         <>
           <NavMenu />
           <Route
-            path="/user/:id"
+            path="/main"
             render={() => (isLoggedIn ? <MainPage /> : <LoggedOff />)}
           />
         </>
