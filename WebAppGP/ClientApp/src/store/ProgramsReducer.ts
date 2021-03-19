@@ -16,10 +16,7 @@ export const programsReducer = (state: ProgramsState = initialState, incomingAct
     const action = incomingAction as KnownAction;
     switch (action.type) {
         case ProgramsActionTypes.SET_PROGRAMS: {
-            console.log(action.payload);
             const newPrograms = mapKeys(action.payload, "id");
-            console.log("LETS GO");
-            console.log(newPrograms);
             return {
                 ...state,
                 programs: { ...newPrograms }

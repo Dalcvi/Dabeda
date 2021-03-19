@@ -1,3 +1,7 @@
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+
 @font-face {
   font-family: "runescape";
   src: url("https://res.cloudinary.com/drsrpeh2f/raw/upload/v1613873804/runescape_gzbxm2.woff2")
@@ -10,40 +14,18 @@
   font-style: normal;
 }
 
-#programList {
-  margin: 0px 0px 50px 0px;
-  padding: 25px;
-  max-height: 600px;
-  background: linear-gradient(#414770, #414770, #5b85aa);
-  // box-shadow: 0px 25px 42px 6px rgba(0, 0, 0, 0.7);
-}
-
-#programListBox {
-  padding: 10px;
-  border-radius: 5px;
-}
-
-#programListTable {
-  max-height: 130px;
-  overflow-y: auto;
-}
-
-#workout {
-  min-height: 100vh;
+#programs {
+  height: calc(100vh - 55px);
+  overflow-y: scroll;
 }
 
 body {
-  background: #5b85aa;
+  background: #f6f6e9;
 }
 
 .logoText {
   font-family: "runescape", "Roboto";
   letter-spacing: 5px;
-}
-
-.listItem:hover {
-  background: black;
-  color: white;
 }
 
 // #workoutPlate {
@@ -53,4 +35,146 @@ body {
 //   background: white;
 //   border-radius: 12px;
 //   border: 2px solid #02182b;
-// }
+
+.sidebar {
+  height: calc(100vh - 55px);
+  background: #f6f6e9;
+  width: 500px;
+  padding-top: 10px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+#sidebar-small {
+  min-width: 0px;
+  transition: width 0.5s ease;
+  width: 0px;
+}
+
+#sidebar-big {
+  transition: width 0.5s ease;
+  width: 500px;
+}
+
+.testText {
+  transition: color 0.2s ease;
+  max-width: 75%;
+  word-break: break-all;
+}
+
+.program-text {
+  background: #f6f6e9;
+  font-size: 1.4em;
+  font-weight: bold;
+  white-space: nowrap;
+  &:hover {
+    transition: color 0.05s ease;
+    cursor: pointer;
+    color: #9c1313;
+  }
+}
+
+.day-text {
+  background: #f6f6e9;
+  font-size: 1.1em;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  &:hover {
+    cursor: pointer;
+    color: #9c1313;
+  }
+}
+
+#right-side-ar {
+  color: #f6f6e9;
+  position: fixed;
+  margin-top: 10px;
+}
+
+.right-side-arrow {
+  transition: opacity 0.5s ease;
+  opacity: 1;
+}
+.right-side-arrow-hide {
+  transition: opacity 0.25s ease;
+  opacity: 0;
+}
+
+#exercises {
+  background: #272727;
+  padding: 0px 25px 25px 25px;
+  overflow-y: scroll;
+  height: calc(100vh - 55px);
+}
+
+.exercise-bar {
+  max-width: 700px;
+  width: 70%;
+  background: #f6f6e9;
+  margin-top: 50px;
+  border-radius: 3px;
+  box-shadow: 0px 0px 10px 4px black;
+}
+
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-dropdown {
+  position: absolute;
+  top: -10px;
+  left: -100px;
+  z-index: 2;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
+  background: white;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    font-weight: normal;
+    color: black;
+    padding: 4px 12px;
+  }
+
+  li:hover {
+    background-color: rgba(0, 0, 0, 0.14);
+    cursor: pointer;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .sidebar {
+    height: calc(100vh - 65px);
+  }
+  #programs {
+    height: calc(100vh - 65px);
+  }
+  #exercises {
+    height: calc(100vh - 65px);
+  }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 13px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: inherit;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: rgb(100, 98, 98);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(66, 66, 66);
+}

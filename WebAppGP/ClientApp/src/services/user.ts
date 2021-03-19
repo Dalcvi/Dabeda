@@ -24,10 +24,8 @@ const baseURL = `https://localhost:44356/api/Programs`;
 export const GetInfo = async (dispatch: any) => {
     try {
         const { data } = await axiosInstance.get('/getUserInfo')
-        console.log(data.programs);
         dispatch(UserActionCreators.setUsername(data.username));
         dispatch(ProgramsActionCreators.setPrograms(data.programs));
-        console.log(data.days);
         dispatch(DaysActionCreators.setDays(data.days));
         dispatch(ExercisesActionCreators.setExercises(data.exercises));
         return await data.username;

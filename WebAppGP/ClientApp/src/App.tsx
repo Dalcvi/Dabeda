@@ -18,7 +18,6 @@ export const App = () => {
     (state) => state.auth.isLoggedIn
   );
   const dispatch = useDispatch();
-  let username = "";
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");

@@ -7,6 +7,9 @@ import { ProgramsState } from "../store/ProgramsReducer";
 import { Table, Container } from "react-bootstrap";
 import { DeleteProgramButton } from "./DeleteProgramButton";
 import { Days } from "./Days";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { copyFile } from "fs/promises";
 
 interface Program {
   id: number;
@@ -36,7 +39,7 @@ export const Programs = (props: any) => {
   }, [showProgramId]);
 
   return (
-    <>
+    <div id="programs">
       <div id="programList">
         <Container>
           <h1 className="text-center">Hello {props.username}</h1>
@@ -67,7 +70,7 @@ export const Programs = (props: any) => {
       <Container>
         <Days programId={showProgramId} />
       </Container>
-    </>
+    </div>
   );
 };
 

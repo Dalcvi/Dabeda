@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 import { AddDay, EditDay } from "../../services/user";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 
 export const NewDayModal = (props: any) => {
   const [show, setShow] = useState(false);
@@ -11,9 +13,12 @@ export const NewDayModal = (props: any) => {
 
   return (
     <div>
-      <Button onClick={handleShow} className="btn btn-warning">
-        Create
-      </Button>
+      <span onClick={handleShow}>
+        <div className="d-flex align-items-center justify-content-between">
+          Create Day
+          <FontAwesomeIcon icon={faPlusSquare} size="lg" />
+        </div>
+      </span>
       <DayModal
         modalName="Create a new day"
         id={-1}
