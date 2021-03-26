@@ -24,10 +24,8 @@ const baseURL = `https://localhost:44356/api/Programs`;
 export const GetInfo = async (dispatch: any) => {
     try {
         const { data } = await axiosInstance.get('/getUserInfo')
-        console.log(data.programs);
         dispatch(UserActionCreators.setUsername(data.username));
         dispatch(ProgramsActionCreators.setPrograms(data.programs));
-        console.log(data.days);
         dispatch(DaysActionCreators.setDays(data.days));
         dispatch(ExercisesActionCreators.setExercises(data.exercises));
         return await data.username;
@@ -68,6 +66,8 @@ export const DeleteProgram = async (dispatch: any, deleteId: number) => {
         const toSend = { id: deleteId }
         await axiosInstance.post('/deleteProgram', toSend);
         dispatch(ProgramsActionCreators.deleteProgram({ id: deleteId }));
+        DeleteDayByProgram(dispatch, deleteId);
+        DeleteExerciseByProgram(dispatch, deleteId);
     }
     catch {
         console.log("Couldn't delete program!");
@@ -101,8 +101,9 @@ export const EditDay = async (dispatch: any, dayId: number, name: string, progra
 export const DeleteDay = async (dispatch: any, deleteId: number) => {
     try {
         const toSend = { id: deleteId };
-        await axiosInstance.post('/deleteDay', toSend);
+        await axiosInstance.post('/deleteDay', toSend)
         dispatch(DaysActionCreators.deleteDay({ id: deleteId }));
+        DeleteExerciseByDay(dispatch, deleteId);
     }
     catch {
         console.log("Couldn't delete day!");

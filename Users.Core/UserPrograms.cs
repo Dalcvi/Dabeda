@@ -190,7 +190,7 @@ namespace Users.Core
         }
         public void DeleteDay(int dayId)
         {
-            Day day = _context.Days.FirstOrDefault(n => n.Id == dayId);
+            Day day = _context.Days.Include(n => n.Program).FirstOrDefault(n => n.Id == dayId);
 
             //Also need to delete all the exercises from that day IF the day contains any
             if (_context.Exercises.FirstOrDefault(n => n.Day.Id == dayId) != null && _user.Id == day.Program.User.Id)

@@ -6,12 +6,11 @@ export const DeleteDayButton = (props: any) => {
   const dispatch = useDispatch();
 
   return (
-    <div style={{ marginLeft: "1em" }}>
+    <div>
       <Button
         variant="danger"
         onClick={() => {
           DeleteDay(dispatch, props.id);
-          DeleteExerciseByDay(dispatch, props.id);
         }}
         value="Delete"
       >

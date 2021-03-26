@@ -12,27 +12,15 @@ export const NavMenu = () => {
 
   return (
     <header style={{ margin: "0px" }}>
-      <Navbar
-        collapseOnSelect
-        expand={false}
-        variant="dark"
-        style={{ background: "#414770" }}
-      >
+      <Navbar collapseOnSelect expand={false} variant="light" id="navbar">
         <Container>
-          <Link to={`/user/${username}`}>
-            <img
-              className="img-fluid"
-              src="https://res.cloudinary.com/drsrpeh2f/image/upload/v1613872332/logo_s1xvmm.png"
-              alt="Logo"
-              width="90em"
-            />
-          </Link>
           <Navbar.Brand
             className="logoText"
             as={Link}
-            to={"/user/" + username}
+            to="/main"
             style={{
-              fontSize: "1.5rem",
+              padding: "0px",
+              fontSize: "1.4rem",
               color: "#F46036",
               textShadow: "-1px 1px 0px #873A24",
             }}
@@ -46,20 +34,12 @@ export const NavMenu = () => {
           >
             <Nav>
               <Nav.Item>
-                <Nav.Link
-                  className="text-light"
-                  as={Link}
-                  to={"/user/" + username}
-                >
+                <Nav.Link className="text-dark" as={Link} to="/main">
                   Home
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link
-                  className="text-light"
-                  as={Link}
-                  to={`/user/${username}`}
-                >
+                <Nav.Link className="text-dark" as={Link} to="/main">
                   Learning React
                 </Nav.Link>
               </Nav.Item>

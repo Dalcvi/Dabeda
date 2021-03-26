@@ -9,13 +9,11 @@ import { useDispatch } from "react-redux";
 export const DeleteProgramButton = (props: any) => {
   const dispatch = useDispatch();
   return (
-    <div style={{ marginLeft: "1em" }}>
+    <div>
       <Button
         variant="danger"
         onClick={() => {
           DeleteProgram(dispatch, props.id);
-          DeleteDayByProgram(dispatch, props.id);
-          DeleteExerciseByProgram(dispatch, props.id);
         }}
         value="Delete"
       >

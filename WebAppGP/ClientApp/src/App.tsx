@@ -23,9 +23,7 @@ export const App = () => {
     const token = sessionStorage.getItem("token");
     if (token !== undefined && token !== null) {
       dispatch(AuthAction.authenticate({ token: token }));
-      GetInfo(dispatch).then((name) => {
-        console.log(token);
-      });
+      GetInfo(dispatch);
     }
   }, []);
 
@@ -35,15 +33,13 @@ export const App = () => {
         <Route
           exact
           path="/"
-          render={() =>
-            isLoggedIn ? <Redirect to="/user/:id" /> : <LoggedOff />
-          }
+          render={() => (isLoggedIn ? <Redirect to="/main" /> : <LoggedOff />)}
         />
         <>
           <NavMenu />
           <Route
-            path="/user/:id"
-            render={() => (isLoggedIn ? <MainPage /> : <LoggedOff />)}
+            path="/main"
+            render={() => (isLoggedIn ? <MainPage /> : <Redirect to="/" />)}
           />
         </>
       </Switch>
