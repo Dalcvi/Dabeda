@@ -1,10 +1,10 @@
 import filter from "lodash/filter";
 import { DeleteExerciseButton } from "./DeleteExerciseButton";
-import { NewExerciseModal } from "./Modals/ExerciseModal";
+import { NewExerciseModal } from "../Modals/ExerciseModal";
 import { Form, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { ExercisesState } from "../store/ExercisesReducer";
-import { ApplicationState } from "../store/Index";
+import { ExercisesState } from "../../store/ExercisesReducer";
+import { ApplicationState } from "../../store/Index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { ExerciseBar } from "./ExerciseBar";
@@ -17,7 +17,7 @@ interface Exercise {
   program: number;
 }
 
-export const ExercisesTemp = (props: any) => {
+export const Exercises = (props: any) => {
   const allExercises = useSelector<
     ApplicationState,
     ExercisesState["exercises"]

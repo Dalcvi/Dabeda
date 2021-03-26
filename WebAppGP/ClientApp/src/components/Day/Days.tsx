@@ -14,7 +14,7 @@ interface Day {
   program: number;
 }
 
-export const DaysTest = (props: any) => {
+export const Days = (props: any) => {
   const userDays = useSelector<ApplicationState, DaysState["days"]>(
     (state) => state.days.days
   );

@@ -14,8 +14,6 @@ export const DeleteProgramButton = (props: any) => {
         variant="danger"
         onClick={() => {
           DeleteProgram(dispatch, props.id);
-          DeleteDayByProgram(dispatch, props.id);
-          DeleteExerciseByProgram(dispatch, props.id);
         }}
         value="Delete"
       >

@@ -11,7 +11,6 @@ export const DeleteDayButton = (props: any) => {
         variant="danger"
         onClick={() => {
           DeleteDay(dispatch, props.id);
-          DeleteExerciseByDay(dispatch, props.id);
         }}
         value="Delete"
       >

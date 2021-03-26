@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, Accordion } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { EditDayModal } from "./Modals/DayModal";
 
 interface Day {
   id: number;
@@ -13,7 +14,7 @@ export const DayBar = (props: any) => {
   return (
     <>
       <Card.Header
-        className="day-text"
+        className="day-text d-flex align-items-center justify-content-between"
         onClick={() => {
           props.setSelectedDay((props.day as Day).id);
         }}
@@ -25,6 +26,9 @@ export const DayBar = (props: any) => {
         >
           {(props.day as Day).name}
         </span>
+        <div onClick={(e: any) => e.stopPropagation()}>
+          <EditDayModal day={props.day as Day} />
+        </div>
       </Card.Header>
     </>
   );

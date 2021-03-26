@@ -1,4 +1,8 @@
 /* Provide sufficient contrast against white background */
+body {
+  overflow: hidden;
+}
+
 a {
   color: #0366d6;
 }
@@ -13,7 +17,7 @@ code {
 }
 
 #loginBox {
-  background: white;
+  background: #272727;
   box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.5);
   padding: 10px 10px 0px 10px;
   width: 350px;
@@ -22,11 +26,12 @@ code {
 }
 
 #registerBox {
-  background: white;
+  background: #272727;
   box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.5);
   padding: 10px 10px 0px 10px;
   width: 350px;
   border: 1px solid black;
+  color: #f6f6e9;
   border-radius: 7px;
 }
 

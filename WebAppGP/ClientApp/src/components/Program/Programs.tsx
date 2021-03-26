@@ -11,7 +11,7 @@ interface Program {
   name: string;
 }
 
-export const ProgramsTest = (props: any) => {
+export const Programs = (props: any) => {
   const userPrograms = useSelector<ApplicationState, ProgramsState["programs"]>(
     (state) => state.programs.programs
   );

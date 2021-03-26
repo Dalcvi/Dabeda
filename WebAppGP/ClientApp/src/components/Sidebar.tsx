@@ -4,25 +4,26 @@ import {
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { ProgramsTest } from "./ProgramsTest";
+import { Programs } from "./Programs";
 
 export const Sidebar = (props: any) => {
   return (
-    <div id={props.sidebarStyle} className="sidebar">
+    <aside id={props.sidebarStyle} className="sidebar">
       <div className="text-right" style={{ paddingRight: "10%" }}>
         <FontAwesomeIcon
+          id="left-arrow"
           className="arrow"
           icon={faChevronLeft}
           size="3x"
           onClick={() => props.changeStyle()}
         />
       </div>
-      <ProgramsTest
+      <Programs
         selectedProgram={props.selectedProgram}
         setSelectedProgram={props.setSelectedProgram}
         selectedDay={props.selectedDay}
         setSelectedDay={props.setSelectedDay}
       />
-    </div>
+    </aside>
   );
 };

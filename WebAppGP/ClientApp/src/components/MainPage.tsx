@@ -5,7 +5,7 @@ import "../styles/learningReact.css";
 import { UserState } from "../store/User";
 import { Programs } from "./Programs";
 import { Sidebar } from "./Sidebar";
-import { ExercisesTemp } from "./ExercisesTemp";
+import { Exercises } from "./Exercises";
 
 export const MainPage = () => {
   const username = useSelector<ApplicationState, UserState["username"]>(
@@ -34,7 +34,7 @@ export const MainPage = () => {
         setSelectedDay={setSelectedDay}
       />
       <div style={{ width: "100%" }}>
-        <ExercisesTemp
+        <Exercises
           fullSidebar={fullSidebar}
           changeStyle={changeStyle}
           selectedDay={selectedDay}

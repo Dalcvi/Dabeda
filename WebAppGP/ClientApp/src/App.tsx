@@ -39,7 +39,7 @@ export const App = () => {
           <NavMenu />
           <Route
             path="/main"
-            render={() => (isLoggedIn ? <MainPage /> : <LoggedOff />)}
+            render={() => (isLoggedIn ? <MainPage /> : <Redirect to="/" />)}
           />
         </>
       </Switch>

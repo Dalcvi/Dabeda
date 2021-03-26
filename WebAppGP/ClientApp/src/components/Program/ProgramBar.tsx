@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, Accordion } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
-import { DaysTest } from "./DaysTest";
+import { Days } from "./Days";
 import { EditProgramModal } from "./Modals/ProgramModal";
 
 interface Program {
@@ -61,7 +61,7 @@ export const ProgramBar = (props: any) => {
         </Accordion.Toggle>
         <Accordion.Collapse eventKey={(props.program as Program).id.toString()}>
           <Card.Body>
-            <DaysTest
+            <Days
               program={(props.program as Program).id}
               selectedDay={props.selectedDay}
               setSelectedDay={props.setSelectedDay}

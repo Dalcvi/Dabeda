@@ -44,7 +44,7 @@ export const EditProgramModal = (props: any) => {
   };
 
   return (
-    <div style={{ float: "right" }}>
+    <div>
       <span onClick={handleShow}>
         <FontAwesomeIcon icon={faCog} size="lg" />
       </span>

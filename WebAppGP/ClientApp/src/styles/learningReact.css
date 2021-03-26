@@ -22,10 +22,12 @@ body {
 .sidebar {
   height: calc(100vh - 55px);
   background: #f6f6e9;
-  width: 500px;
+  position: fixed;
+  width: 100vw;
   padding-top: 10px;
   overflow-x: hidden;
   overflow-y: scroll;
+  z-index: 20;
 }
 
 #sidebar-small {
@@ -38,7 +40,8 @@ body {
 #sidebar-big {
   -webkit-transition: width 0.5s ease;
   transition: width 0.5s ease;
-  width: 500px;
+  position: fixed;
+  width: 100vw;
 }
 
 .testText {
@@ -85,6 +88,7 @@ body {
   -webkit-transition: opacity 0.5s ease;
   transition: opacity 0.5s ease;
   opacity: 1;
+  background: rgba(39, 39, 39, 0.5);
 }
 
 .right-side-arrow-hide {
@@ -102,7 +106,7 @@ body {
 
 .exercise-bar {
   max-width: 700px;
-  width: 70%;
+  width: 100%;
   background: #f6f6e9;
   margin-top: 50px;
   border-radius: 3px;
@@ -146,6 +150,35 @@ body {
 @media (min-width: 768px) {
   .sidebar {
     height: calc(100vh - 65px);
+    width: 400px;
+  }
+  #sidebar-big {
+    -webkit-transition: width 0.5s ease;
+    transition: width 0.5s ease;
+    width: 400px;
+  }
+  #programs {
+    height: calc(100vh - 65px);
+  }
+  #exercises {
+    height: calc(100vh - 65px);
+  }
+}
+
+@media (min-width: 992px) {
+  .right-side-arrow {
+    background: none;
+  }
+  .sidebar {
+    height: calc(100vh - 65px);
+    position: static;
+    width: 600px;
+  }
+  #sidebar-big {
+    -webkit-transition: width 0.5s ease;
+    transition: width 0.5s ease;
+    position: static;
+    width: 600px;
   }
   #programs {
     height: calc(100vh - 65px);
@@ -157,7 +190,7 @@ body {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 13px;
+  width: 14px;
 }
 
 /* Track */
