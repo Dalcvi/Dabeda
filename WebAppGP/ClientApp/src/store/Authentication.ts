@@ -16,6 +16,7 @@ export const authReducer = (state: AuthState = initialState, incomingAction: Act
     const action = incomingAction as KnownAction;
     switch (action.type) {
         case AuthActionTypes.AUTHENTICATE: {
+            console.log("BROOO1");
             sessionStorage.setItem("token", action.payload.token);
             return {
                 ...state, ...{
@@ -26,8 +27,14 @@ export const authReducer = (state: AuthState = initialState, incomingAction: Act
 
         }
         case AuthActionTypes.LOGOUT: {
+            console.log("BROOO2");
             sessionStorage.clear();
-            break;
+            return {
+                ...state, ...{
+                    token: "",
+                    isLoggedIn: false
+                }
+            }
         }
         default:
             return state;
