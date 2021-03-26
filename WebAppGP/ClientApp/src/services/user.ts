@@ -1,133 +1,173 @@
-import { ActionCreators } from '../store/user';
+import { UserActionCreators } from "../store/actions/UserActions";
+import { ProgramsActionCreators } from "../store/actions/ProgramsActions";
+import { DaysActionCreators } from "../store/actions/DaysActions";
+import { ExercisesActionCreators } from "../store/actions/ExercisesActions";
+import axios from 'axios';
+
+
+const axiosInstance = axios.create({
+    baseURL: `https://localhost:44356/api/Programs`
+});
+
+axiosInstance.interceptors.request.use(config => {
+    config.headers = { authorization: 'Bearer ' + sessionStorage.getItem('token') };
+    return config;
+});
+
+
 
 // URL to backend
-const baseURL = `https://localhost:44356/WebAppGP`;
+const baseURL = `https://localhost:44356/api/Programs`;
 
 
 // Used to get Exercise programs from backend database
-export const GetPrograms = async (dispatch: any) => {
+export const GetInfo = async (dispatch: any) => {
     try {
-        const response = {
-            username: "FakeUser",
-
-            programs: [{ id: 1, programName: "Epic program", days: [1, 2] },
-            { id: 2, programName: "Epic program222", days: [3] },
-            { id: 3, programName: "Haha wroom", days: [] }],
-
-            days: [{ id: 1, dayName: "Chest", exercises: [1] },
-            { id: 2, dayName: "Legs", exercises: [2] },
-            { id: 3, dayName: "Back", exercises: [3] }],
-
-            exercises: [{ id: 1, exerciseName: "Bench", sets: 4 },
-            { id: 2, exerciseName: "Squats", sets: 4 },
-            { id: 3, exerciseName: "Deadlifts", sets: 4 }]
-        }
-        dispatch(ActionCreators.setState(response));
+        const { data } = await axiosInstance.get('/getUserInfo')
+        dispatch(UserActionCreators.setUsername(data.username));
+        dispatch(ProgramsActionCreators.setPrograms(data.programs));
+        dispatch(DaysActionCreators.setDays(data.days));
+        dispatch(ExercisesActionCreators.setExercises(data.exercises));
+        return await data.username;
     }
-    catch {
-        console.log("Error!");
-    }
-}
-
-
-// Sends Email and password to backend and if the answer is 200, we know we logged in.
-// If answer is 400, we know the login was unsuccessful
-// CHANGE THIS LATER
-export const Login = async (dispatch: any, email: string, password: string) => {
-    try {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ Email: email, Password: password })
-        };
-        const response = await fetch(baseURL + "/login", requestOptions)
-            .then(response => {
-                if (!response.ok) {
-                    return response.json()
-                        .catch(() => {
-                            // Couldn't parse the JSON
-                            throw new Error(response.status.toString());
-                        })
-                        .then(({ message }) => {
-                            // Got valid JSON with error response, use it
-                            throw new Error(message || response.status);
-                        });
-                }
-                // Successful response, parse the JSON and return the data
-                return response.json();
-            });
-
-        // Used to artificially have exercise programs filled in
-        const upgradedResponse = {
-            username: response.username,
-
-            programs: [{ id: 1, programName: "Epic program", days: [1, 2] },
-            { id: 2, programName: "Epic program222", days: [3] },
-            { id: 3, programName: "Haha wroom", days: [] }],
-
-            days: [{ id: 1, dayName: "Chest", exercises: [1] },
-            { id: 2, dayName: "Legs", exercises: [2] },
-            { id: 3, dayName: "Back", exercises: [3] }],
-
-            exercises: [{ id: 1, exerciseName: "Bench", sets: 4 },
-            { id: 2, exerciseName: "Squats", sets: 4 },
-            { id: 3, exerciseName: "Deadlifts", sets: 4 }]
-        }
-
-        dispatch(ActionCreators.setState(upgradedResponse));
-        return response.username;
-    }
-    catch {
-        console.log("ERROR");
-        return false;
-    }
-}
-
-// Registers an account if Username or Email isn't being used already
-export const Register = async (email: string, password: string, username: string) => {
-    try {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: username, email: email, password: password })
-        };
-        const response = await fetch(baseURL + "/register", requestOptions).then(response => {
-            if (!response.ok) {
-                return response.json()
-                    .catch(() => {
-                        // Couldn't parse the JSON
-                        throw new Error(response.status.toString());
-                    })
-                    .then(({ message }) => {
-                        // Got valid JSON with error response, use it
-                        throw new Error(message || response.status);
-                    });
-            }
-            // Successful response, parse the JSON and return the data
-            return response.json();
-        });
-        if (response.usernameTaken === true)
-            console.log("Username taken");
-        if (response.emailTaken === true)
-            console.log("Email taken");
-    }
-    catch {
-        console.log("ERROR");
+    catch (error) {
+        console.log(error);
     }
 }
 
 // Creates a new program
-export const AddProgram = async (dispatch: any, name: string) => {
+export const AddProgram = async (dispatch: any, fakeId: number, name: string) => {
     try {
-        const tempArray = [] as [];
-        const program = {
-            id: Math.floor(Math.random() * 22),
-            programName: name,
-            days: tempArray
-        }
-        dispatch(ActionCreators.addProgram(program));
+        const toSend = { Name: name };
+        const { data } = await axiosInstance.post('/addProgram', toSend);
+        dispatch(ProgramsActionCreators.addProgram({ id: data.id, name: name }))
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+export const EditProgram = async (dispatch: any, id: number, name: string) => {
+    try {
+        console.log(id);
+        console.log(name);
+        const toSend = { id: id, Name: name };
+        await axiosInstance.post('/editProgram', toSend);
+
+        dispatch(ProgramsActionCreators.editProgram({ id: id, name: name }))
     }
     catch {
-        console.log("Error!");
+        console.log("Couldn't edit program!");
+    }
+}
+
+export const DeleteProgram = async (dispatch: any, deleteId: number) => {
+    try {
+        const toSend = { id: deleteId }
+        await axiosInstance.post('/deleteProgram', toSend);
+        dispatch(ProgramsActionCreators.deleteProgram({ id: deleteId }));
+        DeleteDayByProgram(dispatch, deleteId);
+        DeleteExerciseByProgram(dispatch, deleteId);
+    }
+    catch {
+        console.log("Couldn't delete program!");
+    }
+}
+
+export const AddDay = async (dispatch: any, fakeId: number, name: string, programId: number) => {
+    try {
+        console.log(programId);
+        const toSend = { Name: name, Program: programId };
+        const { data } = await axiosInstance.post('/addDay', toSend);
+        dispatch(DaysActionCreators.addDay({ id: data.id, name: name, program: programId }));
+    }
+    catch {
+        console.log("Couldn't add day!");
+    }
+}
+
+export const EditDay = async (dispatch: any, dayId: number, name: string, programId: number) => {
+    try {
+        console.log(name);
+        const toSend = { id: dayId, Name: name };
+        await axiosInstance.post('/editDay', toSend);
+        dispatch(DaysActionCreators.editDay({ id: dayId, name: name, program: programId }));
+    }
+    catch {
+        console.log("Couldn't edit day!");
+    }
+}
+
+export const DeleteDay = async (dispatch: any, deleteId: number) => {
+    try {
+        const toSend = { id: deleteId };
+        await axiosInstance.post('/deleteDay', toSend)
+        dispatch(DaysActionCreators.deleteDay({ id: deleteId }));
+        DeleteExerciseByDay(dispatch, deleteId);
+    }
+    catch {
+        console.log("Couldn't delete day!");
+    }
+}
+
+export const DeleteDayByProgram = async (dispatch: any, deleteProgramId: number) => {
+    try {
+        dispatch(DaysActionCreators.deleteByProgram({ program: deleteProgramId }))
+    }
+    catch {
+        console.log("Couldn't delete exercises by day!")
+    }
+}
+
+export const AddExercise = async (dispatch: any, fakeId: number, name: string, amount: number, day: number, program: number) => {
+    try {
+        console.log(program);
+        const toSend = { Name: name, setsAmount: amount, Day: day };
+        const { data } = await axiosInstance.post('/addExercise', toSend);
+        dispatch(ExercisesActionCreators.addExercise({ id: data.id, name: name, setsAmount: amount, day: day, program: program }));
+    }
+    catch {
+        console.log("Couldn't add exercise!");
+    }
+}
+
+export const EditExercise = async (dispatch: any, id: number, name: string, amount: number, day: number, program: number) => {
+    try {
+        const toSend = { id: id, Name: name, setsAmount: amount };
+        await axiosInstance.post('/editExercise', toSend);
+        dispatch(ExercisesActionCreators.editExercise({ id: id, name: name, setsAmount: amount, day: day, program: program }));
+    }
+    catch {
+        console.log("Couldn't edit exercise!");
+    }
+}
+
+export const DeleteExercise = async (dispatch: any, deleteId: number) => {
+    try {
+        const toSend = { id: deleteId };
+        await axiosInstance.post('/deleteExercise', toSend);
+
+        dispatch(ExercisesActionCreators.deleteExercise({ id: deleteId }));
+    }
+    catch {
+        console.log("Couldn't delete exercise!");
+    }
+}
+
+export const DeleteExerciseByDay = async (dispatch: any, deleteDayId: number) => {
+    try {
+        dispatch(ExercisesActionCreators.deleteByDay({ day: deleteDayId }));
+    }
+    catch {
+        console.log("Couldn't delete exercises by day!")
+    }
+}
+
+export const DeleteExerciseByProgram = async (dispatch: any, deleteProgramId: number) => {
+    try {
+        dispatch(ExercisesActionCreators.deleteByProgram({ program: deleteProgramId }))
+    }
+    catch {
+        console.log("Couldn't delete exercises by day!")
     }
 }

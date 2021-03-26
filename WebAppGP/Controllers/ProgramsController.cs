@@ -162,7 +162,7 @@ namespace WebAppGP.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpDelete("deleteExercise")]
+        [HttpPost("deleteExercise")]
         public IActionResult DeleteExercise([FromBody] DTO.Exercise dataExercise)
         {
             try

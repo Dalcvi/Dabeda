@@ -1,0 +1,6 @@
+export enum ProgramsActionTypes {
+    SET_PROGRAMS = "SET_PROGRAMS",
+    ADD_PROGRAM = "ADD_PROGRAM",
+    EDIT_PROGRAM = "EDIT_PROGRAM",
+    DELETE_PROGRAM = "DELETE_PROGRAM"
+}

@@ -21,11 +21,42 @@ namespace Users.Core
 
         public DTO.UserInformation GetUserInformation()
         {
-            List<DTO.Day> days = _context.Days.Include(n => n.Program).Where(n => n.Program.User.Id == _user.Id).Select(e => new DTO.Day(e)).ToList();
-            List<DTO.Exercise> exercises = _context.Exercises.Include(n => n.Program).Where(n => n.Day.Program.User.Id == _user.Id).Select(e => new DTO.Exercise(e)).ToList();
             List<DTO.ExProgram> programs = _context.Programs.Where(n => n.User.Id == _user.Id).Select(e => new DTO.ExProgram(e)).ToList();
+            if (programs.Count == 0)
+            {
+                return new DTO.UserInformation
+                {
+                    Username = _user.Username,
+                    Programs = new List<DTO.ExProgram>(),
+                    Days = new List<DTO.Day>(),
+                    Exercises = new List<DTO.Exercise>()
+                };
+            }
+            List<DTO.Day> days = _context.Days.Include(n => n.Program).Where(n => n.Program.User.Id == _user.Id).Select(e => new DTO.Day(e)).ToList();
+            if (days.Count == 0)
+            {
+                return new DTO.UserInformation
+                {
+                    Username = _user.Username,
+                    Programs = programs,
+                    Days = new List<DTO.Day>(),
+                    Exercises = new List<DTO.Exercise>()
+                };
+            }
+            List<DTO.Exercise> exercises = _context.Exercises.Include(n => n.Program).Include(n => n.Day).Where(n => n.Program.User.Id == _user.Id).Select(e => new DTO.Exercise(e)).ToList();
+            if (exercises.Count == 0)
+            {
+                return new DTO.UserInformation
+                {
+                    Username = _user.Username,
+                    Programs = programs,
+                    Days = days,
+                    Exercises = new List<DTO.Exercise>()
+                };
+            }
             return new DTO.UserInformation
             {
+                Username = _user.Username,
                 Programs = programs,
                 Days = days,
                 Exercises = exercises
@@ -159,7 +190,7 @@ namespace Users.Core
         }
         public void DeleteDay(int dayId)
         {
-            Day day = _context.Days.FirstOrDefault(n => n.Id == dayId);
+            Day day = _context.Days.Include(n => n.Program).FirstOrDefault(n => n.Id == dayId);
 
             //Also need to delete all the exercises from that day IF the day contains any
             if (_context.Exercises.FirstOrDefault(n => n.Day.Id == dayId) != null && _user.Id == day.Program.User.Id)

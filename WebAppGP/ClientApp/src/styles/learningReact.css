@@ -5,25 +5,13 @@
   font-style: normal;
 }
 
-#programList {
-  margin: 0px 0px 50px 0px;
-  padding: 25px;
-  max-height: 600px;
-  background: -webkit-gradient(linear, left top, left bottom, from(#414770), color-stop(#414770), to(#5b85aa));
-  background: linear-gradient(#414770, #414770, #5b85aa);
-}
-
-#programListTable {
-  max-height: 130px;
-  overflow-y: auto;
-}
-
-#workout {
-  min-height: 100vh;
+#programs {
+  height: calc(100vh - 55px);
+  overflow-y: scroll;
 }
 
 body {
-  background: #5b85aa;
+  background: #f6f6e9;
 }
 
 .logoText {
@@ -31,17 +19,192 @@ body {
   letter-spacing: 5px;
 }
 
-.listItem:hover {
-  background: black;
-  color: white;
+.sidebar {
+  height: calc(100vh - 55px);
+  background: #f6f6e9;
+  position: fixed;
+  width: 100vw;
+  padding-top: 10px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  z-index: 20;
 }
 
-#workoutPlate {
-  margin: 20px;
-  height: 1000px;
-  min-height: 98%;
+#sidebar-small {
+  min-width: 0px;
+  -webkit-transition: width 0.5s ease;
+  transition: width 0.5s ease;
+  width: 0px;
+}
+
+#sidebar-big {
+  -webkit-transition: width 0.5s ease;
+  transition: width 0.5s ease;
+  position: fixed;
+  width: 100vw;
+}
+
+.testText {
+  -webkit-transition: color 0.2s ease;
+  transition: color 0.2s ease;
+  max-width: 75%;
+  word-break: break-all;
+}
+
+.program-text {
+  background: #f6f6e9;
+  font-size: 1.4em;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.program-text:hover {
+  -webkit-transition: color 0.05s ease;
+  transition: color 0.05s ease;
+  cursor: pointer;
+  color: #9c1313;
+}
+
+.day-text {
+  background: #f6f6e9;
+  font-size: 1.1em;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.day-text:hover {
+  cursor: pointer;
+  color: #9c1313;
+}
+
+#right-side-ar {
+  color: #f6f6e9;
+  position: fixed;
+  margin-top: 10px;
+}
+
+.right-side-arrow {
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  opacity: 1;
+  background: rgba(39, 39, 39, 0.5);
+}
+
+.right-side-arrow-hide {
+  -webkit-transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+  opacity: 0;
+}
+
+#exercises {
+  background: #272727;
+  padding: 0px 25px 25px 25px;
+  overflow-y: scroll;
+  height: calc(100vh - 55px);
+}
+
+.exercise-bar {
+  max-width: 700px;
+  width: 100%;
+  background: #f6f6e9;
+  margin-top: 50px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0px 0px 10px 4px black;
+          box-shadow: 0px 0px 10px 4px black;
+}
+
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-dropdown {
+  position: absolute;
+  top: -10px;
+  left: -100px;
+  z-index: 2;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
+          box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
   background: white;
-  border-radius: 12px;
-  border: 2px solid #02182b;
+}
+
+.custom-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-dropdown li {
+  font-weight: normal;
+  color: black;
+  padding: 4px 12px;
+}
+
+.custom-dropdown li:hover {
+  background-color: rgba(0, 0, 0, 0.14);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    height: calc(100vh - 65px);
+    width: 400px;
+  }
+  #sidebar-big {
+    -webkit-transition: width 0.5s ease;
+    transition: width 0.5s ease;
+    width: 400px;
+  }
+  #programs {
+    height: calc(100vh - 65px);
+  }
+  #exercises {
+    height: calc(100vh - 65px);
+  }
+}
+
+@media (min-width: 992px) {
+  .right-side-arrow {
+    background: none;
+  }
+  .sidebar {
+    height: calc(100vh - 65px);
+    position: static;
+    width: 600px;
+  }
+  #sidebar-big {
+    -webkit-transition: width 0.5s ease;
+    transition: width 0.5s ease;
+    position: static;
+    width: 600px;
+  }
+  #programs {
+    height: calc(100vh - 65px);
+  }
+  #exercises {
+    height: calc(100vh - 65px);
+  }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 14px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: inherit;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #646262;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #424242;
 }
 /*# sourceMappingURL=learningReact.css.map */

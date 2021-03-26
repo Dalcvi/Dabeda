@@ -26,7 +26,7 @@ namespace WebAppGP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContext<AppDbContext>();
             services.AddTransient<IUserServices, UserServices>();
 
@@ -35,6 +35,17 @@ namespace WebAppGP
             services.AddTransient<IPasswordHasher, PasswordHasher>();
 
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("ProgramsPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins("*")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                    });
+            });
 
             var secret = Environment.GetEnvironmentVariable("JWT_SECRET");
             var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER");
@@ -71,13 +82,10 @@ namespace WebAppGP
             }
 
             app.UseHttpsRedirection();
-            
+
             app.UseRouting();
 
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            app.UseCors("ProgramsPolicy");
 
             app.UseAuthentication();
 

@@ -1,18 +1,12 @@
-import React from "react";
+import { useState } from "react";
 import * as RB from "react-bootstrap";
-import { LoginBox } from "./LoginBox";
-import { RegisterBox } from "./RegisterBox";
+import { LoginBox } from "./SignIn";
+import { RegisterBox } from "./SignUp";
 
-import "../custom.css";
-
-interface FormData {
-  name: string;
-  email: string;
-  password: string;
-}
+import "../../custom.css";
 
 const LoggedOff = () => {
-  const [registerForm, setRegisterForm] = React.useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
 
   return (
     <RB.Container fluid>
@@ -45,12 +39,12 @@ const LoggedOff = () => {
           className="d-flex justify-content-lg-start justify-content-center
 "
         >
-          {!registerForm ? (
+          {!isRegistering ? (
             // THIS IS RENDERED AS DEFAULT OR WHEN COMING BACK FROM REGISTER FORM
-            <LoginBox setRegisterForm={setRegisterForm} />
+            <LoginBox setIsRegistering={setIsRegistering} />
           ) : (
             // IF REGISTER BUTTON PRESSED, REGISTER SCREEN WILL BE RENDERED INSTEAD
-            <RegisterBox setRegisterForm={setRegisterForm} />
+            <RegisterBox setIsRegistering={setIsRegistering} />
           )}
         </RB.Col>
       </RB.Row>
