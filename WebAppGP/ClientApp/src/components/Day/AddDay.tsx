@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Card, Accordion } from "react-bootstrap";
-import { NewDayModal } from "./Modals/DayModal";
+import { NewDayModal } from "../Modals/DayModal";
 
 interface Day {
   id: number;

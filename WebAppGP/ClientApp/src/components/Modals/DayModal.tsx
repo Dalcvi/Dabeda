@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 import { AddDay, EditDay } from "../../services/user";
-import { DeleteDayButton } from "../DeleteDayButton";
+import { DeleteDayButton } from "../Day/DeleteDayButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";

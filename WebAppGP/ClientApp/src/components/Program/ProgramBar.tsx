@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Card, Accordion } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
-import { Days } from "./Days";
-import { EditProgramModal } from "./Modals/ProgramModal";
+import { Days } from "../Day/Days";
+import { EditProgramModal } from "../Modals/ProgramModal";
 
 interface Program {
   id: number;
