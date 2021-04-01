@@ -11,7 +11,7 @@ export const NavMenu = () => {
 
   return (
     <header style={{ margin: "0px" }}>
-      <Navbar collapseOnSelect expand={false} variant="light" id="navbar">
+      <Navbar collapseOnSelect expand={true} variant="light" id="navbar">
         <Container>
           <Navbar.Brand
             className="logoText"
@@ -38,20 +38,19 @@ export const NavMenu = () => {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link className="text-dark" as={Link} to="/main">
-                  Learning React
+                <Nav.Link className="text-dark" as={Link} to="/settings">
+                  Settings
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link className="text-dark">
-                  <Button
-                    variant="outline-dark"
+                  <span
                     onClick={() => {
                       Logout(dispatch);
                     }}
                   >
                     Log out
-                  </Button>
+                  </span>
                 </Nav.Link>
               </Nav.Item>
             </Nav>

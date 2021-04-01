@@ -9,6 +9,7 @@ import Layout from "./components/Layout/Layout";
 import LoggedOff from "./components/LoggedOff/LoggedOff";
 import MainPage from "./components/MainPage";
 import NavMenu from "./components/Nav/NavMenu";
+import Settings from "./components/Settings";
 import { GetInfo } from "./services/user";
 
 import "./styles/learningReact.css";
@@ -40,6 +41,10 @@ export const App = () => {
           <Route
             path="/main"
             render={() => (isLoggedIn ? <MainPage /> : <Redirect to="/" />)}
+          />
+          <Route
+            path="/settings"
+            render={() => (isLoggedIn ? <Settings /> : <Redirect to="/" />)}
           />
         </>
       </Switch>
