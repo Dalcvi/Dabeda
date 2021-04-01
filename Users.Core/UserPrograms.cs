@@ -13,15 +13,25 @@ namespace Users.Core
         private readonly AppDbContext _context;
         private readonly User _user;
 
+
         public UserPrograms(AppDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _user = _context.Users.First(u => u.Username == httpContextAccessor.HttpContext.User.Identity.Name);
         }
 
+
+        /// <summary>
+        /// used for getting information about a user: their username, programs, days, exercises
+        /// </summary>
+        /// <returns> gathered user information </returns>
         public DTO.UserInformation GetUserInformation()
         {
-            List<DTO.ExProgram> programs = _context.Programs.Where(n => n.User.Id == _user.Id).Select(e => new DTO.ExProgram(e)).ToList();
+            // getting a list of their programs
+            List<DTO.ExProgram> programs = _context.Programs
+                .Where(n => n.User.Id == _user.Id).Select(e => new DTO.ExProgram(e)).ToList();
+
+            // checking if a user has any programs
             if (programs.Count == 0)
             {
                 return new DTO.UserInformation
@@ -32,7 +42,12 @@ namespace Users.Core
                     Exercises = new List<DTO.Exercise>()
                 };
             }
-            List<DTO.Day> days = _context.Days.Include(n => n.Program).Where(n => n.Program.User.Id == _user.Id).Select(e => new DTO.Day(e)).ToList();
+
+            // getting a list of user's days in their program
+            List<DTO.Day> days = _context.Days.Include(n => n.Program)
+                .Where(n => n.Program.User.Id == _user.Id).Select(e => new DTO.Day(e)).ToList();
+
+            // checking if user has any days created in their program
             if (days.Count == 0)
             {
                 return new DTO.UserInformation
@@ -43,7 +58,12 @@ namespace Users.Core
                     Exercises = new List<DTO.Exercise>()
                 };
             }
-            List<DTO.Exercise> exercises = _context.Exercises.Include(n => n.Program).Include(n => n.Day).Where(n => n.Program.User.Id == _user.Id).Select(e => new DTO.Exercise(e)).ToList();
+
+            // getting a list of user's exercises in their day
+            List<DTO.Exercise> exercises = _context.Exercises.Include(n => n.Program).Include(n => n.Day)
+                .Where(n => n.Program.User.Id == _user.Id).Select(e => new DTO.Exercise(e)).ToList();
+
+            // checking if user has any exercises created in their day
             if (exercises.Count == 0)
             {
                 return new DTO.UserInformation
@@ -54,6 +74,8 @@ namespace Users.Core
                     Exercises = new List<DTO.Exercise>()
                 };
             }
+
+            // if everything else passes, means user has filled their programs, days and exercises
             return new DTO.UserInformation
             {
                 Username = _user.Username,
@@ -63,13 +85,17 @@ namespace Users.Core
             };
         }
 
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Create ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         public ExProgram CreateProgram(string progrName)
         {
+            // checking if user was found and provided program name is not null
             User user = _user;
             if (user == null || progrName == null)
             {
                 throw new UnableToCreateAProgram("Unable to create a program");
             }
+
             ExProgram program = new ExProgram();
             program.Name = progrName;
             program.User = user;
@@ -110,7 +136,8 @@ namespace Users.Core
             return exer;
         }
 
-        //Edit-----------
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Edit ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         public void EditProgram(int programId, string programName)
         {
             try
@@ -128,6 +155,7 @@ namespace Users.Core
                 throw new DoesNotMatchIdException("Program does not belong to user");
             }
         }
+
         public void EditDay(int dayId, string dayName)
         {
             try
@@ -145,6 +173,7 @@ namespace Users.Core
                 throw new DoesNotMatchIdException("Program does not belong to user");
             }
         }
+
         public void EditExercise(int exerciseId, string exerciseName, int setsAmount)
         {
             try
@@ -164,7 +193,8 @@ namespace Users.Core
             }
         }
 
-        //Delete------------
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Delete ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         public void DeleteProgram(int programId)
         {
             ExProgram program = _context.Programs.FirstOrDefault(n => n.Id == programId && _user.Id == n.User.Id);
@@ -188,9 +218,10 @@ namespace Users.Core
 
             _context.SaveChanges();
         }
+
         public void DeleteDay(int dayId)
         {
-            Day day = _context.Days.Include(n => n.Program).FirstOrDefault(n => n.Id == dayId);
+            Day day = _context.Days.Include(n => n.Program).FirstOrDefault(n => n.Id == dayId && n.Program.User.Id == _user.Id);
 
             //Also need to delete all the exercises from that day IF the day contains any
             if (_context.Exercises.FirstOrDefault(n => n.Day.Id == dayId) != null && _user.Id == day.Program.User.Id)
@@ -200,6 +231,7 @@ namespace Users.Core
             _context.Days.Remove(day);
             _context.SaveChanges();
         }
+
         public void DeleteExercise(int exerciseId)
         {
             _context.Exercises.Remove(_context.Exercises.FirstOrDefault(n => n.Id == exerciseId && _user.Id == n.Program.User.Id));
