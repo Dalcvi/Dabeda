@@ -79,7 +79,7 @@ const ProgramModal = ({
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{modalName}</Modal.Title>
         </Modal.Header>
