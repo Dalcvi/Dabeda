@@ -28,6 +28,9 @@ namespace WebAppGP
         {
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContext<AppDbContext>();
+
+            services.AddTransient<IUserSettings, UserSettings>();
+
             services.AddTransient<IUserServices, UserServices>();
 
             services.AddTransient<IUserPrograms, UserPrograms>();
