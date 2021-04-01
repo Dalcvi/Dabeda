@@ -28,9 +28,11 @@ namespace WebAppGP.Controllers
                 var result = await _userServices.SignUp(user);
                 return Created("", result);
             }
-            catch (UsernameAlreadyExistsException e)
+            catch (System.Exception e)
             {
-                return StatusCode(409, e.Message);
+                if (e is UsernameAlreadyExistsException || e is EmailAlreadyExistsException)
+                    return StatusCode(409, e.Message);
+                return StatusCode(500, "Unknown error");
             }
         }
 
