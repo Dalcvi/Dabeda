@@ -6,8 +6,9 @@ namespace Users.Core
 {
     public interface IUserServices
     {
-
         Task<AuthenticatedUser> SignUp(Strength.DB.User user);
         Task<AuthenticatedUser> SignIn(Strength.DB.User user);
+
+        void CreateInitialProgram(string id);
     }
 }
