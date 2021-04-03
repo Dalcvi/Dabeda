@@ -78,9 +78,9 @@ const PasswordModal = ({ show, handleClose }: any) => {
     else {
       if (
         ChangePassword({
-          password: password,
+          currentPassword: password,
           newPassword: newPassword,
-          confPassword: confPassword,
+          confirmedPassword: confPassword,
         })
       ) {
         Clear();
