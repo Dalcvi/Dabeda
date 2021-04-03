@@ -6,6 +6,7 @@ using Users.Core.CustomExceptions;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Text.RegularExpressions;
+using Users.Core.Utilities;
 
 namespace Users.Core
 {
@@ -62,7 +63,7 @@ namespace Users.Core
             _context.SaveChanges();
         }
 
-        public void ChangeUsername(string username)
+        public string ChangeUsername(string username)
         {
             // finding user in the database
             var dbUser = _context.Users
@@ -75,6 +76,24 @@ namespace Users.Core
             }
 
             dbUser.Username = username;
+
+            _context.SaveChanges();
+            return JwtGenerator.GenerateUserToken(username);
+        }
+
+        public void ChangeEmail(string currentPassword, string newEmail)
+        {
+            // finding user in the database
+            var dbUser = _context.Users
+                .FirstOrDefault(u => u.Id == _user.Id);
+
+            // checking if user was found and verifying his password
+            if (dbUser == null || _passwordHasher.VerifyHashedPassword(dbUser.Password, currentPassword) == PasswordVerificationResult.Failed)
+            {
+                throw new InvalidUsernamePasswordException("Invalid password");
+            }
+
+            dbUser.Email = newEmail;
 
             _context.SaveChanges();
         }
