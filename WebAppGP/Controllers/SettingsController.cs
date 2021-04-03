@@ -43,7 +43,20 @@ namespace WebAppGP.Controllers
         {
             try
             {
-                _userSettings.ChangeUsername(model.Username);
+                return Ok(_userSettings.ChangeUsername(model.Username));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(400, e.Message);
+            }
+        }
+
+        [HttpPost("changeEmail")]
+        public IActionResult ChangeEmail(EmailChangeModel model)
+        {
+            try
+            {
+                _userSettings.ChangeEmail(model.CurrentPassword, model.Email);
                 return Ok();
             }
             catch (Exception e)
