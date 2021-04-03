@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, InputGroup, FormControl } from "react-bootstrap";
 import { ApplicationState } from "../store/Index";
 import { UserState } from "../store/User";
@@ -12,19 +12,27 @@ export const Settings = (props: any) => {
   const userName = useSelector<ApplicationState, UserState["username"]>(
     (state) => state.user.username
   );
-
   const dispatch = useDispatch();
 
-  const [username, setUsername] = useState(userName);
-  const [usernameText, setUsernameText] = useState(userName);
+  const [username, setUsername] = useState("");
+  const [usernameText, setUsernameText] = useState("");
 
   const Apply = () => {
     if (usernameText === username || usernameText === "") return;
     else {
-      ChangeUsername(dispatch, { username: usernameText });
+      if (ChangeUsername(dispatch, { username: usernameText })) {
+      }
     }
   };
 
+  const SettingUsernames = () => {
+    setUsername(userName);
+    setUsernameText(userName);
+  };
+
+  if (username === "" && userName != "") {
+    SettingUsernames();
+  }
   return (
     <div
       style={{
@@ -88,6 +96,7 @@ export const Settings = (props: any) => {
             color: "#272727",
             padding: "5px 20px 5px 20px",
           }}
+          onClick={() => Apply()}
         >
           Apply
         </Button>
