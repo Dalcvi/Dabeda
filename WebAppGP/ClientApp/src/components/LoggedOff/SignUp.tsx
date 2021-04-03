@@ -168,7 +168,7 @@ export const RegisterBox = (props: any) => {
             required
           />
           <Form.Control.Feedback type="invalid">
-            Password doesnt match
+            Password doesn't match
           </Form.Control.Feedback>
         </Form.Group>
         <Button style={{ marginTop: "1rem" }} type="submit">
