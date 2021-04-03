@@ -43,7 +43,7 @@ namespace WebAppGP.Controllers
         {
             try
             {
-                return Ok(_userSettings.ChangeUsername(model.Username));
+                return Ok(new { token = _userSettings.ChangeUsername(model.Username) });
             }
             catch (Exception e)
             {
