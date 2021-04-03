@@ -32,9 +32,11 @@ namespace WebAppGP.Controllers
                 _userServices.CreateInitialProgram(result.Id);
                 return Created("", result);
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
-                return StatusCode(400, e.Message);
+                if (e is UsernameAlreadyExistsException || e is EmailAlreadyExistsException)
+                    return StatusCode(409, e.Message);
+                return StatusCode(500, "Unknown error");
             }
         }
 

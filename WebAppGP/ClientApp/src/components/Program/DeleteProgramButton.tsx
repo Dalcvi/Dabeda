@@ -2,7 +2,7 @@ import {
   DeleteProgram,
   DeleteDayByProgram,
   DeleteExerciseByProgram,
-} from "../services/user";
+} from "../../services/user";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 

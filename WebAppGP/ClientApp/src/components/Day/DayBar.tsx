@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, Accordion } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import { EditDayModal } from "./Modals/DayModal";
+import { EditDayModal } from "../Modals/DayModal";
 
 interface Day {
   id: number;
