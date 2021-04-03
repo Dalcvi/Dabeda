@@ -75,6 +75,10 @@ namespace Users.Core
                 throw new DoesNotMatchIdException("User not found");
             }
 
+            if (_context.Users.Any(u => u.Username == username)){
+                throw new UsernameAlreadyExistsException("This username is taken. Try another one.");
+            }
+
             dbUser.Username = username;
 
             _context.SaveChanges();
@@ -91,6 +95,18 @@ namespace Users.Core
             if (dbUser == null || _passwordHasher.VerifyHashedPassword(dbUser.Password, currentPassword) == PasswordVerificationResult.Failed)
             {
                 throw new InvalidUsernamePasswordException("Invalid password");
+            }
+
+            if (_context.Users.Any(u => u.Email == newEmail))
+            {
+                throw new EmailAlreadyExistsException("This email is taken. Try another one.");
+            }
+
+            // checking if email is legitimate
+            bool isEmail = Regex.IsMatch(newEmail, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+            if (!isEmail)
+            {
+                throw new Exception("Invalid email");
             }
 
             dbUser.Email = newEmail;
