@@ -37,5 +37,19 @@ namespace WebAppGP.Controllers
                 return StatusCode(400, e.Message);
             }
         }
+
+        [HttpPost("changeUsername")]
+        public IActionResult ChangeUsername(NicknameChangeModel model)
+        {
+            try
+            {
+                _userSettings.ChangeUsername(model.Username);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(400, e.Message);
+            }
+        }
     }
 }

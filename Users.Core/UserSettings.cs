@@ -61,5 +61,22 @@ namespace Users.Core
 
             _context.SaveChanges();
         }
+
+        public void ChangeUsername(string username)
+        {
+            // finding user in the database
+            var dbUser = _context.Users
+                .FirstOrDefault(u => u.Id == _user.Id);
+
+            // checking if user was found and verifying his password
+            if (dbUser == null)
+            {
+                throw new DoesNotMatchIdException("User not found");
+            }
+
+            dbUser.Username = username;
+
+            _context.SaveChanges();
+        }
     }
 }
