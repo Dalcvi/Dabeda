@@ -1,18 +1,17 @@
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ApplicationState } from "../../store/Index";
 import { UserState } from "../../store/User";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { Logout } from "../../services/authentication";
 import "./NavMenu.css";
 
 export const NavMenu = () => {
-  const username = useSelector<ApplicationState, UserState["username"]>(
-    (state) => state.user.username
-  );
+  const dispatch = useDispatch();
 
   return (
     <header style={{ margin: "0px" }}>
-      <Navbar collapseOnSelect expand={false} variant="light" id="navbar">
+      <Navbar collapseOnSelect expand={true} variant="light" id="navbar">
         <Container>
           <Navbar.Brand
             className="logoText"
@@ -39,8 +38,19 @@ export const NavMenu = () => {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link className="text-dark" as={Link} to="/main">
-                  Learning React
+                <Nav.Link className="text-dark" as={Link} to="/settings">
+                  Settings
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link className="text-dark">
+                  <span
+                    onClick={() => {
+                      Logout(dispatch);
+                    }}
+                  >
+                    Log out
+                  </span>
                 </Nav.Link>
               </Nav.Item>
             </Nav>

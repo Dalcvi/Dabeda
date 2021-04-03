@@ -4,7 +4,7 @@ import {
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { Programs } from "./Programs";
+import { Programs } from "./Program/Programs";
 
 export const Sidebar = (props: any) => {
   return (

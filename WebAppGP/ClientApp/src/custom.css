@@ -17,6 +17,8 @@ code {
 }
 
 #loginBox {
+  animation-name: scale-up-center;
+  animation-duration: 0.4s;
   background: #272727;
   box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.5);
   padding: 10px 10px 0px 10px;
@@ -26,12 +28,15 @@ code {
 }
 
 #registerBox {
+  animation-name: scale-up-center;
+  animation-duration: 0.4s;
   background: #272727;
   box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.5);
   padding: 10px 10px 0px 10px;
   width: 350px;
   border: 1px solid black;
   color: #f6f6e9;
+  overflow: hidden;
   border-radius: 7px;
 }
 
@@ -41,4 +46,25 @@ code {
 .buttonControl {
   margin: 0px;
   width: 100px;
+}
+
+@-webkit-keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(0.25);
+    transform: scale(0.25);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(0.25);
+    transform: scale(0.25);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
 }

@@ -5,7 +5,7 @@ import { AddProgram, EditProgram } from "../../services/user";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
-import { DeleteProgramButton } from "../DeleteProgramButton";
+import { DeleteProgramButton } from "../Program/DeleteProgramButton";
 
 export const NewProgramModal = (props: any) => {
   const [show, setShow] = useState(false);
@@ -79,7 +79,7 @@ const ProgramModal = ({
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{modalName}</Modal.Title>
         </Modal.Header>

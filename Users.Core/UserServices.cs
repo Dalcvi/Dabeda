@@ -61,11 +61,14 @@ namespace Users.Core
         {
             // checking if username exists
             var checkUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.Username.Equals(user.Username));
+                .FirstOrDefaultAsync(u => u.Username.Equals(user.Username) || u.Email.Equals(user.Email));
 
             if (checkUser != null)
             {
-                throw new UsernameAlreadyExistsException("Username already exists");
+                if (checkUser.Username == user.Username)
+                    throw new UsernameAlreadyExistsException("Username already exists");
+                else
+                    throw new EmailAlreadyExistsException("Email already exists");
             }
 
             // checking if email is legitimate

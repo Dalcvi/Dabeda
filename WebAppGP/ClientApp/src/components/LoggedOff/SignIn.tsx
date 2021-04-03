@@ -21,6 +21,10 @@ export const LoginBox = (props: any) => {
     }
   };
 
+  const enterPress = (event: any) => {
+    if (event.target.charCode === 13) event.target.click();
+  };
+
   return (
     <div id="loginBox">
       <Form onSubmit={handleLoginSubmit} className="text-center">
@@ -50,7 +54,12 @@ export const LoginBox = (props: any) => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Button variant="primary" type="submit" style={{ width: "100%" }}>
+        <Button
+          variant="primary"
+          type="submit"
+          onKeyPress={(e) => enterPress(e)}
+          style={{ width: "100%" }}
+        >
           Login
         </Button>
       </Form>

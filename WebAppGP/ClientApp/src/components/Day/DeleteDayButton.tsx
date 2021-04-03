@@ -1,4 +1,4 @@
-import { DeleteDay, DeleteExerciseByDay } from "../services/user";
+import { DeleteDay, DeleteExerciseByDay } from "../../services/user";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 

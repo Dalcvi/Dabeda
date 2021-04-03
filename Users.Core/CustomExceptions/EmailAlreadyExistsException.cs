@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
+
 namespace Users.Core.CustomExceptions
 {
     public class EmailAlreadyExistsException : Exception

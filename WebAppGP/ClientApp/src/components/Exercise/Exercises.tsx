@@ -29,20 +29,20 @@ export const Exercises = (props: any) => {
   );
 
   const items = [] as any;
-
-  exercises.map((exercise) => {
-    items.push(<ExerciseBar exercise={exercise as Exercise} />);
-  });
-
-  items.push(
-    <NewExerciseModal
-      exercise={{
-        name: "",
-        day: props.selectedDay,
-        program: props.selectedProgram,
-      }}
-    />
-  );
+  if (props.selectedDay != 0)
+    exercises.map((exercise) => {
+      items.push(<ExerciseBar exercise={exercise as Exercise} />);
+    });
+  if (props.selectedDay != 0)
+    items.push(
+      <NewExerciseModal
+        exercise={{
+          name: "",
+          day: props.selectedDay,
+          program: props.selectedProgram,
+        }}
+      />
+    );
 
   return (
     <div id="exercises">
