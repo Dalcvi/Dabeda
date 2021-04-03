@@ -3,15 +3,27 @@ import { useState } from "react";
 import { Button, InputGroup, FormControl } from "react-bootstrap";
 import { ApplicationState } from "../store/Index";
 import { UserState } from "../store/User";
-import { useSelector } from "react-redux";
-import { ChangePasswordModal } from "./Modals/PasswordChangeModal";
+import { useSelector, useDispatch } from "react-redux";
+import { PasswordChangeModal } from "./Modals/PasswordChangeModal";
+import { EmailChangeModal } from "./Modals/EmailChangeModal";
+import { ChangeUsername } from "../services/settings";
 
 export const Settings = (props: any) => {
-  const userPrograms = useSelector<ApplicationState, UserState["username"]>(
+  const userName = useSelector<ApplicationState, UserState["username"]>(
     (state) => state.user.username
   );
 
-  const [username, setUsername] = useState(userPrograms);
+  const dispatch = useDispatch();
+
+  const [username, setUsername] = useState(userName);
+  const [usernameText, setUsernameText] = useState(userName);
+
+  const Apply = () => {
+    if (usernameText === username || usernameText === "") return;
+    else {
+      ChangeUsername(dispatch, { username: usernameText });
+    }
+  };
 
   return (
     <div
@@ -49,8 +61,8 @@ export const Settings = (props: any) => {
               placeholder="Username"
               aria-label="Username"
               aria-describedby="basic-addon1"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={usernameText}
+              onChange={(e) => setUsernameText(e.target.value)}
             />
           </InputGroup>
         </div>
@@ -81,31 +93,8 @@ export const Settings = (props: any) => {
         </Button>
       </div>
       <div style={{ maxWidth: "425px", width: "100%" }}>
-        <Button
-          variant="light"
-          style={{
-            backgroundColor: "#f6f6e9",
-            color: "#272727",
-            padding: "5px 20px 5px 20px",
-            marginTop: "40px",
-            width: "100%",
-          }}
-        >
-          Change email address
-        </Button>
-        <Button
-          variant="light"
-          style={{
-            backgroundColor: "#f6f6e9",
-            color: "#272727",
-            padding: "5px 20px 5px 20px",
-            marginTop: "40px",
-            width: "100%",
-          }}
-        >
-          Change password
-        </Button>
-        <ChangePasswordModal />
+        <EmailChangeModal />
+        <PasswordChangeModal />
       </div>
     </div>
   );

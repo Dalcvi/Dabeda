@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Form, Modal, Button, InputGroup, FormControl } from "react-bootstrap";
+import { Form, Modal, Button } from "react-bootstrap";
+import { ChangePassword } from "../../services/settings";
 
-export const ChangePasswordModal = (props: any) => {
+export const PasswordChangeModal = (props: any) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -30,6 +31,72 @@ export const ChangePasswordModal = (props: any) => {
 const PasswordModal = ({ show, handleClose }: any) => {
   const dispatch = useDispatch();
 
+  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confPassword, setConfPassword] = useState("");
+  const [notMatchingPassword, setNotMatchingPassword] = useState(false);
+  const [strongPassword, setStrongPassword] = useState(true);
+
+  const passwordRegex = new RegExp(
+    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})"
+  );
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      CheckIfStrongPassword();
+      CheckIfPasswordMatches();
+    }, 1500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [newPassword]);
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      CheckIfPasswordMatches();
+    }, 1500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [confPassword]);
+
+  const CheckIfPasswordMatches = () => {
+    if (newPassword == "" || confPassword == "") {
+      setNotMatchingPassword(false);
+    } else {
+      if (newPassword != confPassword) setNotMatchingPassword(true);
+      else setNotMatchingPassword(false);
+    }
+  };
+
+  const CheckIfStrongPassword = () => {
+    if (newPassword == "" || passwordRegex.test(newPassword)) {
+      setStrongPassword(true);
+    } else {
+      setStrongPassword(false);
+    }
+  };
+
+  const onSubmit = (event: any) => {
+    event.preventDefault();
+    if (notMatchingPassword || !strongPassword || password === "") return;
+    else {
+      if (
+        ChangePassword({
+          password: password,
+          newPassword: newPassword,
+          confPassword: confPassword,
+        })
+      ) {
+        Clear();
+        handleClose();
+      }
+    }
+  };
+
+  const Clear = () => {
+    setPassword("");
+    setNewPassword("");
+    setConfPassword("");
+    setNotMatchingPassword(false);
+    setStrongPassword(true);
+  };
+
   return (
     <>
       <Modal autoFocus centered show={show} onHide={handleClose}>
@@ -38,24 +105,69 @@ const PasswordModal = ({ show, handleClose }: any) => {
         </Modal.Header>
         <Form>
           <Modal.Body>
-            <InputGroup>
+            <Form.Group>
               <Form.Label>Current password:</Form.Label>
-              <FormControl type="password" autoComplete="new-password" />
-            </InputGroup>
-            <InputGroup>
+              <br />
+              <Form.Control
+                type="password"
+                name="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="Password"
+                autoComplete="new-password"
+                required
+              />
+            </Form.Group>
+            <Form.Group>
               <Form.Label>New password:</Form.Label>
-              <FormControl type="password" autoComplete="new-password" />
-            </InputGroup>
-            <InputGroup>
+              <Form.Control
+                type="password"
+                name="password"
+                value={newPassword}
+                onChange={(event) => setNewPassword(event.target.value)}
+                placeholder="New password"
+                autoComplete="new-password"
+                isInvalid={notMatchingPassword || !strongPassword}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                {!strongPassword &&
+                  `Password must contain at least 8 characters, with one uppercase letter,
+            one lowercase letter and one number`}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group>
               <Form.Label>Confirm new password:</Form.Label>
-              <FormControl type="password" autoComplete="new-password" />
-            </InputGroup>
+              <Form.Control
+                type="password"
+                name="password"
+                value={confPassword}
+                onChange={(event) => setConfPassword(event.target.value)}
+                placeholder="Confirm password"
+                autoComplete="new-password"
+                isInvalid={notMatchingPassword}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Password doesn't match
+              </Form.Control.Feedback>
+            </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                Clear();
+                handleClose();
+              }}
+            >
               Close
             </Button>
-            <Button type="submit" variant="primary">
+            <Button
+              type="submit"
+              variant="primary"
+              onClick={(e) => onSubmit(e)}
+            >
               Save Changes
             </Button>
           </Modal.Footer>
