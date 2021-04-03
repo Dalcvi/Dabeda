@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Users.Core;
 using Strength.DB;
 using Users.Core.CustomExceptions;
+using System;
 
 namespace WebAppGP.Controllers
 {
@@ -20,12 +21,15 @@ namespace WebAppGP.Controllers
             _userServices = userServices;
         }
 
-        [HttpPost("signup")]
+        [HttpPost("signUp")]
         public async Task<IActionResult> SignUp(User user)
         {
             try
             {
                 var result = await _userServices.SignUp(user);
+
+                // when a user signs up, he gets a starting program
+                _userServices.CreateInitialProgram(result.Id);
                 return Created("", result);
             }
             catch (System.Exception e)
@@ -36,7 +40,7 @@ namespace WebAppGP.Controllers
             }
         }
 
-        [HttpPost("signin")]
+        [HttpPost("signIn")]
         public async Task<IActionResult> SignIn(User user)
         {
             try

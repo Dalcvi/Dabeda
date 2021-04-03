@@ -33,7 +33,8 @@ namespace WebAppGP.Controllers
             }
         }
 
-        //add-------------------
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Create ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         [HttpPost("addProgram")]
         public IActionResult AddProgram([FromBody] DTO.ExProgram dataProgram)
         {
@@ -92,7 +93,8 @@ namespace WebAppGP.Controllers
             }
         }
 
-        //edit-------------------
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Edit ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         [HttpPost("editProgram")]
         public IActionResult EditProgram([FromBody] DTO.ExProgram dataProgram)
         {
@@ -135,7 +137,8 @@ namespace WebAppGP.Controllers
             }
         }
 
-        //delete-------------------
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Delete ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         [HttpPost("deleteProgram")]
         public IActionResult DeleteProgram([FromBody] DTO.ExProgram dataExProgram)
         {
@@ -149,6 +152,7 @@ namespace WebAppGP.Controllers
                 return BadRequest(e.Message);
             }
         }
+
         [HttpPost("deleteDay")]
         public IActionResult DeleteDay([FromBody] DTO.Day dataDay)
         {
