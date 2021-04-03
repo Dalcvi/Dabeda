@@ -1,4 +1,4 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -9,25 +9,25 @@
   },
   "profiles": {
     "IIS Express": {
-        "commandName": "IISExpress",
-        "launchBrowser": true,
-        "launchUrl": "WebAppGP",
+      "commandName": "IISExpress",
+      "launchBrowser": false,
+      "launchUrl": "WebAppGP",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
         "JWT_SECRET": "KAkSjn0crPsX2ZJ0WH7TtOztEk4cELz08dHEKmxW3GEIpdUxIP6CL5qDY2hG8AN",
-        "JWT_ISSUER": "My programs babyyyy"
+        "JWT_ISSUER": "My programs babyyyy",
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "WebAppGP": {
-        "commandName": "Project",
-        "launchBrowser": true,
-        "launchUrl": "WebAppGP",
-        "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "WebAppGP",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
         "JWT_SECRET": "KAkSjn0crPsX2ZJ0WH7TtOztEk4cELz08dHEKmxW3GEIpdUxIP6CL5qDY2hG8AN",
-        "JWT_ISSUER": "My programs babyyyy"
-      }
+        "JWT_ISSUER": "My programs babyyyy",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
   }
 }
