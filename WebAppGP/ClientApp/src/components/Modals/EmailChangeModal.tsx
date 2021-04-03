@@ -38,8 +38,8 @@ const EmailModal = ({ show, handleClose }: any) => {
     event.preventDefault();
     if (password === "" || newEmail === "") return;
     else {
-      ChangeEmail({ password: password, newEmail: newEmail });
-      handleClose();
+      if (ChangeEmail({ currentPassword: password, email: newEmail }))
+        handleClose();
     }
   };
 
