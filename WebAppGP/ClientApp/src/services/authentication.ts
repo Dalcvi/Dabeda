@@ -28,11 +28,9 @@ export const SignIn = async (dispatch: any, credentials: any) => {
         const { data } = await axiosInstance.post('/signin', credentials);
         dispatch(AuthAction.authenticate({ token: (data as AuthenticatedUser).token }));
         GetInfo(dispatch);
-        return true;
     }
     catch {
         console.log("ERROR SIGNIN");
-        return false;
     }
 }
 
