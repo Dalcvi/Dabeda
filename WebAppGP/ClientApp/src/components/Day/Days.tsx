@@ -18,6 +18,12 @@ export const Days = (props: any) => {
   const userDays = useSelector<ApplicationState, DaysState["days"]>(
     (state) => state.days.days
   );
+  if (
+    props.selectedDay != 0 &&
+    !Object.keys(userDays).includes(props.selectedDay.toString())
+  ) {
+    props.setSelectedDay(0);
+  }
 
   const daysArray = filter(userDays, (day) => {
     return (day as Day).program === props.program;
