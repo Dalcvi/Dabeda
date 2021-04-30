@@ -1,7 +1,7 @@
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ApplicationState } from "../../store/Index";
-import { UserState } from "../../store/User";
+import { UserState } from "../../store/UserReducer";
 import { useSelector, useDispatch } from "react-redux";
 import { Logout } from "../../services/authentication";
 import "./NavMenu.css";
@@ -43,14 +43,13 @@ export const NavMenu = () => {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link className="text-dark">
-                  <span
-                    onClick={() => {
-                      Logout(dispatch);
-                    }}
-                  >
-                    Log out
-                  </span>
+                <Nav.Link
+                  onClick={() => {
+                    Logout(dispatch);
+                  }}
+                  className="text-dark"
+                >
+                  <span>Log out</span>
                 </Nav.Link>
               </Nav.Item>
             </Nav>
