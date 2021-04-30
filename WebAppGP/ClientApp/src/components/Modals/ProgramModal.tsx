@@ -75,7 +75,7 @@ const ProgramModal = ({
 
   useEffect(() => {
     setModalProgram(program);
-  }, []);
+  }, [id]);
 
   return (
     <>
