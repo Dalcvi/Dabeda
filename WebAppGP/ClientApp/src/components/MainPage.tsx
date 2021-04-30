@@ -2,10 +2,10 @@
 import { useSelector } from "react-redux";
 import { ApplicationState } from "../store/Index";
 import "../styles/learningReact.css";
-import { UserState } from "../store/User";
+import { UserState } from "../store/UserReducer";
 import { Programs } from "./Program/Programs";
 import { Sidebar } from "./Sidebar";
-import { Exercises } from "./Exercise/Exercises";
+import { ShowDay } from "./ShowDay/ShowDay";
 
 export const MainPage = () => {
   const username = useSelector<ApplicationState, UserState["username"]>(
@@ -32,9 +32,10 @@ export const MainPage = () => {
         changeStyle={changeStyle}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
+        username={username}
       />
       <div style={{ width: "100%" }}>
-        <Exercises
+        <ShowDay
           fullSidebar={fullSidebar}
           changeStyle={changeStyle}
           selectedDay={selectedDay}
