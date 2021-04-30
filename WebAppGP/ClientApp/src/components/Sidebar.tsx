@@ -9,7 +9,7 @@ import { Programs } from "./Program/Programs";
 export const Sidebar = (props: any) => {
   return (
     <aside id={props.sidebarStyle} className="sidebar">
-      <div className="text-right" style={{ paddingRight: "10%" }}>
+      <div className="text-right" style={{ paddingRight: "5%" }}>
         <FontAwesomeIcon
           id="left-arrow"
           className="arrow"
@@ -18,6 +18,9 @@ export const Sidebar = (props: any) => {
           onClick={() => props.changeStyle()}
         />
       </div>
+      <h1 style={{ overflow: "hidden", width: "100%", whiteSpace: "nowrap" }}>
+        Hello {props.username}
+      </h1>
       <Programs
         selectedProgram={props.selectedProgram}
         setSelectedProgram={props.setSelectedProgram}
