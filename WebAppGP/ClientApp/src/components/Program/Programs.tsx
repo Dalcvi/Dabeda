@@ -15,7 +15,6 @@ export const Programs = (props: any) => {
   const userPrograms = useSelector<ApplicationState, ProgramsState["programs"]>(
     (state) => state.programs.programs
   );
-
   const arrayUserPrograms = toArray(userPrograms);
   const items = [] as any;
   arrayUserPrograms.map((program) => {
