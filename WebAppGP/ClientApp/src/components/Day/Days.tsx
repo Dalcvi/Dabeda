@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DayBar } from "./DayBar";
 import { useSelector } from "react-redux";
-import { ApplicationState } from "../../store/Index";
+import { ApplicationState } from "../../store";
 import toArray from "lodash/toArray";
 import filter from "lodash/filter";
 import { DaysState } from "../../store/DaysReducer";
