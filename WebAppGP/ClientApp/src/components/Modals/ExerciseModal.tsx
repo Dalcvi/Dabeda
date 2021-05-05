@@ -10,8 +10,12 @@ export const NewExerciseModal = (props: any) => {
   const handleShow = () => setShow(true);
   return (
     <div>
-      <Button onClick={handleShow} className="btn btn-warning">
-        Create
+      <Button
+        style={{ margin: "10px" }}
+        onClick={handleShow}
+        className="btn btn-warning"
+      >
+        Create a new exercise
       </Button>
       <ExerciseModal
         modalName="Create a new exercise"
