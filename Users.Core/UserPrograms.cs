@@ -5,6 +5,7 @@ using Strength.DB.Models;
 using Users.Core.CustomExceptions;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Users.Core
 {
@@ -13,13 +14,82 @@ namespace Users.Core
         private readonly AppDbContext _context;
         private readonly User _user;
 
-
         public UserPrograms(AppDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _user = _context.Users.First(u => u.Username == httpContextAccessor.HttpContext.User.Identity.Name);
         }
 
+
+        public List<DTO.ReturnExercise> GetCompletionsByDay(int dayId)
+        {
+            List<DTO.ReturnExercise> returnedList = new List<DTO.ReturnExercise>();
+
+            List<List<DTO.ReturnExercise>> completionsByExercises = _context.Exercises
+                .Where(n => n.Day.Id == dayId && _user.Id == n.Program.User.Id)
+                .Include(n => n.Completions).AsEnumerable().Select(n =>
+            {
+                List<DTO.ReturnExercise> completions = new List<DTO.ReturnExercise>();
+                if (n.Completions != null)
+                foreach (ExCompletion comp in n.Completions)
+                {
+                    completions.Add(new DTO.ReturnExercise
+                    {
+                        Id = comp.Id,
+                        ExerciseId = n.Id,
+                        Weight = comp.Weight,
+                        Reps = comp.Reps.Split(',').Select(Int32.Parse).ToArray(),
+                        Date = comp.Date.ToString("yyyy-MM-dd")
+                    });
+                }
+                return completions;
+            }).ToList();
+
+            foreach(List<DTO.ReturnExercise> completions in completionsByExercises)
+            {
+                returnedList.AddRange(completions);
+            }
+
+            return returnedList;
+        }
+
+        /// <summary>
+        /// used for publishing exercises to the database, assigning new datetime, giving new id for an exercise completion
+        /// takes a list of exercises: {Id, Name, Weight, Reps}
+        /// </summary>
+        /// <param name="exercises"></param>
+        /// <returns> a new list that contains previous list, but has datetime and exercise id </returns>
+        public List<DTO.ReturnExercise> RegisterExercises(List<DTO.ReceiveExercise> exercises)
+        {
+            List<DTO.ReturnExercise> returnedList = new List<DTO.ReturnExercise>();
+            foreach (DTO.ReceiveExercise ex in exercises)
+            {
+                string repetitions = "";
+                if (ex != null && ex.Reps != null && _context.Exercises.FirstOrDefault(n => n.Id == ex.ExerciseId && _user.Id == n.Program.User.Id) != null)
+                {
+                    // Converting int[] reps to a single string, e.g. {5, 4, 3, 2, 5, 4} to "5,4,3,2,5,4" with commas in between
+                    repetitions = string.Join(",", ex.Reps);
+
+                    ExCompletion completion = new ExCompletion();
+                    completion.Date = DateTime.Now;
+                    completion.Reps = repetitions;
+                    completion.Weight = ex.Weight;
+                    completion.Exercise = _context.Exercises.FirstOrDefault(n => n.Id == ex.ExerciseId);
+                    _context.Completions.Add(completion);
+                    _context.SaveChanges();
+
+                    returnedList.Add(new DTO.ReturnExercise
+                    {
+                        Id = completion.Id,
+                        ExerciseId = ex.ExerciseId,
+                        Weight = completion.Weight,
+                        Reps = ex.Reps,
+                        Date = completion.Date.ToString("yyyy-MM-dd")
+                    });
+                }
+            }
+            return returnedList;
+        }
 
         /// <summary>
         /// used for getting information about a user: their username, programs, days, exercises

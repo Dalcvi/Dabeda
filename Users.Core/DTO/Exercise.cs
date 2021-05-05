@@ -8,16 +8,16 @@ namespace Users.Core.DTO
         public int Id { get; set; }
         public string Name { get; set; }
         public int SetsAmount { get; set; }
-        public int Day { get; set; }
-        public int Program { get; set; }
+        public int DayId { get; set; }
+        public int ProgramId { get; set; }
 
         public Exercise(Strength.DB.Models.Exercise e)
         {
             Id = e.Id;
             Name = e.Name;
             SetsAmount = e.SetsAmount;
-            Day = e.Day.Id;
-            Program = e.Program.Id;
+            DayId = e.Day.Id;
+            ProgramId = e.Program.Id;
         }
 
         [JsonConstructor]
@@ -26,8 +26,8 @@ namespace Users.Core.DTO
             Id = id;
             Name = name;
             SetsAmount = setsAmount;
-            Day = day;
-            Program = program;
+            DayId = day;
+            ProgramId = program;
         }
     }
 }

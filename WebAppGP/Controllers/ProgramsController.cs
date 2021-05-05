@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using DTO = Users.Core.DTO;
 using Strength.DB.Models;
 using Users.Core;
+using System.Collections.Generic;
 
 namespace WebAppGP.Controllers
 {
@@ -32,6 +33,33 @@ namespace WebAppGP.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpPost("putProgramList")]
+        public IActionResult PostProgramList([FromBody] List<DTO.ReceiveExercise> registeredExercises)
+        {
+            try
+            {
+                return Ok(_userPrograms.RegisterExercises(registeredExercises));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("day")]
+        public IActionResult GetDayCompletions([FromQuery] int dayId)
+        {
+            try
+            {
+                return Ok(_userPrograms.GetCompletionsByDay(dayId));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Create ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -77,7 +105,7 @@ namespace WebAppGP.Controllers
         {
             try
             {
-                Exercise exer = _userPrograms.CreateExercise(dataExercise.Day, dataExercise.Name, dataExercise.SetsAmount);
+                Exercise exer = _userPrograms.CreateExercise(dataExercise.DayId, dataExercise.Name, dataExercise.SetsAmount);
 
                 return Ok(new
                 {
@@ -166,6 +194,7 @@ namespace WebAppGP.Controllers
                 return BadRequest(e.Message);
             }
         }
+
         [HttpPost("deleteExercise")]
         public IActionResult DeleteExercise([FromBody] DTO.Exercise dataExercise)
         {
