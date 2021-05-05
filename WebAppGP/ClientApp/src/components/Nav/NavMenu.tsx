@@ -1,6 +1,6 @@
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { ApplicationState } from "../../store/Index";
+import { ApplicationState } from "../../store";
 import { UserState } from "../../store/UserReducer";
 import { useSelector, useDispatch } from "react-redux";
 import { Logout } from "../../services/authentication";
