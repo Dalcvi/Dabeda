@@ -34,7 +34,7 @@ namespace WebAppGP.Controllers
             }
         }
 
-        [HttpPost("putProgramList")]
+        [HttpPost("registerExercise")]
         public IActionResult PostProgramList([FromBody] List<DTO.ReceiveExercise> registeredExercises)
         {
             try
@@ -105,7 +105,7 @@ namespace WebAppGP.Controllers
         {
             try
             {
-                Exercise exer = _userPrograms.CreateExercise(dataExercise.DayId, dataExercise.Name, dataExercise.SetsAmount);
+                Exercise exer = _userPrograms.CreateExercise(dataExercise.Day, dataExercise.Name, dataExercise.SetsAmount);
 
                 return Ok(new
                 {
