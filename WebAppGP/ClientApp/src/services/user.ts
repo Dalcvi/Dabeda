@@ -175,15 +175,23 @@ export const DeleteExerciseByProgram = async (dispatch: any, deleteProgramId: nu
 
 export const SendCompletedExercises = async (dispatch: any, completedExercises: []) => {
     try {
-        //const { data } = await axiosInstance.post('/registerExercise', completedExercises);
-        const newArray = [];
-        for (let i = 0; i < completedExercises.length; i++) {
-            newArray.push({ id: Math.floor((Math.random() * 10000)), ...(completedExercises[i] as {}) })
-        }
-        dispatch(CompletedExercisesCreators.setCompletedExercisesAction(newArray as []));
+        const { data } = await axiosInstance.post('/registerExercise', completedExercises);
+        console.log(data);
+        dispatch(CompletedExercisesCreators.setCompletedExercisesAction(data as []));
     }
     catch {
         console.log("Couldn't save progress!")
     }
 
+}
+
+export const GetDay = async (dispatch: any, dayId: number) => {
+    try {
+        //const { data } = await axiosInstance.post('/registerExercise', completedExercises);
+        const { data } = await axiosInstance.get('/day', { params: { dayId } });
+        dispatch(CompletedExercisesCreators.setCompletedExercisesAction(data as []));
+    }
+    catch {
+        console.log("Couldn't save progress!")
+    }
 }
