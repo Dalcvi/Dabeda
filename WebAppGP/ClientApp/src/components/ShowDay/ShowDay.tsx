@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { ApplicationState } from "../../store/Index";
+import { useSelector, useDispatch } from "react-redux";
+import { ApplicationState } from "../../store";
 import { Exercises } from "../Exercise/Exercises";
 import { Graphs } from "../Graph/Graphs";
 import { ExercisesState } from "../../store/ExercisesReducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { Row, Col } from "react-bootstrap";
+import { GetDay } from "../../services/user";
 
 export const ShowDay = (props: any) => {
   const [showExercises, setShowExercises] = useState(true);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (props.selectedDay > 0) GetDay(dispatch, props.selectedDay);
+  }, [props.selectedDay]);
 
   const allExercises = useSelector<
     ApplicationState,
@@ -45,7 +51,11 @@ export const ShowDay = (props: any) => {
                 onClick={() => {
                   if (!showExercises) setShowExercises(true);
                 }}
-                style={showExercises ? { borderBottom: "1px solid red" } : {}}
+                style={
+                  showExercises
+                    ? { borderBottom: "1px solid red", cursor: "pointer" }
+                    : { cursor: "pointer" }
+                }
               >
                 Exercises
               </p>
@@ -53,7 +63,11 @@ export const ShowDay = (props: any) => {
                 onClick={() => {
                   if (showExercises) setShowExercises(false);
                 }}
-                style={!showExercises ? { borderBottom: "1px solid red" } : {}}
+                style={
+                  !showExercises
+                    ? { borderBottom: "1px solid red", cursor: "pointer" }
+                    : { cursor: "pointer" }
+                }
               >
                 Graphs
               </p>
@@ -68,7 +82,10 @@ export const ShowDay = (props: any) => {
               selectedProgram={props.selectedProgram}
             />
           ) : (
-            <Graphs allExercises={allExercises} />
+            <Graphs
+              selectedDay={props.selectedDay}
+              allExercises={allExercises}
+            />
           )}
         </>
       )}
