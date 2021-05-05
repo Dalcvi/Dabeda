@@ -3,6 +3,7 @@ import { Line } from "react-chartjs-2";
 export const Graph = (props: any) => {
   const data: Array<Object> = [];
   console.log(props.completedExercises);
+  if (props.completedExercises == undefined) return <></>;
   props.completedExercises.map(
     (exercise: {
       id: number;
@@ -21,7 +22,7 @@ export const Graph = (props: any) => {
       data={{
         datasets: [
           {
-            label: "Bench Press",
+            label: "Weight",
             data: data,
             borderColor: "rgba(75, 123, 192, 1)",
             pointBorderColor: "rgba(200, 123, 255, 1)",

@@ -1,8 +1,10 @@
 import { useSelector } from "react-redux";
 import { CompletedExercisesState } from "../../store/CompletedExercisesReducer";
-import { ApplicationState } from "../../store/Index";
+import { ApplicationState } from "../../store";
 import { Line } from "react-chartjs-2";
 import { Graph } from "./Graph";
+import filter from "lodash/filter";
+import mapValues from "lodash/mapValues";
 
 interface completedExercise {
   id: number;
@@ -19,15 +21,23 @@ export const Graphs = (props: any) => {
     CompletedExercisesState["completedExercises"]
   >((state) => state.completedExercises.completedExercises);
   const okay = Object.values(allCompletedExercises);
-
   console.log(allCompletedExercises);
-  const exerciseIds = Object.keys(props.allExercises);
+  const exercisesByDay = mapValues(
+    filter(props.allExercises, { day: props.selectedDay }),
+    (n) => {
+      return { id: n["id"], name: n["name"] };
+    }
+  );
+
+  const exerciseIds = Object.values(exercisesByDay);
+  console.log(exerciseIds);
   const items = [] as any[];
   if (Object.keys(allCompletedExercises).length != 0) {
-    exerciseIds.map((id) => {
+    exerciseIds.map((exercise) => {
       items.push(
         <div className="exercise-bar" style={{ padding: "10px" }}>
-          <Graph completedExercises={allCompletedExercises[id]} />
+          <h4 className="text-center">{exercise["name"]}</h4>
+          <Graph completedExercises={allCompletedExercises[exercise["id"]]} />
         </div>
       );
     });
