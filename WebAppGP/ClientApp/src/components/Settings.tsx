@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import { Button, InputGroup, FormControl } from "react-bootstrap";
-import { ApplicationState } from "../store/Index";
-import { UserState } from "../store/User";
+import { ApplicationState } from "../store";
+import { UserState } from "../store/UserReducer";
 import { useSelector, useDispatch } from "react-redux";
 import { PasswordChangeModal } from "./Modals/PasswordChangeModal";
 import { EmailChangeModal } from "./Modals/EmailChangeModal";
@@ -37,7 +37,7 @@ export const Settings = (props: any) => {
     <div
       style={{
         backgroundColor: "#272727",
-        height: "88vh",
+        height: "94vh",
         padding: "5rem 20px 0 20px",
       }}
       className="d-flex flex-column align-items-center"

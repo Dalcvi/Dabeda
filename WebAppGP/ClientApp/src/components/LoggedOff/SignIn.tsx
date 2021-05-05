@@ -1,5 +1,6 @@
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Row, Col, Toast } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+
 import { SignIn } from "../../services/authentication";
 import * as React from "react";
 
@@ -17,7 +18,9 @@ export const LoginBox = (props: any) => {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      SignIn(dispatch, { email, password });
+      !SignIn(dispatch, { email, password }).then((answer) => {
+        props.setShow(!answer);
+      });
     }
   };
 

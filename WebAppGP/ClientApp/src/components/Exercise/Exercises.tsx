@@ -1,13 +1,12 @@
 import filter from "lodash/filter";
-import { DeleteExerciseButton } from "./DeleteExerciseButton";
 import { NewExerciseModal } from "../Modals/ExerciseModal";
-import { Form, Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { ExercisesState } from "../../store/ExercisesReducer";
-import { ApplicationState } from "../../store/Index";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "react-bootstrap";
+import toArray from "lodash/toArray";
+import { useSelector, useDispatch } from "react-redux";
+import { CompletedExercisesState } from "../../store/CompletedExercisesReducer";
+import { ApplicationState } from "../../store";
 import { ExerciseBar } from "./ExerciseBar";
+import { SendCompletedExercises } from "../../services/user";
 
 interface Exercise {
   id: number;
@@ -18,51 +17,60 @@ interface Exercise {
 }
 
 export const Exercises = (props: any) => {
-  const allExercises = useSelector<
-    ApplicationState,
-    ExercisesState["exercises"]
-  >((state) => state.exercises.exercises);
+  const dispatch = useDispatch();
 
+  const answer = { doneExercises: {} };
   const exercises = filter(
-    allExercises,
+    props.allExercises,
     (exercise) => (exercise as Exercise).day === props.selectedDay
   );
 
   const items = [] as any;
+
   if (props.selectedDay != 0)
     exercises.map((exercise) => {
-      items.push(<ExerciseBar exercise={exercise as Exercise} />);
+      items.push(
+        <ExerciseBar exercise={exercise as Exercise} answer={answer} />
+      );
     });
-  if (props.selectedDay != 0)
-    items.push(
-      <NewExerciseModal
-        exercise={{
-          name: "",
-          day: props.selectedDay,
-          program: props.selectedProgram,
-        }}
-      />
-    );
-
   return (
-    <div id="exercises">
-      <FontAwesomeIcon
-        id="right-side-ar"
-        className={
-          !props.fullSidebar
-            ? "right-side-arrow arrow"
-            : "right-side-arrow-hide arrow"
-        }
-        icon={faChevronRight}
-        size="3x"
-        onClick={!props.fullSidebar && props.changeStyle}
-      />
+    <div>
       <div
         className="d-flex flex-column align-items-center"
         style={{ width: "100%" }}
       >
         {items}
+        <Button
+          style={{ margin: "10px" }}
+          className="btn btn-success"
+          onClick={() => sendCompletedExercises(dispatch, answer.doneExercises)}
+        >
+          Register
+        </Button>
+        <NewExerciseModal
+          exercise={{
+            name: "",
+            day: props.selectedDay,
+            program: props.selectedProgram,
+          }}
+        />
       </div>
     </div>
   );
+};
+
+const sendCompletedExercises = (dispatch: any, doneExercises: {}) => {
+  const completedExercises = toArray(doneExercises);
+  const date = new Date(
+    2021,
+    4,
+    Math.floor(Math.random() * 30)
+  ).toLocaleDateString();
+  for (let i = 0; i < completedExercises.length; i++) {
+    completedExercises[i] = {
+      ...(completedExercises[i] as {}),
+      ["date"]: date,
+    };
+  }
+  SendCompletedExercises(dispatch, completedExercises as []);
 };

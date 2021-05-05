@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Route, Switch } from "react-router";
 import { Redirect, BrowserRouter, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { ApplicationState } from "./store/Index";
+import { ApplicationState } from "./store/index";
 import { AuthState } from "./store/Authentication";
 import { AuthActionCreators as AuthAction } from "./store/actions/AuthActions";
 import Layout from "./components/Layout/Layout";

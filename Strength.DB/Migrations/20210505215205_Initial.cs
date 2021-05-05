@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Strength.DB.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,7 +69,8 @@ namespace Strength.DB.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SetsAmount = table.Column<int>(type: "int", nullable: false),
-                    DayId = table.Column<int>(type: "int", nullable: true)
+                    DayId = table.Column<int>(type: "int", nullable: true),
+                    ProgramId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -78,6 +79,12 @@ namespace Strength.DB.Migrations
                         name: "FK_Exercises_Days_DayId",
                         column: x => x.DayId,
                         principalTable: "Days",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Exercises_Programs_ProgramId",
+                        column: x => x.ProgramId,
+                        principalTable: "Programs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -89,7 +96,9 @@ namespace Strength.DB.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ExerciseId = table.Column<int>(type: "int", nullable: true)
+                    ExerciseId = table.Column<int>(type: "int", nullable: true),
+                    Weight = table.Column<int>(type: "int", nullable: false),
+                    Reps = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -98,28 +107,6 @@ namespace Strength.DB.Migrations
                         name: "FK_Completions_Exercises_ExerciseId",
                         column: x => x.ExerciseId,
                         principalTable: "Exercises",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Sets",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Number = table.Column<int>(type: "int", nullable: false),
-                    Reps = table.Column<int>(type: "int", nullable: false),
-                    Weight = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
-                    ExCompletionId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sets", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Sets_Completions_ExCompletionId",
-                        column: x => x.ExCompletionId,
-                        principalTable: "Completions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -140,21 +127,18 @@ namespace Strength.DB.Migrations
                 column: "DayId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Exercises_ProgramId",
+                table: "Exercises",
+                column: "ProgramId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Programs_UserId",
                 table: "Programs",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sets_ExCompletionId",
-                table: "Sets",
-                column: "ExCompletionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Sets");
-
             migrationBuilder.DropTable(
                 name: "Completions");
 

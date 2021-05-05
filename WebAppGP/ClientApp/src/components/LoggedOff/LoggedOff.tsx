@@ -1,5 +1,5 @@
 import { useState } from "react";
-import * as RB from "react-bootstrap";
+import { Row, Col, Toast, Container } from "react-bootstrap";
 import { LoginBox } from "./SignIn";
 import { RegisterBox } from "./SignUp";
 
@@ -7,11 +7,13 @@ import "../../custom.css";
 
 const LoggedOff = () => {
   const [isRegistering, setIsRegistering] = useState(false);
+  const [show, setShow] = useState(false);
 
   return (
-    <RB.Container fluid>
-      <RB.Row id="loginRow" className="d-flex align-items-center">
-        <RB.Col lg={7} className="d-flex flex-column align-items-center">
+    <Container fluid>
+      <ServerOffNotification show={show} setShow={setShow} />
+      <Row id="loginRow" className="d-flex align-items-center">
+        <Col lg={7} className="d-flex flex-column align-items-center">
           <img
             className="img-fluid"
             src="https://res.cloudinary.com/drsrpeh2f/image/upload/v1613872332/logo_s1xvmm.png"
@@ -33,23 +35,42 @@ const LoggedOff = () => {
           >
             For more than achieving
           </p>
-        </RB.Col>
-        <RB.Col
+        </Col>
+        <Col
           lg={5}
           className="d-flex justify-content-lg-start justify-content-center
 "
         >
           {!isRegistering ? (
             // THIS IS RENDERED AS DEFAULT OR WHEN COMING BACK FROM REGISTER FORM
-            <LoginBox setIsRegistering={setIsRegistering} />
+            <LoginBox setIsRegistering={setIsRegistering} setShow={setShow} />
           ) : (
             // IF REGISTER BUTTON PRESSED, REGISTER SCREEN WILL BE RENDERED INSTEAD
             <RegisterBox setIsRegistering={setIsRegistering} />
           )}
-        </RB.Col>
-      </RB.Row>
-    </RB.Container>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
 export default LoggedOff;
+
+function ServerOffNotification(props: any) {
+  return (
+    <Toast
+      onClose={() => props.setShow(false)}
+      show={props.show}
+      delay={3000}
+      autohide
+      style={{
+        position: "fixed",
+        right: "1vw",
+        top: "1vh",
+        background: "#fc686f",
+      }}
+    >
+      <Toast.Body>Damn, servers do be offline though</Toast.Body>
+    </Toast>
+  );
+}

@@ -2,6 +2,7 @@ import { UserActionCreators } from "../store/actions/UserActions";
 import { ProgramsActionCreators } from "../store/actions/ProgramsActions";
 import { DaysActionCreators } from "../store/actions/DaysActions";
 import { ExercisesActionCreators } from "../store/actions/ExercisesActions";
+import { CompletedExercisesCreators } from "../store/actions/CompletedExercisesActions";
 import axios from 'axios';
 
 
@@ -169,5 +170,28 @@ export const DeleteExerciseByProgram = async (dispatch: any, deleteProgramId: nu
     }
     catch {
         console.log("Couldn't delete exercises by day!")
+    }
+}
+
+export const SendCompletedExercises = async (dispatch: any, completedExercises: []) => {
+    try {
+        const { data } = await axiosInstance.post('/registerExercise', completedExercises);
+        console.log(data);
+        dispatch(CompletedExercisesCreators.setCompletedExercisesAction(data as []));
+    }
+    catch {
+        console.log("Couldn't save progress!")
+    }
+
+}
+
+export const GetDay = async (dispatch: any, dayId: number) => {
+    try {
+        //const { data } = await axiosInstance.post('/registerExercise', completedExercises);
+        const { data } = await axiosInstance.get('/day', { params: { dayId } });
+        dispatch(CompletedExercisesCreators.setCompletedExercisesAction(data as []));
+    }
+    catch {
+        console.log("Couldn't save progress!")
     }
 }

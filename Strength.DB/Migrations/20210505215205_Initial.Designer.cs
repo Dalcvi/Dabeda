@@ -10,8 +10,8 @@ using Strength.DB;
 namespace Strength.DB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210312130345_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210505215205_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,12 @@ namespace Strength.DB.Migrations
                     b.Property<int?>("ExerciseId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Reps")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ExerciseId");
@@ -94,6 +100,9 @@ namespace Strength.DB.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProgramId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SetsAmount")
                         .HasColumnType("int");
 
@@ -101,33 +110,9 @@ namespace Strength.DB.Migrations
 
                     b.HasIndex("DayId");
 
+                    b.HasIndex("ProgramId");
+
                     b.ToTable("Exercises");
-                });
-
-            modelBuilder.Entity("Strength.DB.Models.Set", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ExCompletionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Reps")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("Weight")
-                        .HasColumnType("decimal(10,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExCompletionId");
-
-                    b.ToTable("Sets");
                 });
 
             modelBuilder.Entity("Strength.DB.User", b =>
@@ -182,26 +167,18 @@ namespace Strength.DB.Migrations
                         .WithMany("Exercises")
                         .HasForeignKey("DayId");
 
+                    b.HasOne("Strength.DB.Models.ExProgram", "Program")
+                        .WithMany()
+                        .HasForeignKey("ProgramId");
+
                     b.Navigation("Day");
-                });
 
-            modelBuilder.Entity("Strength.DB.Models.Set", b =>
-                {
-                    b.HasOne("Strength.DB.Models.ExCompletion", "ExCompletion")
-                        .WithMany("Sets")
-                        .HasForeignKey("ExCompletionId");
-
-                    b.Navigation("ExCompletion");
+                    b.Navigation("Program");
                 });
 
             modelBuilder.Entity("Strength.DB.Models.Day", b =>
                 {
                     b.Navigation("Exercises");
-                });
-
-            modelBuilder.Entity("Strength.DB.Models.ExCompletion", b =>
-                {
-                    b.Navigation("Sets");
                 });
 
             modelBuilder.Entity("Strength.DB.Models.ExProgram", b =>
