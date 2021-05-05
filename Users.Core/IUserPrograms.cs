@@ -1,10 +1,15 @@
 ﻿using Strength.DB.Models;
+using System.Collections.Generic;
 
 namespace Users.Core
 {
     public interface IUserPrograms
     {
         DTO.UserInformation GetUserInformation();
+        List<DTO.ReturnExercise> RegisterExercises(List<DTO.ReceiveExercise> exercises);
+
+        List<DTO.ReturnExercise> GetCompletionsByDay(int dayId);
+
         //create
         ExProgram CreateProgram(string progrName);
         Day CreateDay(int programId, string dayName);
