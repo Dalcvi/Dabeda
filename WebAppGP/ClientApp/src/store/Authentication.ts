@@ -26,8 +26,14 @@ export const authReducer = (state: AuthState = initialState, incomingAction: Act
 
         }
         case AuthActionTypes.LOGOUT: {
+            console.log("BROOO2");
             sessionStorage.clear();
-            break;
+            return {
+                ...state, ...{
+                    token: "",
+                    isLoggedIn: false
+                }
+            }
         }
         default:
             return state;

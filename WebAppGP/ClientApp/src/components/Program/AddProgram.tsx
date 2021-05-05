@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Card, Accordion } from "react-bootstrap";
-import { EditProgramModal, NewProgramModal } from "./Modals/ProgramModal";
+import { EditProgramModal, NewProgramModal } from "../Modals/ProgramModal";
 
 interface Program {
   id: number;

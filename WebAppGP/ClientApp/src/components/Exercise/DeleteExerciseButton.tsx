@@ -1,4 +1,4 @@
-import { DeleteExercise } from "../services/user";
+import { DeleteExercise } from "../../services/user";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 

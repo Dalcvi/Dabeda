@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { AuthActionCreators as AuthAction } from "../store/actions/AuthActions";
-import { UserActionCreators as UserAction } from "../store/actions/UserActions";
 import { GetInfo } from "./user";
 
 const axiosInstance = axios.create({
@@ -31,6 +30,16 @@ export const SignIn = async (dispatch: any, credentials: any) => {
         GetInfo(dispatch);
     }
     catch {
-        console.log("ERROR SIGNIN")
+        console.log("ERROR SIGNIN");
+    }
+}
+
+export const Logout = (dispatch: any) => {
+    try {
+        console.log("123321");
+        dispatch(AuthAction.logout());
+    }
+    catch {
+        console.log("ERROR LOGOUT");
     }
 }
