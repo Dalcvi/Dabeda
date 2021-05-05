@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import { Button, InputGroup, FormControl } from "react-bootstrap";
-import { ApplicationState } from "../store/Index";
+import { ApplicationState } from "../store";
 import { UserState } from "../store/UserReducer";
 import { useSelector, useDispatch } from "react-redux";
 import { PasswordChangeModal } from "./Modals/PasswordChangeModal";

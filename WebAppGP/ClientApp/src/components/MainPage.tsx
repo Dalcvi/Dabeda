@@ -1,6 +1,6 @@
 ﻿import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { ApplicationState } from "../store/Index";
+import { ApplicationState } from "../store";
 import "../styles/learningReact.css";
 import { UserState } from "../store/UserReducer";
 import { Programs } from "./Program/Programs";
