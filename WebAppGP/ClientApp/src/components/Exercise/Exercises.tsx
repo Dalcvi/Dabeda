@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import toArray from "lodash/toArray";
 import { useSelector, useDispatch } from "react-redux";
 import { CompletedExercisesState } from "../../store/CompletedExercisesReducer";
-import { ApplicationState } from "../../store/Index";
+import { ApplicationState } from "../../store";
 import { ExerciseBar } from "./ExerciseBar";
 import { SendCompletedExercises } from "../../services/user";
 
@@ -20,11 +20,11 @@ export const Exercises = (props: any) => {
   const dispatch = useDispatch();
 
   const answer = { doneExercises: {} };
-
   const exercises = filter(
     props.allExercises,
     (exercise) => (exercise as Exercise).day === props.selectedDay
   );
+
   const items = [] as any;
 
   if (props.selectedDay != 0)
@@ -40,6 +40,13 @@ export const Exercises = (props: any) => {
         style={{ width: "100%" }}
       >
         {items}
+        <Button
+          style={{ margin: "10px" }}
+          className="btn btn-success"
+          onClick={() => sendCompletedExercises(dispatch, answer.doneExercises)}
+        >
+          Register
+        </Button>
         <NewExerciseModal
           exercise={{
             name: "",
@@ -48,11 +55,6 @@ export const Exercises = (props: any) => {
           }}
         />
       </div>
-      <Button
-        onClick={() => sendCompletedExercises(dispatch, answer.doneExercises)}
-      >
-        CLICK ME!
-      </Button>
     </div>
   );
 };
