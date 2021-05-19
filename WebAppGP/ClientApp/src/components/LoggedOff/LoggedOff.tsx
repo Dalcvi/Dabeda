@@ -7,7 +7,7 @@ import "../../custom.css";
 
 const LoggedOff = () => {
   const [isRegistering, setIsRegistering] = useState(false);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState({show: false, text: "", color: ""});
 
   return (
     <Container fluid>
@@ -59,18 +59,18 @@ export default LoggedOff;
 function ServerOffNotification(props: any) {
   return (
     <Toast
-      onClose={() => props.setShow(false)}
-      show={props.show}
+      onClose={() => props.setShow({show: false, text: "", color: ""})}
+      show={props.show.show}
       delay={3000}
       autohide
       style={{
         position: "fixed",
         right: "1vw",
         top: "1vh",
-        background: "#fc686f",
+        background: props.show.color,
       }}
     >
-      <Toast.Body>Damn, servers do be offline though</Toast.Body>
+      <Toast.Body>{props.show.text}</Toast.Body>
     </Toast>
   );
 }

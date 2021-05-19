@@ -30,7 +30,7 @@ export const Exercises = (props: any) => {
   if (props.selectedDay != 0)
     exercises.map((exercise) => {
       items.push(
-        <ExerciseBar exercise={exercise as Exercise} answer={answer} />
+        <ExerciseBar exercise={exercise as Exercise} answer={answer} key={(exercise as Exercise).id} />
       );
     });
   return (

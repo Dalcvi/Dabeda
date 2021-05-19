@@ -38,14 +38,11 @@ export const GetInfo = async (dispatch: any) => {
 
 // Creates a new program
 export const AddProgram = async (dispatch: any, fakeId: number, name: string) => {
-    try {
         const toSend = { Name: name };
-        const { data } = await axiosInstance.post('/addProgram', toSend);
-        dispatch(ProgramsActionCreators.addProgram({ id: data.id, name: name }))
-    }
-    catch (error) {
-        console.log(error);
-    }
+        return axiosInstance.post('/addProgram', toSend).then(result => {
+            dispatch(ProgramsActionCreators.addProgram({ id: result.data.id, name: name }))
+            return result.status;
+        }).catch(e => e.response ? e.response.status : 500);
 }
 
 export const EditProgram = async (dispatch: any, id: number, name: string) => {

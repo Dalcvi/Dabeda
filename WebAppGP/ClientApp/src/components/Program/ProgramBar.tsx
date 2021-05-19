@@ -12,7 +12,6 @@ interface Program {
 
 export const ProgramBar = (props: any) => {
   return (
-    <>
       <div>
         <Accordion.Toggle
           as={Card.Header}
@@ -69,6 +68,5 @@ export const ProgramBar = (props: any) => {
           </Card.Body>
         </Accordion.Collapse>
       </div>
-    </>
   );
 };

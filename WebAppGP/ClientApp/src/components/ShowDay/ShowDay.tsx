@@ -33,7 +33,7 @@ export const ShowDay = (props: any) => {
         }
         icon={faChevronRight}
         size="3x"
-        onClick={!props.fullSidebar && props.changeStyle}
+        onClick={!props.fullSidebar ? props.changeStyle : undefined}
       />
       {props.selectedDay != 0 && (
         <>

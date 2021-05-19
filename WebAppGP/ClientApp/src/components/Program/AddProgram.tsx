@@ -21,10 +21,12 @@ interface Program {
 
 export const AddProgram = (props: any) => {
   return (
+    <div>
     <Accordion>
       <Card.Header className="program-text">
         <NewProgramModal program={{ name: "" }} />
       </Card.Header>
     </Accordion>
+    </div>
   );
 };

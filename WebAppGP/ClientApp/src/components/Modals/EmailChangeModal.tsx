@@ -33,13 +33,23 @@ const EmailModal = ({ show, handleClose }: any) => {
 
   const [password, setPassword] = useState("");
   const [newEmail, setNewEmail] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onSubmit = (event: any) => {
     event.preventDefault();
     if (password === "" || newEmail === "") return;
     else {
-      if (ChangeEmail({ currentPassword: password, email: newEmail }))
-        handleClose();
+      ChangeEmail({ currentPassword: password, email: newEmail }).then(
+        (status: number) => {
+          if (status >= 400 && status < 500)
+            setErrorMessage("Wrong password, please try again");
+          else if (status >= 500)
+            setErrorMessage("Server is offline, please try again");
+          else {
+            handleClose();
+          }
+        }
+      );
     }
   };
 
@@ -54,6 +64,9 @@ const EmailModal = ({ show, handleClose }: any) => {
         <Modal.Header closeButton>
           <Modal.Title>Change Email</Modal.Title>
         </Modal.Header>
+        {errorMessage && (
+          <p className="text-center text-danger">{errorMessage}</p>
+        )}
         <Form>
           <Modal.Body>
             <Form.Group>

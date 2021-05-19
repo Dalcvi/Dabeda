@@ -19,7 +19,18 @@ export const LoginBox = (props: any) => {
       event.stopPropagation();
     } else {
       !SignIn(dispatch, { email, password }).then((answer) => {
-        props.setShow(!answer);
+        const text =
+          answer === 401
+            ? "Wrong log in info"
+            : answer === 500
+            ? "Server offline"
+            : "";
+        const color =
+          answer === 401 ? "#ffa500" : answer === 500 ? "#dc143c" : "";
+        const show = answer > 300 ? true : false;
+        if (show) {
+          props.setShow({ show: show, text: text, color: color });
+        }
       });
     }
   };

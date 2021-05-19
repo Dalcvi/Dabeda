@@ -71,6 +71,7 @@ const ProgramModal = ({
   handleClose,
 }: any) => {
   const [modalProgram, setModalProgram] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -83,14 +84,25 @@ const ProgramModal = ({
         <Modal.Header closeButton>
           <Modal.Title>{modalName}</Modal.Title>
         </Modal.Header>
+        {errorMessage && (
+          <p className="text-center text-danger">{errorMessage}</p>
+        )}
         <Form
           onSubmit={(event) => {
             event.preventDefault();
             if (modalProgram != "") {
-              handleClose();
-              handleFormSubmit(dispatch, id, modalProgram).then(() => {
-                if (program === "") setModalProgram("");
-              });
+              handleFormSubmit(dispatch, id, modalProgram).then(
+                (status: number) => {
+                  if (status >= 400 && status < 500)
+                    setErrorMessage("Unauthorized, please try again");
+                  else if (status >= 500)
+                    setErrorMessage("Server is offline, please try again");
+                  else {
+                    if (program === "") setModalProgram("");
+                    handleClose();
+                  }
+                }
+              );
             }
           }}
         >

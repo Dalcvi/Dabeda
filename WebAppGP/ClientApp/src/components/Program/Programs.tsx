@@ -20,6 +20,7 @@ export const Programs = (props: any) => {
   arrayUserPrograms.map((program) => {
     items.push(
       <ProgramBar
+        key={(program as Program).id}
         program={program as Program}
         selectedProgram={props.selectedProgram}
         setSelectedProgram={props.setSelectedProgram}
@@ -28,7 +29,7 @@ export const Programs = (props: any) => {
       />
     );
   });
-  items.push(<AddProgram />);
+  items.push(<AddProgram key={1}/>);
   return (
     <>
       <Accordion>{items}</Accordion>

@@ -24,17 +24,13 @@ export const SignUp = async (dispatch: any, credentials: any) => {
 }
 
 export const SignIn = async (dispatch: any, credentials: any) => {
-    try {
-        const { data } = await axiosInstance.post('/signin', credentials);
-        dispatch(AuthAction.authenticate({ token: (data as AuthenticatedUser).token }));
-        GetInfo(dispatch);
-        return true;
+
+        return axiosInstance.post('/signin', credentials).then(result => {
+            dispatch(AuthAction.authenticate({ token: (result.data as AuthenticatedUser).token }));
+            GetInfo(dispatch);
+            return result.status;
+        }).catch(e => e.response ? e.response.status : 500);
     }
-    catch {
-        console.log("ERROR SIGNIN");
-        return false;
-    }
-}
 
 export const Logout = (dispatch: any) => {
     try {

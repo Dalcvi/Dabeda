@@ -33,6 +33,7 @@ export const Days = (props: any) => {
   daysArray.map((day) => {
     items.push(
       <DayBar
+        key={(day as Day).id}
         day={day as Day}
         selectedDay={props.selectedDay}
         setSelectedDay={props.setSelectedDay}
@@ -40,7 +41,7 @@ export const Days = (props: any) => {
     );
   });
 
-  items.push(<AddDay program={props.program} />);
+  items.push(<AddDay program={props.program} key={1}/>);
 
   return <>{items}</>;
 };

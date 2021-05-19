@@ -36,6 +36,7 @@ const PasswordModal = ({ show, handleClose }: any) => {
   const [confPassword, setConfPassword] = useState("");
   const [notMatchingPassword, setNotMatchingPassword] = useState(false);
   const [strongPassword, setStrongPassword] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const passwordRegex = new RegExp(
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})"
@@ -76,16 +77,20 @@ const PasswordModal = ({ show, handleClose }: any) => {
     event.preventDefault();
     if (notMatchingPassword || !strongPassword || password === "") return;
     else {
-      if (
-        ChangePassword({
-          currentPassword: password,
-          newPassword: newPassword,
-          confirmedPassword: confPassword,
-        })
-      ) {
-        Clear();
-        handleClose();
-      }
+      ChangePassword({
+        currentPassword: password,
+        newPassword: newPassword,
+        confirmedPassword: confPassword,
+      }).then((status: number) => {
+        if (status >= 400 && status < 500)
+          setErrorMessage("Wrong password, please try again");
+        else if (status >= 500)
+          setErrorMessage("Server is offline, please try again");
+        else {
+          Clear();
+          handleClose();
+        }
+      });
     }
   };
 
@@ -103,6 +108,9 @@ const PasswordModal = ({ show, handleClose }: any) => {
         <Modal.Header closeButton>
           <Modal.Title>Change Password</Modal.Title>
         </Modal.Header>
+        {errorMessage && (
+          <p className="text-center text-danger">{errorMessage}</p>
+        )}
         <Form>
           <Modal.Body>
             <Form.Group>

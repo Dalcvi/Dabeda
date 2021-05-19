@@ -32,7 +32,7 @@ export const ExerciseBar = (props: any) => {
     sets.push(
       // <label className="d-flex flex-column" style={{ width: "95%" }}>
       //   Set {i + 1}:
-      <input
+      <input key = {i}
         style={{ width: "19%", margin: "5px 2px" }}
         className="form-control"
         type="number"
